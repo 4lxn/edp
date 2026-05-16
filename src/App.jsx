@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { COPY } from './copy'
+
+const B = import.meta.env.BASE_URL
 import {
   useTweaks, TweaksPanel, TweakSection,
   TweakSlider, TweakToggle, TweakRadio,
@@ -127,7 +129,7 @@ function Hero({ t, treatment }) {
         <div
           className="hero-img"
           style={{
-            backgroundImage: 'url(/assets/portada-palapa-mar.jpeg)',
+            backgroundImage: `url(${B}assets/portada-palapa-mar.jpeg)`,
             transform: `translate3d(0, ${bgShift}px, 0) scale(${1 + y * 0.0002})`,
           }}
         />
@@ -549,7 +551,7 @@ export default function App() {
         <Statement t={t} />
         <Gallery t={t} />
         <ImageBreak
-          src="/assets/infinity-pool.jpeg"
+          src={`${B}assets/infinity-pool.jpeg`}
           caption={tw.language === 'es'
             ? 'Mirador con palapa monumental — Costa Pacífica, MX'
             : 'Lookout with monumental palapa — Pacific Coast, MX'}
@@ -558,7 +560,7 @@ export default function App() {
         <Materials t={t} />
         <Process t={t} />
         <ImageBreak
-          src="/assets/deck-ocean.jpeg"
+          src={`${B}assets/deck-ocean.jpeg`}
           caption={tw.language === 'es'
             ? 'Deck de parota — entrega 2024'
             : 'Parota timber deck — delivered 2024'}
