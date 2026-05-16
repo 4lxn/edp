@@ -1,5 +1,19 @@
+import { ALBUMS, GALLERY } from './albums.generated'
+
 const B = import.meta.env.BASE_URL
 const a = (path) => `${B}assets/${path}`
+
+// Build language-specific gallery items from generated GALLERY data
+const galleryItemsFor = (lang) => GALLERY.map(g => ({
+  n: g.n,
+  slug: g.slug,
+  title: g.title,
+  type: g.type[lang],
+  meta: g.location[lang],
+  area: '—',
+  height: '—',
+  img: g.img,
+}))
 
 export const COPY = {
   es: {
@@ -15,12 +29,7 @@ export const COPY = {
     statementSig: "— Taller Estructuras del Pacífico, desde 1998",
     galleryLabel: "Selección de obra",
     galleryTitle: ["Obra", "selecta"],
-    galleryItems: [
-      { n: "01", slug: "punta-garrobo", type: "Palapa Monumental", title: "Punta Garrobo", meta: "Zihuatanejo, Gro. · MX", area: "—", height: "—", img: a("palapa-peak.jpeg") },
-      { n: "02", slug: "delfiniti", type: "Pérgola y Deck", title: "Delfiniti", meta: "Costa del Pacífico · MX", area: "—", height: "—", img: a("delfiniti.jpeg") },
-      { n: "03", slug: "casa-frijol", type: "Conjunto Residencial", title: "Casa Frijol", meta: "Costa del Pacífico · MX", area: "—", height: "—", img: a("casa-frijol.jpeg") },
-      { n: "04", slug: "tanta-vida", type: "Palapa de Costa", title: "Tanta Vida", meta: "Costa del Pacífico · MX", area: "—", height: "—", img: a("tanta-vida.jpeg") },
-    ],
+    galleryItems: galleryItemsFor('es'),
     materialsLabel: "La maestría",
     materialsTitle: ["Materia", "noble"],
     materialsIntro:
@@ -72,12 +81,7 @@ export const COPY = {
     statementSig: "— Taller Estructuras del Pacífico, since 1998",
     galleryLabel: "Selected work",
     galleryTitle: ["Selected", "work"],
-    galleryItems: [
-      { n: "01", slug: "punta-garrobo", type: "Monumental Palapa", title: "Punta Garrobo", meta: "Zihuatanejo, Gro. · MX", area: "—", height: "—", img: a("palapa-peak.jpeg") },
-      { n: "02", slug: "delfiniti", type: "Pergola & Deck", title: "Delfiniti", meta: "Pacific Coast · MX", area: "—", height: "—", img: a("delfiniti.jpeg") },
-      { n: "03", slug: "casa-frijol", type: "Residential", title: "Casa Frijol", meta: "Pacific Coast · MX", area: "—", height: "—", img: a("casa-frijol.jpeg") },
-      { n: "04", slug: "tanta-vida", type: "Coastal Palapa", title: "Tanta Vida", meta: "Pacific Coast · MX", area: "—", height: "—", img: a("tanta-vida.jpeg") },
-    ],
+    galleryItems: galleryItemsFor('en'),
     materialsLabel: "The craft",
     materialsTitle: ["Noble", "matter"],
     materialsIntro:
@@ -118,47 +122,17 @@ export const COPY = {
   },
 }
 
-export const PROJECT_ALBUMS = {
-  "punta-garrobo": {
-    title: "Punta Garrobo",
-    type: "Palapa Monumental",
-    meta: "Zihuatanejo, Gro. · MX",
-    hero: a("palapa-peak.jpeg"),
-    images: [
-      { src: a("portada-palapa-mar.jpeg"), caption: "Vista desde el mar" },
-      { src: a("palapa-peak.jpeg"), caption: "Cumbrera monumental" },
-      { src: a("palapa-jungle.jpeg"), caption: "Integración al entorno" },
-      { src: a("pergola-coast.jpeg"), caption: "Pérgola de acceso" },
-    ],
-  },
-  delfiniti: {
-    title: "Delfiniti",
-    type: "Pérgola y Deck",
-    meta: "Costa del Pacífico · MX",
-    hero: a("delfiniti.jpeg"),
-    images: [
-      { src: a("delfiniti.jpeg"), caption: "Pérgola principal" },
-      { src: a("pergola-deck.jpeg"), caption: "Deck de madera" },
-      { src: a("infinity-pool.jpeg"), caption: "Vista a la alberca" },
-    ],
-  },
-  "casa-frijol": {
-    title: "Casa Frijol",
-    type: "Conjunto Residencial",
-    meta: "Costa del Pacífico · MX",
-    hero: a("casa-frijol.jpeg"),
-    images: [
-      { src: a("casa-frijol.jpeg"), caption: "Deck sobre la bahía" },
-      { src: a("deck-ocean.jpeg"), caption: "Detalle de parota" },
-    ],
-  },
-  "tanta-vida": {
-    title: "Tanta Vida",
-    type: "Palapa de Costa",
-    meta: "Costa del Pacífico · MX",
-    hero: a("tanta-vida.jpeg"),
-    images: [
-      { src: a("tanta-vida.jpeg"), caption: "Palapa de costa" },
-    ],
-  },
-}
+// Derive PROJECT_ALBUMS (flat, Spanish strings) from generated ALBUMS data.
+// To change languages later, swap the [lang] index per consumer.
+export const PROJECT_ALBUMS = Object.fromEntries(
+  Object.entries(ALBUMS).map(([slug, al]) => [slug, {
+    title: al.title,
+    type: al.type.es,
+    meta: al.location.es,
+    hero: al.hero,
+    images: al.images.map(img => ({
+      src: img.src,
+      caption: img.caption.es,
+    })),
+  }])
+)

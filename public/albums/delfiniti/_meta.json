@@ -1,0 +1,18 @@
+{
+  "order": 2,
+  "title": "Delfiniti",
+  "type": {
+    "es": "Pérgola y Deck",
+    "en": "Pergola & Deck"
+  },
+  "location": {
+    "es": "Costa del Pacífico · MX",
+    "en": "Pacific Coast · MX"
+  },
+  "hero": "01-pergola.jpeg",
+  "captions": {
+    "01-pergola.jpeg": { "es": "Pérgola principal", "en": "Main pergola" },
+    "02-deck.jpeg": { "es": "Deck de madera", "en": "Timber deck" },
+    "03-alberca.jpeg": { "es": "Vista a la alberca", "en": "Pool view" }
+  }
+}

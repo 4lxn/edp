@@ -1,0 +1,19 @@
+{
+  "order": 1,
+  "title": "Punta Garrobo",
+  "type": {
+    "es": "Palapa Monumental",
+    "en": "Monumental Palapa"
+  },
+  "location": {
+    "es": "Zihuatanejo, Gro. · MX",
+    "en": "Zihuatanejo, Gro. · MX"
+  },
+  "hero": "01-cumbrera.jpeg",
+  "captions": {
+    "01-cumbrera.jpeg": { "es": "Cumbrera monumental", "en": "Monumental ridge" },
+    "02-vista-mar.jpeg": { "es": "Vista desde el mar", "en": "View from the sea" },
+    "03-jungla.jpeg": { "es": "Integración al entorno", "en": "Integration with the landscape" },
+    "04-pergola-acceso.jpeg": { "es": "Pérgola de acceso", "en": "Entry pergola" }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "order": 4,
+  "title": "Tanta Vida",
+  "type": {
+    "es": "Palapa de Costa",
+    "en": "Coastal Palapa"
+  },
+  "location": {
+    "es": "Costa del Pacífico · MX",
+    "en": "Pacific Coast · MX"
+  },
+  "hero": "01-palapa-costa.jpeg",
+  "captions": {
+    "01-palapa-costa.jpeg": { "es": "Palapa de costa", "en": "Coastal palapa" }
+  }
+}

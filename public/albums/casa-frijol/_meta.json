@@ -1,0 +1,17 @@
+{
+  "order": 3,
+  "title": "Casa Frijol",
+  "type": {
+    "es": "Conjunto Residencial",
+    "en": "Residential"
+  },
+  "location": {
+    "es": "Costa del Pacífico · MX",
+    "en": "Pacific Coast · MX"
+  },
+  "hero": "01-deck-bahia.jpeg",
+  "captions": {
+    "01-deck-bahia.jpeg": { "es": "Deck sobre la bahía", "en": "Deck over the bay" },
+    "02-detalle-parota.jpeg": { "es": "Detalle de parota", "en": "Parota detail" }
+  }
+}
