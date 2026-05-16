@@ -17,6 +17,17 @@ function useScrollY() {
   return y
 }
 
+function useScrolledPast(threshold) {
+  const [past, setPast] = useState(false)
+  useEffect(() => {
+    const onScroll = () => setPast(window.scrollY > threshold)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [threshold])
+  return past
+}
+
 function useReveal() {
   useEffect(() => {
     const els = document.querySelectorAll('[data-reveal]')
@@ -34,7 +45,7 @@ function useReveal() {
 export default function Album() {
   const { slug } = useParams()
   const y = useScrollY()
-  const condensed = y > 80
+  const condensed = useScrolledPast(80)
   const project = PROJECT_ALBUMS[slug]
   useReveal()
 
@@ -120,7 +131,7 @@ export default function Album() {
             <span className="kicker">
               <span className="rule" />
               Álbum del proyecto
-              <span className="kicker-num">— {String(Object.keys(PROJECT_ALBUMS).indexOf(slug) + 1).padStart(2, '0')}</span>
+              <span className="kicker-num">{String(Object.keys(PROJECT_ALBUMS).indexOf(slug) + 1).padStart(2, '0')}</span>
             </span>
           </div>
 
@@ -139,12 +150,12 @@ export default function Album() {
               <p style={{
                 marginTop: 32,
                 fontFamily: 'var(--display)',
-                fontSize: 11,
+                fontSize: 12,
                 letterSpacing: '0.28em',
                 textTransform: 'uppercase',
                 color: 'var(--bronze-deep)',
               }}>
-                Álbum en preparación — más fotografías próximamente
+                Álbum en preparación: más fotografías próximamente
               </p>
             </>
           ) : (
@@ -154,7 +165,7 @@ export default function Album() {
               gap: 'var(--col-gap)',
             }}>
               {project.images.map((img, i) => (
-                <figure key={i} data-reveal style={{
+                <figure key={img.src} data-reveal style={{
                   margin: 0,
                   display: 'flex', flexDirection: 'column', gap: 12,
                   transitionDelay: `${i * 60}ms`,
@@ -167,13 +178,13 @@ export default function Album() {
                   }}>
                     <img src={img.src} alt={img.caption}
                          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block',
-                                  transition: 'transform 1200ms cubic-bezier(.2,.7,.2,1)' }}
+                                  transition: 'transform 900ms cubic-bezier(.2,.7,.2,1)' }}
                          onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.04)'}
                          onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'} />
                   </div>
                   <figcaption style={{
                     fontFamily: 'var(--display)',
-                    fontSize: 10.5,
+                    fontSize: 12,
                     letterSpacing: '0.22em',
                     textTransform: 'uppercase',
                     color: 'var(--ink-soft)',
@@ -195,23 +206,24 @@ export default function Album() {
             </span>
           </div>
           <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
-            {Object.entries(PROJECT_ALBUMS)
-              .filter(([s]) => s !== slug)
-              .map(([s, p], i) => (
+            {Object.entries(PROJECT_ALBUMS).reduce((acc, [s, p], i) => {
+              if (s === slug) return acc
+              const idx = acc.length
+              acc.push(
                 <Link key={s} to={`/album/${s}`} data-reveal
                       style={{
                         flex: '1 1 240px', display: 'flex', flexDirection: 'column', gap: 12,
-                        transitionDelay: `${i * 60}ms`,
+                        transitionDelay: `${idx * 60}ms`,
                       }}>
                   <div style={{ position: 'relative', overflow: 'hidden', border: '1px solid var(--hair)', aspectRatio: '4/3' }}>
                     <img src={p.hero} alt={p.title}
                          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block',
-                                  transition: 'transform 1200ms cubic-bezier(.2,.7,.2,1)' }}
+                                  transition: 'transform 900ms cubic-bezier(.2,.7,.2,1)' }}
                          onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
                          onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'} />
                   </div>
                   <div>
-                    <div style={{ fontFamily: 'var(--display)', fontSize: 10.5, letterSpacing: '0.22em',
+                    <div style={{ fontFamily: 'var(--display)', fontSize: 12, letterSpacing: '0.22em',
                                   textTransform: 'uppercase', color: 'var(--bronze-deep)' }}>
                       {p.type}
                     </div>
@@ -221,7 +233,9 @@ export default function Album() {
                     </div>
                   </div>
                 </Link>
-              ))}
+              )
+              return acc
+            }, [])}
           </div>
         </div>
       </main>

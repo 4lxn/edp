@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { COPY } from './copy'
 
@@ -87,9 +87,24 @@ function Monogram({ kind = 'trussed', size = 28, color = 'currentColor' }) {
 }
 
 /* ---------- Header ---------- */
+function useScrolledPast(threshold) {
+  const [past, setPast] = useState(false)
+  useEffect(() => {
+    const onScroll = () => setPast(window.scrollY > threshold)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [threshold])
+  return past
+}
+
 function Header({ t, monogram }) {
-  const y = useScrollY()
-  const condensed = y > 80
+  const condensed = useScrolledPast(80)
+  const navItems = [
+    { label: t.nav[0], href: '#sec-0' },
+    { label: t.nav[2], href: '#sec-2' },
+    { label: t.nav[3], href: '#contacto' },
+  ]
   return (
     <header className={'site-header ' + (condensed ? 'is-condensed' : '')}>
       <div className="hdr-inner">
@@ -101,10 +116,9 @@ function Header({ t, monogram }) {
           </span>
         </a>
         <nav className="hdr-nav">
-          {t.nav.map((item, i) => (
-            <a key={i} href={'#sec-' + i}>
-              <span className="num">{String(i + 1).padStart(2, '0')}</span>
-              <span>{item}</span>
+          {navItems.map((item) => (
+            <a key={item.href} href={item.href}>
+              <span>{item.label}</span>
             </a>
           ))}
         </nav>
@@ -186,13 +200,13 @@ function Statement({ t }) {
         <span className="kicker">
           <span className="rule" />
           {t.statementLabel}
-          <span className="kicker-num">— II</span>
+          <span className="kicker-num">II</span>
         </span>
       </div>
       <div className="statement-body">
         <p className="statement-text" data-reveal>
           {t.statement.split(' ').map((w, i) => (
-            <span key={i} className="word" style={{ transitionDelay: `${i * 14}ms` }}>
+            <span key={`${w}-${i}`} className="word" style={{ transitionDelay: `${i * 14}ms` }}>
               {w + ' '}
             </span>
           ))}
@@ -231,7 +245,7 @@ function Gallery({ t }) {
           <span className="kicker">
             <span className="rule" />
             {t.galleryLabel}
-            <span className="kicker-num">— III</span>
+            <span className="kicker-num">III</span>
           </span>
         </div>
         <h2 className="display" data-reveal>
@@ -346,7 +360,7 @@ function Materials({ t }) {
           <span className="kicker">
             <span className="rule" />
             {t.materialsLabel}
-            <span className="kicker-num">— IV</span>
+            <span className="kicker-num">IV</span>
           </span>
         </div>
         <h2 className="display" data-reveal>
@@ -414,7 +428,7 @@ function Process({ t }) {
         <span className="kicker">
           <span className="rule" />
           {t.processLabel}
-          <span className="kicker-num">— V</span>
+          <span className="kicker-num">V</span>
         </span>
       </div>
       <h2 className="display" data-reveal>
@@ -446,7 +460,7 @@ function Stats({ t }) {
       </div>
       <ul className="stats-row">
         {t.stats.map((s, i) => (
-          <li key={i} data-reveal style={{ transitionDelay: `${i * 80}ms` }}>
+          <li key={s.n} data-reveal style={{ transitionDelay: `${i * 80}ms` }}>
             <span className="stat-n">{s.n}</span>
             <span className="stat-l">{s.l}</span>
           </li>
@@ -464,25 +478,25 @@ function Contact({ t, monogram }) {
         <span className="kicker">
           <span className="rule" />
           {t.contactLabel}
-          <span className="kicker-num">— VI</span>
+          <span className="kicker-num">VI</span>
         </span>
       </div>
 
       <div className="contact-grid">
         <h2 className="contact-title" data-reveal>
           {t.contactTitle.map((line, i) => (
-            <span key={i} className="line" style={{ transitionDelay: `${i * 80}ms` }}>{line}</span>
+            <span key={line} className="line" style={{ transitionDelay: `${i * 80}ms` }}>{line}</span>
           ))}
         </h2>
 
         <div className="contact-side" data-reveal>
           <p className="contact-body">{t.contactBody}</p>
-          <a className="btn btn-solid" href="#">
+          <a className="btn btn-solid" href="mailto:estudio@estructurasdelpacifico.mx">
             {t.contactCta}<span className="btn-arrow">→</span>
           </a>
           <ul className="contact-meta">
-            {t.contactMeta.map((m, i) => (
-              <li key={i}>{m}</li>
+            {t.contactMeta.map((m) => (
+              <li key={m}>{m}</li>
             ))}
           </ul>
         </div>
@@ -508,10 +522,10 @@ function Footer({ t, monogram }) {
           </div>
         </div>
         <div className="footer-cols">
-          {t.footerNav.map(([h, items], i) => (
-            <div className="footer-col" key={i}>
+          {t.footerNav.map(([h, items]) => (
+            <div className="footer-col" key={h}>
               <h4>{h}</h4>
-              <ul>{items.map((x, j) => <li key={j}><a href="#">{x}</a></li>)}</ul>
+              <ul>{items.map((x) => <li key={x}><a href={`#${h.toLowerCase()}-${x.toLowerCase()}`}>{x}</a></li>)}</ul>
             </div>
           ))}
         </div>
@@ -522,7 +536,7 @@ function Footer({ t, monogram }) {
       <div className="footer-bottom">
         <p>{t.footerNote}</p>
         <ul>
-          {t.footerLegal.map((l, i) => <li key={i}>{l}</li>)}
+          {t.footerLegal.map((l) => <li key={l}>{l}</li>)}
         </ul>
       </div>
     </footer>
