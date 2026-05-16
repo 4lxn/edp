@@ -165,7 +165,7 @@ button { font: inherit; cursor: pointer; border: 0; background: none; color: inh
   align-items: center;
   gap: 32px;
 }
-.brand { display: inline-flex; align-items: center; gap: 14px; }
+.brand { display: inline-flex; align-items: center; gap: 14px; background: none; border: none; padding: 0; cursor: pointer; color: inherit; font: inherit; }
 .brand-words {
   display: flex; flex-direction: column;
   line-height: 1;
@@ -189,7 +189,7 @@ button { font: inherit; cursor: pointer; border: 0; background: none; color: inh
   justify-content: center;
   gap: 36px;
 }
-.hdr-nav a {
+.hdr-nav button {
   font-family: var(--display);
   font-size: 11px;
   letter-spacing: 0.22em;
@@ -197,18 +197,19 @@ button { font: inherit; cursor: pointer; border: 0; background: none; color: inh
   display: inline-flex; align-items: baseline; gap: 8px;
   position: relative;
   padding: 6px 0;
+  background: none; border: none; color: inherit; cursor: pointer;
 }
-.hdr-nav a .num {
+.hdr-nav button .num {
   font-size: 9px;
   opacity: 0.6;
   letter-spacing: 0.1em;
 }
-.hdr-nav a::after {
+.hdr-nav button::after {
   content: ""; position: absolute; left: 0; bottom: 0;
   width: 0; height: 1px; background: currentColor;
   transition: width var(--t-fast);
 }
-.hdr-nav a:hover::after { width: 100%; }
+.hdr-nav button:hover::after { width: 100%; }
 
 @media (max-width: 900px) {
   .hdr-nav { display: none; }
@@ -380,6 +381,7 @@ button { font: inherit; cursor: pointer; border: 0; background: none; color: inh
   text-transform: uppercase;
   color: rgba(244,243,240,0.7);
   z-index: 3;
+  background: none; border: none; cursor: pointer;
 }
 .hero-scroll .scroll-line {
   width: 40px; height: 1px;

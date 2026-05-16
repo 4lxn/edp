@@ -98,34 +98,39 @@ function useScrolledPast(threshold) {
   return past
 }
 
+function scrollTo(id) {
+  const el = document.getElementById(id)
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
+
 function Header({ t, monogram }) {
   const condensed = useScrolledPast(80)
   const navItems = [
-    { label: t.nav[0], href: '#sec-0' },
-    { label: t.nav[2], href: '#sec-2' },
-    { label: t.nav[3], href: '#contacto' },
+    { label: t.nav[0], target: 'sec-0' },
+    { label: t.nav[2], target: 'statement' },
+    { label: t.nav[3], target: 'contacto' },
   ]
   return (
     <header className={'site-header ' + (condensed ? 'is-condensed' : '')}>
       <div className="hdr-inner">
-        <a className="brand" href="#top">
+        <button className="brand" onClick={() => scrollTo('top')} type="button">
           <Monogram kind={monogram} size={condensed ? 24 : 30} />
           <span className="brand-words">
             <span className="brand-name">Estructuras del Pacífico</span>
             <span className="brand-mark">EST · MCMXCVIII</span>
           </span>
-        </a>
+        </button>
         <nav className="hdr-nav">
           {navItems.map((item) => (
-            <a key={item.href} href={item.href}>
+            <button key={item.target} type="button" onClick={() => scrollTo(item.target)}>
               <span>{item.label}</span>
-            </a>
+            </button>
           ))}
         </nav>
-        <a className="btn btn-ghost" href="#contacto">
+        <button className="btn btn-ghost" type="button" onClick={() => scrollTo('contacto')}>
           {t.cta}
           <span className="btn-arrow">→</span>
-        </a>
+        </button>
       </div>
     </header>
   )
@@ -172,10 +177,10 @@ function Hero({ t, treatment }) {
           </div>
         </div>
 
-        <a className="hero-scroll" href="#statement">
+        <button className="hero-scroll" type="button" onClick={() => scrollTo('statement')}>
           <span className="scroll-line" />
           <span>{t.heroScroll}</span>
-        </a>
+        </button>
 
         <div className="hero-spec">
           <div><em>I</em><span></span></div>
