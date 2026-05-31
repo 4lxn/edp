@@ -112,8 +112,3 @@ Casi siempre es una de tres cosas, **fuera del código**:
   emitirlo. Hay que esperar sin tocar nada y luego activar "Enforce HTTPS" en
   *Settings → Pages*.
 - **El último deploy falló** — revisa la pestaña *Actions* en GitHub.
-
----
-
-> Nota: `scripts/lol_analyzer.py` no forma parte del sitio web; es una
-> herramienta aparte que quedó en el repo.
