@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "npm run sync && vite build",
     "preview": "vite preview",
-    "sync": "node scripts/sync-albums.mjs"
+    "sync": "node scripts/sync-albums.mjs",
+    "new-album": "node scripts/new-album.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",
