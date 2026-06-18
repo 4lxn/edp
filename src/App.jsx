@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { motion, useReducedMotion } from 'framer-motion'
 import { COPY } from './copy'
+import { Monogram } from './Brand'
 
 const B = import.meta.env.BASE_URL
 import {
@@ -55,37 +57,6 @@ function useScrollY() {
   return y
 }
 
-/* ---------- Monograms ---------- */
-function Monogram({ kind = 'trussed', size = 28, color = 'currentColor' }) {
-  if (kind === 'trussed') {
-    return (
-      <svg width={size} height={size} viewBox="0 0 40 40" fill="none" stroke={color} strokeWidth="1.2">
-        <path d="M4 34 L20 6 L36 34 Z" />
-        <path d="M20 6 L20 34" />
-        <path d="M12 20 L28 20" />
-        <path d="M16 27 L24 27" />
-      </svg>
-    )
-  }
-  if (kind === 'diamond') {
-    return (
-      <svg width={size} height={size} viewBox="0 0 40 40" fill="none" stroke={color} strokeWidth="1.2">
-        <path d="M20 4 L36 20 L20 36 L4 20 Z" />
-        <path d="M20 4 L20 36" />
-        <path d="M4 20 L36 20" />
-      </svg>
-    )
-  }
-  return (
-    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" stroke={color} strokeWidth="1.2">
-      <rect x="4" y="4" width="32" height="32" />
-      <path d="M14 28 L14 12 L20 12" />
-      <path d="M14 20 L19 20" />
-      <path d="M22 28 L22 12 L28 12 L28 18 L22 18" />
-    </svg>
-  )
-}
-
 /* ---------- Header ---------- */
 function useScrolledPast(threshold) {
   const [past, setPast] = useState(false)
@@ -105,11 +76,6 @@ function scrollTo(id) {
 
 function Header({ t, monogram }) {
   const condensed = useScrolledPast(80)
-  const navItems = [
-    { label: t.nav[0], target: 'sec-0' },
-    { label: t.nav[2], target: 'statement' },
-    { label: t.nav[3], target: 'contacto' },
-  ]
   return (
     <header className={'site-header ' + (condensed ? 'is-condensed' : '')}>
       <div className="hdr-inner">
@@ -117,15 +83,13 @@ function Header({ t, monogram }) {
           <Monogram kind={monogram} size={condensed ? 24 : 30} />
           <span className="brand-words">
             <span className="brand-name">Estructuras del Pacífico</span>
-            <span className="brand-mark">EST · MCMXCVIII</span>
+            <span className="brand-mark">Maestría en madera</span>
           </span>
         </button>
         <nav className="hdr-nav">
-          {navItems.map((item) => (
-            <button key={item.target} type="button" onClick={() => scrollTo(item.target)}>
-              <span>{item.label}</span>
-            </button>
-          ))}
+          <Link to="/proyectos"><span>{t.nav[0]}</span></Link>
+          <button type="button" onClick={() => scrollTo('statement')}><span>{t.nav[1]}</span></button>
+          <button type="button" onClick={() => scrollTo('contacto')}><span>{t.nav[2]}</span></button>
         </nav>
         <button className="btn btn-ghost" type="button" onClick={() => scrollTo('contacto')}>
           {t.cta}
@@ -141,10 +105,34 @@ function Hero({ t, treatment }) {
   const y = useScrollY()
   const bgShift = Math.min(y * 0.35, 240)
   const overlayOpacity = Math.min(y / 600, 0.25)
+  const reduce = useReducedMotion()
+  const ease = [0.2, 0.7, 0.2, 1]
+
+  // Entrance choreography: media fade → eyebrow → title lines → foot → scroll → spec.
+  const container = {
+    hidden: {},
+    show: { transition: { staggerChildren: reduce ? 0 : 0.12, delayChildren: reduce ? 0 : 0.15 } },
+  }
+  const item = {
+    hidden: reduce ? { opacity: 1 } : { opacity: 0, y: 28 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.9, ease } },
+  }
+  const titleWrap = {
+    hidden: {},
+    show: { transition: { staggerChildren: reduce ? 0 : 0.14 } },
+  }
+  const lineV = {
+    hidden: reduce ? { opacity: 1 } : { opacity: 0, y: 42 },
+    show: { opacity: 1, y: 0, transition: { duration: 1, ease } },
+  }
+  const media = {
+    hidden: reduce ? { opacity: 1 } : { opacity: 0 },
+    show: { opacity: 1, transition: { duration: 1.4, ease: 'easeOut' } },
+  }
 
   return (
     <section className={'hero hero-' + treatment} id="top">
-      <div className="hero-media">
+      <motion.div className="hero-media" variants={media} initial="hidden" animate="show">
         <div
           className="hero-img"
           style={{
@@ -153,41 +141,41 @@ function Hero({ t, treatment }) {
           }}
         />
         <div className="hero-veil" style={{ opacity: 0.32 + overlayOpacity }} />
-      </div>
+      </motion.div>
 
-      <div className="hero-grid">
-        <div className="hero-eyebrow">
+      <motion.div className="hero-grid" variants={container} initial="hidden" animate="show">
+        <motion.div className="hero-eyebrow" variants={item}>
           <span className="rule" />
           <span>{t.heroEyebrow}</span>
-        </div>
+        </motion.div>
 
-        <div className="hero-title-wrap">
+        <motion.div className="hero-title-wrap" variants={titleWrap}>
           <h1 className="hero-title">
-            <span className="line line-1">{t.heroTitle[0]}</span>
-            <span className="line line-2">{t.heroTitle[1]}</span>
+            <motion.span className="line line-1" variants={lineV}>{t.heroTitle[0]}</motion.span>
+            <motion.span className="line line-2" variants={lineV}>{t.heroTitle[1]}</motion.span>
           </h1>
-        </div>
+        </motion.div>
 
-        <div className="hero-foot">
+        <motion.div className="hero-foot" variants={item}>
           <p className="hero-sub">{t.heroSub}</p>
           <div className="hero-meta">
             <span>N 17°38&prime; · W 101°33&prime;</span>
             <span>·</span>
-            <span>EST. 1998</span>
+            <span>Punta Garrobo · Zihuatanejo</span>
           </div>
-        </div>
+        </motion.div>
 
-        <button className="hero-scroll" type="button" onClick={() => scrollTo('statement')}>
+        <motion.button className="hero-scroll" type="button" variants={item} onClick={() => scrollTo('statement')}>
           <span className="scroll-line" />
           <span>{t.heroScroll}</span>
-        </button>
+        </motion.button>
 
-        <div className="hero-spec">
+        <motion.div className="hero-spec" variants={item}>
           <div><em>I</em><span></span></div>
-          <div><em>II</em><span>Punta Garrobo · Zihuatanejo</span></div>
+          <div><em>II</em><span>Punta Garrobo · Zihuatanejo, Gro. · MX</span></div>
           <div><em>III</em><span></span></div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       <div className="hero-corners">
         <span className="c c-tl" /><span className="c c-tr" />
@@ -222,7 +210,7 @@ function Statement({ t }) {
   )
 }
 
-/* ---------- Gallery ---------- */
+/* ---------- Gallery (featured) ---------- */
 function Gallery({ t }) {
   const y = useScrollY()
   const sectionRef = useRef(null)
@@ -257,10 +245,7 @@ function Gallery({ t }) {
           <span>{t.galleryTitle[0]}</span>
           <em>{t.galleryTitle[1]}</em>
         </h2>
-        <p className="gallery-lede" data-reveal>
-          Cuatro obras seleccionadas de un portafolio de ciento ochenta y cuatro.
-          Cada una construida en sitio, sin clavos vistos.
-        </p>
+        <p className="gallery-lede" data-reveal>{t.galleryLede}</p>
       </header>
 
       <div className="gallery-grid">
@@ -291,107 +276,16 @@ function Gallery({ t }) {
               <h3 className="g-title">{g.title}</h3>
               <div className="g-row g-foot">
                 <span>{g.meta}</span>
-                <span className="g-stats">
-                  <em>{g.area}</em>
-                  {g.height !== '—' && <em>· {g.height}</em>}
-                </span>
               </div>
             </div>
           </article>
         ))}
       </div>
-    </section>
-  )
-}
 
-/* ---------- Material swatches ---------- */
-function SwatchTimber() {
-  return (
-    <svg viewBox="0 0 200 280" preserveAspectRatio="none" className="sw">
-      <defs>
-        <linearGradient id="tmb" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="#8a6f50" />
-          <stop offset="0.5" stopColor="#b39b78" />
-          <stop offset="1" stopColor="#705839" />
-        </linearGradient>
-      </defs>
-      <rect width="200" height="280" fill="url(#tmb)" />
-      {Array.from({ length: 24 }).map((_, i) => (
-        <line key={i} x1={i * 9 + Math.sin(i) * 2} y1="0"
-              x2={i * 9 + Math.cos(i) * 4} y2="280"
-              stroke="rgba(44,44,44,0.18)" strokeWidth={0.6 + i % 3 * 0.4} />
-      ))}
-    </svg>
-  )
-}
-
-function SwatchThatch() {
-  return (
-    <svg viewBox="0 0 200 280" preserveAspectRatio="none" className="sw">
-      <rect width="200" height="280" fill="#c9b48d" />
-      {Array.from({ length: 60 }).map((_, i) => (
-        <line key={i} x1={-50 + i * 8} y1="0" x2={-50 + i * 8 + 80} y2="280"
-              stroke="rgba(80,60,30,0.25)" strokeWidth="0.8" />
-      ))}
-      {Array.from({ length: 40 }).map((_, i) => (
-        <line key={'b' + i} x1={i * 6} y1="0" x2={i * 6 - 40} y2="280"
-              stroke="rgba(255,245,220,0.18)" strokeWidth="0.5" />
-      ))}
-    </svg>
-  )
-}
-
-function SwatchConcrete() {
-  return (
-    <svg viewBox="0 0 200 280" preserveAspectRatio="none" className="sw">
-      <rect width="200" height="280" fill="#bcb9b2" />
-      <rect width="200" height="140" fill="#a8a59d" />
-      <line x1="0" y1="140" x2="200" y2="140" stroke="rgba(44,44,44,0.35)" strokeWidth="0.6" />
-      {Array.from({ length: 220 }).map((_, i) => {
-        const x = i * 53 % 200
-        const y = i * 89 % 280
-        return <circle key={i} cx={x} cy={y} r={0.6 + i % 3 * 0.3} fill="rgba(44,44,44,0.12)" />
-      })}
-    </svg>
-  )
-}
-
-/* ---------- Materials ---------- */
-function Materials({ t }) {
-  return (
-    <section className="materials" id="sec-1">
-      <div className="materials-cap">
-        <div className="sect-head" data-reveal>
-          <span className="kicker">
-            <span className="rule" />
-            {t.materialsLabel}
-            <span className="kicker-num">IV</span>
-          </span>
-        </div>
-        <h2 className="display" data-reveal>
-          <span>{t.materialsTitle[0]}</span>
-          <em>{t.materialsTitle[1]}</em>
-        </h2>
-        <p className="materials-intro" data-reveal>{t.materialsIntro}</p>
-      </div>
-
-      <div className="materials-grid">
-        {t.materials.map((m, i) => (
-          <article className="mat" key={m.n} data-reveal style={{ transitionDelay: `${i * 100}ms` }}>
-            <div className="mat-num">{m.n}</div>
-            <div className="mat-swatch">
-              {m.n === 'I' && <SwatchTimber />}
-              {m.n === 'II' && <SwatchThatch />}
-              {m.n === 'III' && <SwatchConcrete />}
-            </div>
-            <div className="mat-body">
-              <h3 className="mat-name">{m.name}</h3>
-              <p className="mat-latin">{m.latin}</p>
-              <div className="mat-rule" />
-              <p className="mat-text">{m.body}</p>
-            </div>
-          </article>
-        ))}
+      <div className="gallery-foot" data-reveal>
+        <Link className="btn btn-ghost" to="/proyectos">
+          {t.galleryAll}<span className="btn-arrow">→</span>
+        </Link>
       </div>
     </section>
   )
@@ -425,56 +319,6 @@ function ImageBreak({ src, caption, num }) {
   )
 }
 
-/* ---------- Process ---------- */
-function Process({ t }) {
-  return (
-    <section className="process">
-      <div className="sect-head" data-reveal>
-        <span className="kicker">
-          <span className="rule" />
-          {t.processLabel}
-          <span className="kicker-num">V</span>
-        </span>
-      </div>
-      <h2 className="display" data-reveal>
-        <span>{t.processTitle[0]}</span>
-        <em>{t.processTitle[1]}</em>
-      </h2>
-      <ol className="process-list">
-        {t.process.map((p, i) => (
-          <li className="proc" key={p.n} data-reveal style={{ transitionDelay: `${i * 90}ms` }}>
-            <div className="proc-num">{p.n}</div>
-            <div className="proc-body">
-              <h3>{p.t}</h3>
-              <p>{p.d}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
-    </section>
-  )
-}
-
-/* ---------- Stats ribbon ---------- */
-function Stats({ t }) {
-  return (
-    <section className="stats">
-      <div className="stats-label" data-reveal>
-        <span className="rule" />
-        {t.statsLabel}
-      </div>
-      <ul className="stats-row">
-        {t.stats.map((s, i) => (
-          <li key={s.n} data-reveal style={{ transitionDelay: `${i * 80}ms` }}>
-            <span className="stat-n">{s.n}</span>
-            <span className="stat-l">{s.l}</span>
-          </li>
-        ))}
-      </ul>
-    </section>
-  )
-}
-
 /* ---------- Contact ---------- */
 function Contact({ t, monogram }) {
   return (
@@ -483,7 +327,7 @@ function Contact({ t, monogram }) {
         <span className="kicker">
           <span className="rule" />
           {t.contactLabel}
-          <span className="kicker-num">VI</span>
+          <span className="kicker-num">IV</span>
         </span>
       </div>
 
@@ -496,7 +340,7 @@ function Contact({ t, monogram }) {
 
         <div className="contact-side" data-reveal>
           <p className="contact-body">{t.contactBody}</p>
-          <a className="btn btn-solid" href="mailto:estudio@estructurasdelpacifico.mx">
+          <a className="btn btn-solid" href={`mailto:${t.contactEmail}`}>
             {t.contactCta}<span className="btn-arrow">→</span>
           </a>
           <ul className="contact-meta">
@@ -523,17 +367,14 @@ function Footer({ t, monogram }) {
           <Monogram kind={monogram} size={56} color="#B39B78" />
           <div>
             <div className="ft-name">Estructuras del Pacífico</div>
-            <div className="ft-mark">EST · MCMXCVIII</div>
+            <div className="ft-mark">Maestría en madera</div>
           </div>
         </div>
-        <div className="footer-cols">
-          {t.footerNav.map(([h, items]) => (
-            <div className="footer-col" key={h}>
-              <h4>{h}</h4>
-              <ul>{items.map((x) => <li key={x}><a href={`#${h.toLowerCase()}-${x.toLowerCase()}`}>{x}</a></li>)}</ul>
-            </div>
-          ))}
-        </div>
+        <nav className="footer-nav">
+          <Link to="/proyectos">Proyectos</Link>
+          <button type="button" onClick={() => scrollTo('statement')}>Filosofía</button>
+          <button type="button" onClick={() => scrollTo('contacto')}>Contacto</button>
+        </nav>
       </div>
 
       <div className="footer-rule" />
@@ -568,24 +409,21 @@ export default function App() {
       <main>
         <Hero t={t} treatment={tw.heroTreatment} />
         <Statement t={t} />
-        <Gallery t={t} />
         <ImageBreak
           src={`${B}assets/infinity-pool.jpeg`}
           caption={tw.language === 'es'
-            ? 'Mirador con palapa monumental — Costa Pacífica, MX'
-            : 'Lookout with monumental palapa — Pacific Coast, MX'}
+            ? 'Mirador con palapa — Costa del Pacífico, MX'
+            : 'Lookout with palapa — Pacific Coast, MX'}
           num="—"
         />
-        <Materials t={t} />
-        <Process t={t} />
+        <Gallery t={t} />
         <ImageBreak
           src={`${B}assets/deck-ocean.jpeg`}
           caption={tw.language === 'es'
-            ? 'Deck de parota — entrega 2024'
-            : 'Parota timber deck — delivered 2024'}
+            ? 'Deck de parota — Costa del Pacífico'
+            : 'Parota timber deck — Pacific Coast'}
           num="—"
         />
-        <Stats t={t} />
         <Contact t={t} monogram={tw.monogram} />
       </main>
 

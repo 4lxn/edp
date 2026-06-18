@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { PROJECT_ALBUMS } from './copy'
+import { Monogram } from './Brand'
 
 function useScrollY() {
   const [y, setY] = useState(0)
@@ -68,19 +69,14 @@ export default function Album() {
       <header className={'site-header ' + (condensed ? 'is-condensed' : '')}>
         <div className="hdr-inner">
           <Link className="brand" to="/">
-            <svg width={condensed ? 24 : 30} height={condensed ? 24 : 30} viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="1.2">
-              <path d="M4 34 L20 6 L36 34 Z" />
-              <path d="M20 6 L20 34" />
-              <path d="M12 20 L28 20" />
-              <path d="M16 27 L24 27" />
-            </svg>
+            <Monogram kind="trussed" size={condensed ? 24 : 30} />
             <span className="brand-words">
               <span className="brand-name">Estructuras del Pacífico</span>
-              <span className="brand-mark">EST · MCMXCVIII</span>
+              <span className="brand-mark">Maestría en madera</span>
             </span>
           </Link>
           <nav className="hdr-nav">
-            <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+            <Link to="/proyectos" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
               <span className="num">←</span>
               <span>Portafolio</span>
             </Link>
@@ -244,7 +240,7 @@ export default function Album() {
       <footer className="footer">
         <div className="footer-rule" style={{ marginTop: 0 }} />
         <div className="footer-bottom" style={{ maxWidth: 1480, margin: '0 auto', padding: '32px 0' }}>
-          <p>Estructuras del Pacífico · Taller de arquitectura tropical en madera · Sayulita, Nayarit · MX</p>
+          <p>Estructuras del Pacífico · Arquitectura tropical en madera · Costa del Pacífico · MX</p>
           <ul style={{ listStyle: 'none', display: 'flex', gap: 24 }}>
             <li>© MMXXVI</li>
             <li>Aviso de privacidad</li>

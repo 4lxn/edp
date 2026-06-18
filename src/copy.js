@@ -3,21 +3,23 @@ import { ALBUMS, GALLERY } from './albums.generated'
 const B = import.meta.env.BASE_URL
 const a = (path) => `${B}assets/${path}`
 
-// Build language-specific gallery items from generated GALLERY data
-const galleryItemsFor = (lang) => GALLERY.map(g => ({
+// Map a generated GALLERY entry → a project card for a given language.
+const projectCard = (g, lang) => ({
   n: g.n,
   slug: g.slug,
   title: g.title,
   type: g.type[lang],
   meta: g.location[lang],
-  area: '—',
-  height: '—',
   img: g.img,
-}))
+})
+
+// Destacados (inicio) vs catálogo completo (/proyectos), derivados del flag `featured`.
+const featuredFor = (lang) => GALLERY.filter(g => g.featured).map(g => projectCard(g, lang))
+const allProjectsFor = (lang) => GALLERY.map(g => projectCard(g, lang))
 
 export const COPY = {
   es: {
-    nav: ["Proyectos", "Maestría", "Nosotros", "Contacto"],
+    nav: ["Proyectos", "Filosofía", "Contacto"],
     cta: "Cotizar Proyecto",
     heroEyebrow: "Estudio · Costa Pacífica · MX",
     heroTitle: ["Maestría en madera", "y arquitectura tropical"],
@@ -26,50 +28,29 @@ export const COPY = {
     statementLabel: "Filosofía",
     statement:
       "Construimos en diálogo con el paisaje. Cada palapa, cada deck, cada pérgola nace de una lectura paciente del sitio — del viento, del sol que cruza, de la madera que dura un siglo. No imponemos forma; revelamos estructura.",
-    statementSig: "— Taller Estructuras del Pacífico, desde 1998",
+    statementSig: "— Taller Estructuras del Pacífico",
     galleryLabel: "Selección de obra",
     galleryTitle: ["Obra", "selecta"],
-    galleryItems: galleryItemsFor('es'),
-    materialsLabel: "La maestría",
-    materialsTitle: ["Materia", "noble"],
-    materialsIntro:
-      "Tres lenguajes que se hablan entre sí. Trabajamos sólo con piezas que envejecen con dignidad y que cumplen con certificaciones de origen responsable.",
-    materials: [
-      { n: "I", name: "Maderas tropicales", latin: "Parota · Tzalam · Chechén", body: "Cortes seleccionados de bosques manejados. Secado natural mínimo de 18 meses, ensambles a caja y espiga sin clavos vistos." },
-      { n: "II", name: "Tejido de palma", latin: "Sabal mexicana", body: "Cosecha por luna menguante en la sierra de Oaxaca. Tramado tradicional de seis hilos con vida útil garantizada de 25 años." },
-      { n: "III", name: "Concreto pulido", latin: "Aggregato locale", body: "Mezclas con áridos de río local. Acabado a mano con cera mineral, sin selladores sintéticos. Patina con el tiempo." },
-    ],
-    processLabel: "El proceso",
-    processTitle: ["Cuatro estaciones,", "una obra"],
-    process: [
-      { n: "01", t: "Lectura del sitio", d: "Topografía, vientos dominantes, recorridos solares y vegetación existente." },
-      { n: "02", t: "Diseño estructural", d: "Modelado en madera real. Cálculos para sismo, huracán y carga muerta." },
-      { n: "03", t: "Taller y obra", d: "Piezas labradas en taller, ensambladas en sitio por maestros de oficio." },
-      { n: "04", t: "Entrega y custodia", d: "Mantenimiento programado a 1, 5 y 10 años. Garantía estructural a 20 años." },
-    ],
-    statsLabel: "Veintisiete años",
-    stats: [
-      { n: "1998", l: "Año de fundación" },
-      { n: "184", l: "Obras entregadas" },
-      { n: "11", l: "Estados de la república" },
-      { n: "20", l: "Años de garantía" },
-    ],
+    galleryLede:
+      "Una selección de obras representativas. Cada una construida en sitio, con ensambles de madera.",
+    galleryAll: "Ver todos los proyectos",
+    galleryItems: featuredFor('es'),
+    projectsLabel: "Portafolio",
+    projectsTitle: ["Todos los", "proyectos"],
+    projectsLede: "El catálogo completo de obras.",
+    allProjects: allProjectsFor('es'),
     contactLabel: "Iniciar conversación",
     contactTitle: ["Cada proyecto", "comienza con una", "visita al lugar"],
     contactBody:
       "Aceptamos un número limitado de comisiones cada año. Si su proyecto requiere precisión y permanencia, comencemos por escuchar el sitio.",
     contactCta: "Solicitar visita técnica",
-    contactMeta: ["+52 322 000 0000", "estudio@estructurasdelpacifico.mx", "Sayulita · Puerto Vallarta · CDMX"],
-    footerNav: [
-      ["Estudio", ["Filosofía", "Equipo", "Taller", "Prensa"]],
-      ["Obra", ["Palapas", "Pérgolas", "Decks", "Pabellones"]],
-      ["Contacto", ["Cotizar", "Visita técnica", "Trabaja con nosotros", "Proveedores"]],
-    ],
-    footerNote: "Estructuras del Pacífico · Taller de arquitectura tropical en madera · Sayulita, Nayarit · MX",
-    footerLegal: ["© MMXXVI", "Aviso de privacidad", "Términos"],
+    contactEmail: "contacto@estructurasdelpacifico.com",
+    contactMeta: ["contacto@estructurasdelpacifico.com", "Costa del Pacífico · MX"],
+    footerNote: "Estructuras del Pacífico · Arquitectura tropical en madera · Costa del Pacífico · MX",
+    footerLegal: ["© MMXXVI", "Aviso de privacidad"],
   },
   en: {
-    nav: ["Work", "Craft", "Studio", "Contact"],
+    nav: ["Projects", "Philosophy", "Contact"],
     cta: "Request a quote",
     heroEyebrow: "Studio · Pacific Coast · MX",
     heroTitle: ["Mastery in timber", "and tropical structure"],
@@ -78,47 +59,26 @@ export const COPY = {
     statementLabel: "Philosophy",
     statement:
       "We build in conversation with the landscape. Every palapa, every deck, every pergola begins with a patient reading of the site — wind, sun path, the timber that will last a century. We do not impose form; we reveal structure.",
-    statementSig: "— Taller Estructuras del Pacífico, since 1998",
+    statementSig: "— Taller Estructuras del Pacífico",
     galleryLabel: "Selected work",
     galleryTitle: ["Selected", "work"],
-    galleryItems: galleryItemsFor('en'),
-    materialsLabel: "The craft",
-    materialsTitle: ["Noble", "matter"],
-    materialsIntro:
-      "Three languages in conversation. We work only with materials that age with dignity and carry verified responsible-origin certification.",
-    materials: [
-      { n: "I", name: "Tropical timber", latin: "Parota · Tzalam · Chechén", body: "Selected cuts from managed forests. Minimum 18 months of natural drying, mortise-and-tenon joinery with no visible fasteners." },
-      { n: "II", name: "Palm thatch", latin: "Sabal mexicana", body: "Harvested on waning moon in the Oaxacan sierra. Traditional six-thread weave with a 25-year service life." },
-      { n: "III", name: "Polished concrete", latin: "Local aggregate", body: "Mixes drawn from nearby riverbeds. Hand-finished with mineral wax, no synthetic sealers. Patinas with time." },
-    ],
-    processLabel: "Process",
-    processTitle: ["Four seasons,", "one work"],
-    process: [
-      { n: "01", t: "Reading the site", d: "Topography, prevailing winds, solar paths, and existing vegetation." },
-      { n: "02", t: "Structural design", d: "Modeled in real timber. Engineered for seismic, hurricane and dead load." },
-      { n: "03", t: "Workshop & site", d: "Pieces shaped in the workshop, assembled on site by master carpenters." },
-      { n: "04", t: "Delivery & care", d: "Scheduled maintenance at 1, 5 and 10 years. 20-year structural warranty." },
-    ],
-    statsLabel: "Twenty-seven years",
-    stats: [
-      { n: "1998", l: "Founded" },
-      { n: "184", l: "Works delivered" },
-      { n: "11", l: "Mexican states" },
-      { n: "20", l: "Year warranty" },
-    ],
+    galleryLede:
+      "A selection of representative works. Each built on site, with timber joinery.",
+    galleryAll: "See all projects",
+    galleryItems: featuredFor('en'),
+    projectsLabel: "Portfolio",
+    projectsTitle: ["All", "projects"],
+    projectsLede: "The complete catalogue of works.",
+    allProjects: allProjectsFor('en'),
     contactLabel: "Begin a conversation",
     contactTitle: ["Every project", "begins with a", "visit to the site"],
     contactBody:
       "We take on a limited number of commissions each year. If your project demands precision and permanence, let us begin by listening to the place.",
     contactCta: "Request a site visit",
-    contactMeta: ["+52 322 000 0000", "studio@estructurasdelpacifico.mx", "Sayulita · Puerto Vallarta · Mexico City"],
-    footerNav: [
-      ["Studio", ["Philosophy", "Team", "Workshop", "Press"]],
-      ["Work", ["Palapas", "Pergolas", "Decks", "Pavilions"]],
-      ["Contact", ["Quote", "Site visit", "Careers", "Suppliers"]],
-    ],
-    footerNote: "Estructuras del Pacífico · Tropical timber architecture · Sayulita, Nayarit · MX",
-    footerLegal: ["© MMXXVI", "Privacy", "Terms"],
+    contactEmail: "contacto@estructurasdelpacifico.com",
+    contactMeta: ["contacto@estructurasdelpacifico.com", "Pacific Coast · MX"],
+    footerNote: "Estructuras del Pacífico · Tropical timber architecture · Pacific Coast · MX",
+    footerLegal: ["© MMXXVI", "Privacy"],
   },
 }
 

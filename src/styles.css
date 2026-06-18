@@ -967,3 +967,59 @@ button { font: inherit; cursor: pointer; border: 0; background: none; color: inh
   [data-reveal] { opacity: 1; transform: none; transition: none; }
   .hero-img, .g-img, .break-img { transform: none !important; }
 }
+
+/* ============================================================
+   Gallery footer link (inicio → ver todos)
+   ============================================================ */
+.gallery-foot {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(56px, 7vw, 104px);
+}
+
+/* ============================================================
+   Footer nav (enlaces reales)
+   ============================================================ */
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(20px, 3vw, 40px);
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+.footer-nav a,
+.footer-nav button {
+  font-family: var(--display);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--bg);
+  position: relative;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.footer-nav a::after,
+.footer-nav button::after {
+  content: ""; position: absolute; left: 0; bottom: -4px;
+  width: 0; height: 1px; background: var(--bronze);
+  transition: width var(--t-fast);
+}
+.footer-nav a:hover,
+.footer-nav button:hover { color: var(--bronze); }
+.footer-nav a:hover::after,
+.footer-nav button:hover::after { width: 100%; }
+@media (max-width: 800px) {
+  .footer-nav { justify-content: flex-start; }
+}
+
+/* ============================================================
+   Projects page — galería completa escalable
+   ============================================================ */
+.proj-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
+  gap: clamp(28px, 3.5vw, 56px);
+}
+.proj-grid .g-frame { min-height: 320px; }

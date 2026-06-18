@@ -1,5 +1,6 @@
 {
   "order": 1,
+  "featured": true,
   "title": "Punta Garrobo",
   "type": {
     "es": "Palapa Monumental",
@@ -14,6 +15,9 @@
     "01-cumbrera.jpeg": { "es": "Cumbrera monumental", "en": "Monumental ridge" },
     "02-vista-mar.jpeg": { "es": "Vista desde el mar", "en": "View from the sea" },
     "03-jungla.jpeg": { "es": "Integración al entorno", "en": "Integration with the landscape" },
-    "04-pergola-acceso.jpeg": { "es": "Pérgola de acceso", "en": "Entry pergola" }
+    "04-pergola-acceso.jpeg": { "es": "Pérgola de acceso", "en": "Entry pergola" },
+    "05.jpeg": { "es": "", "en": "" },
+    "06.jpeg": { "es": "", "en": "" },
+    "07.jpeg": { "es": "", "en": "" }
   }
 }

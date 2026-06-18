@@ -3,6 +3,22 @@
 Cada carpeta aquí dentro = 1 proyecto en el sitio.
 La carpeta `<slug>/` se vuelve la URL `/#/album/<slug>`.
 
+## ⭐ Forma fácil: panel de administración local
+
+Con el sitio corriendo en desarrollo (`npm run dev`), abre:
+
+> **http://localhost:5173/#/admin**
+
+Desde ahí puedes, sin tocar archivos a mano:
+- Crear álbumes y editar título, tipo, ubicación (ES/EN), orden, destacado y portada.
+- Subir fotos arrastrándolas (se **optimizan solas** a ≤2400px y se comprimen).
+- Escribir las captions (ES/EN) de cada foto y reordenarlas.
+
+El panel **solo existe en desarrollo** (nunca en el sitio publicado) y escribe en estas
+mismas carpetas. **Para publicar online, haz `git push`** (el deploy es automático).
+
+El resto de este documento explica el formato de archivos por si prefieres editarlo a mano.
+
 ## Cómo agregar fotos a un álbum existente
 
 1. Pon tus fotos en la carpeta del proyecto, ej. `punta-garrobo/`

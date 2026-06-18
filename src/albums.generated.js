@@ -17,6 +17,9 @@ export const ALBUMS = {
       { src: a('punta-garrobo/02-vista-mar.jpeg'), caption: {"es":"Vista desde el mar","en":"View from the sea"} },
       { src: a('punta-garrobo/03-jungla.jpeg'), caption: {"es":"Integración al entorno","en":"Integration with the landscape"} },
       { src: a('punta-garrobo/04-pergola-acceso.jpeg'), caption: {"es":"Pérgola de acceso","en":"Entry pergola"} },
+      { src: a('punta-garrobo/05.jpeg'), caption: {"es":"","en":""} },
+      { src: a('punta-garrobo/06.jpeg'), caption: {"es":"","en":""} },
+      { src: a('punta-garrobo/07.jpeg'), caption: {"es":"","en":""} },
     ],
   },
   'delfiniti': {
@@ -52,12 +55,38 @@ export const ALBUMS = {
       { src: a('tanta-vida/01-palapa-costa.jpeg'), caption: {"es":"Palapa de costa","en":"Coastal palapa"} },
     ],
   },
+  'acapulco': {
+    order: 5,
+    title: "Acapulco",
+    type: {"es":"Proyecto","en":"Project"},
+    location: {"es":"Acapulco, Gro. · MX","en":"Acapulco, Gro. · MX"},
+    hero: a('acapulco/01.jpeg'),
+    images: [
+      { src: a('acapulco/01.jpeg'), caption: {"es":"","en":""} },
+      { src: a('acapulco/02.jpeg'), caption: {"es":"","en":""} },
+      { src: a('acapulco/03.jpeg'), caption: {"es":"","en":""} },
+      { src: a('acapulco/04.jpeg'), caption: {"es":"","en":""} },
+      { src: a('acapulco/05.jpeg'), caption: {"es":"","en":""} },
+      { src: a('acapulco/06.jpeg'), caption: {"es":"","en":""} },
+      { src: a('acapulco/07.jpeg'), caption: {"es":"","en":""} },
+      { src: a('acapulco/08.jpeg'), caption: {"es":"","en":""} },
+      { src: a('acapulco/09.jpeg'), caption: {"es":"","en":""} },
+      { src: a('acapulco/10.jpeg'), caption: {"es":"","en":""} },
+      { src: a('acapulco/11.jpeg'), caption: {"es":"","en":""} },
+      { src: a('acapulco/12.jpeg'), caption: {"es":"","en":""} },
+      { src: a('acapulco/13.jpeg'), caption: {"es":"","en":""} },
+      { src: a('acapulco/14.jpeg'), caption: {"es":"","en":""} },
+      { src: a('acapulco/15.jpeg'), caption: {"es":"","en":""} },
+      { src: a('acapulco/16.jpeg'), caption: {"es":"","en":""} },
+    ],
+  },
 }
 
 export const GALLERY = [
   {
     n: '01',
     slug: 'punta-garrobo',
+    featured: true,
     title: "Punta Garrobo",
     type: {"es":"Palapa Monumental","en":"Monumental Palapa"},
     location: {"es":"Zihuatanejo, Gro. · MX","en":"Zihuatanejo, Gro. · MX"},
@@ -66,6 +95,7 @@ export const GALLERY = [
   {
     n: '02',
     slug: 'delfiniti',
+    featured: true,
     title: "Delfiniti",
     type: {"es":"Pérgola y Deck","en":"Pergola & Deck"},
     location: {"es":"Costa del Pacífico · MX","en":"Pacific Coast · MX"},
@@ -74,6 +104,7 @@ export const GALLERY = [
   {
     n: '03',
     slug: 'casa-frijol',
+    featured: true,
     title: "Casa Frijol",
     type: {"es":"Conjunto Residencial","en":"Residential"},
     location: {"es":"Costa del Pacífico · MX","en":"Pacific Coast · MX"},
@@ -82,9 +113,19 @@ export const GALLERY = [
   {
     n: '04',
     slug: 'tanta-vida',
+    featured: true,
     title: "Tanta Vida",
     type: {"es":"Palapa de Costa","en":"Coastal Palapa"},
     location: {"es":"Costa del Pacífico · MX","en":"Pacific Coast · MX"},
     img: a('tanta-vida/01-palapa-costa.jpeg'),
+  },
+  {
+    n: '05',
+    slug: 'acapulco',
+    featured: false,
+    title: "Acapulco",
+    type: {"es":"Proyecto","en":"Project"},
+    location: {"es":"Acapulco, Gro. · MX","en":"Acapulco, Gro. · MX"},
+    img: a('acapulco/01.jpeg'),
   },
 ]

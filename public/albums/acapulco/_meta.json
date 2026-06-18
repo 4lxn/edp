@@ -1,0 +1,15 @@
+{
+  "order": 5,
+  "featured": false,
+  "title": "Acapulco",
+  "type": {
+    "es": "Proyecto",
+    "en": "Project"
+  },
+  "location": {
+    "es": "Acapulco, Gro. · MX",
+    "en": "Acapulco, Gro. · MX"
+  },
+  "hero": "01.jpeg",
+  "captions": {}
+}

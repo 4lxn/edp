@@ -1,5 +1,6 @@
 {
   "order": 3,
+  "featured": true,
   "title": "Casa Frijol",
   "type": {
     "es": "Conjunto Residencial",
