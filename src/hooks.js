@@ -1,10 +1,19 @@
 import { useEffect, useState } from 'react'
 import { useReducedMotion } from 'framer-motion'
 
-/** Tracks window.scrollY (rAF-throttled) for parallax effects. */
+/**
+ * Tracks window.scrollY (rAF-throttled) for parallax effects.
+ * Parallax is desktop-only: on phones / coarse pointers / reduced-motion it just
+ * causes scroll jank (per-frame re-render + repaint of large images), so we skip
+ * the listener entirely and return a constant 0 (no transforms applied).
+ */
 export function useScrollY() {
   const [y, setY] = useState(0)
   useEffect(() => {
+    const skip = window.matchMedia(
+      '(max-width: 760px), (pointer: coarse), (prefers-reduced-motion: reduce)'
+    ).matches
+    if (skip) return
     let raf = 0
     const onScroll = () => {
       if (raf) return
