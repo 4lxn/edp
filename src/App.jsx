@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { motion, useReducedMotion } from 'framer-motion'
+import { m, useReducedMotion } from 'framer-motion'
 import { COPY } from './copy'
 import { Monogram } from './Brand'
+import { useScrollY, useReveal, useScrolledPast, usePageMotion } from './hooks'
 
 const B = import.meta.env.BASE_URL
 import {
@@ -19,56 +20,7 @@ const TWEAK_DEFAULTS = {
   language: 'es',
 }
 
-/* ---------- Hooks ---------- */
-function useReveal() {
-  useEffect(() => {
-    const els = document.querySelectorAll('[data-reveal]')
-    const io = new IntersectionObserver(
-      entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add('is-in')
-            io.unobserve(e.target)
-          }
-        })
-      },
-      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
-    )
-    els.forEach(el => io.observe(el))
-    return () => io.disconnect()
-  })
-}
-
-function useScrollY() {
-  const [y, setY] = useState(0)
-  useEffect(() => {
-    let raf = 0
-    const onScroll = () => {
-      if (raf) return
-      raf = requestAnimationFrame(() => {
-        setY(window.scrollY)
-        raf = 0
-      })
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-  return y
-}
-
 /* ---------- Header ---------- */
-function useScrolledPast(threshold) {
-  const [past, setPast] = useState(false)
-  useEffect(() => {
-    const onScroll = () => setPast(window.scrollY > threshold)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [threshold])
-  return past
-}
-
 function scrollTo(id) {
   const el = document.getElementById(id)
   if (el) el.scrollIntoView({ behavior: 'smooth' })
@@ -132,7 +84,7 @@ function Hero({ t, treatment }) {
 
   return (
     <section className={'hero hero-' + treatment} id="top">
-      <motion.div className="hero-media" variants={media} initial="hidden" animate="show">
+      <m.div className="hero-media" variants={media} initial="hidden" animate="show">
         <div
           className="hero-img"
           style={{
@@ -141,41 +93,41 @@ function Hero({ t, treatment }) {
           }}
         />
         <div className="hero-veil" style={{ opacity: 0.32 + overlayOpacity }} />
-      </motion.div>
+      </m.div>
 
-      <motion.div className="hero-grid" variants={container} initial="hidden" animate="show">
-        <motion.div className="hero-eyebrow" variants={item}>
+      <m.div className="hero-grid" variants={container} initial="hidden" animate="show">
+        <m.div className="hero-eyebrow" variants={item}>
           <span className="rule" />
           <span>{t.heroEyebrow}</span>
-        </motion.div>
+        </m.div>
 
-        <motion.div className="hero-title-wrap" variants={titleWrap}>
+        <m.div className="hero-title-wrap" variants={titleWrap}>
           <h1 className="hero-title">
-            <motion.span className="line line-1" variants={lineV}>{t.heroTitle[0]}</motion.span>
-            <motion.span className="line line-2" variants={lineV}>{t.heroTitle[1]}</motion.span>
+            <m.span className="line line-1" variants={lineV}>{t.heroTitle[0]}</m.span>
+            <m.span className="line line-2" variants={lineV}>{t.heroTitle[1]}</m.span>
           </h1>
-        </motion.div>
+        </m.div>
 
-        <motion.div className="hero-foot" variants={item}>
+        <m.div className="hero-foot" variants={item}>
           <p className="hero-sub">{t.heroSub}</p>
           <div className="hero-meta">
             <span>N 17°38&prime; · W 101°33&prime;</span>
             <span>·</span>
             <span>Punta Garrobo · Zihuatanejo</span>
           </div>
-        </motion.div>
+        </m.div>
 
-        <motion.button className="hero-scroll" type="button" variants={item} onClick={() => scrollTo('statement')}>
+        <m.button className="hero-scroll" type="button" variants={item} onClick={() => scrollTo('statement')}>
           <span className="scroll-line" />
           <span>{t.heroScroll}</span>
-        </motion.button>
+        </m.button>
 
-        <motion.div className="hero-spec" variants={item}>
+        <m.div className="hero-spec" variants={item}>
           <div><em>I</em><span></span></div>
           <div><em>II</em><span>Punta Garrobo · Zihuatanejo, Gro. · MX</span></div>
           <div><em>III</em><span></span></div>
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
 
       <div className="hero-corners">
         <span className="c c-tl" /><span className="c c-tr" />
@@ -393,6 +345,7 @@ function Footer({ t, monogram }) {
 export default function App() {
   const [tw, setTweak] = useTweaks(TWEAK_DEFAULTS)
   const t = COPY[tw.language] || COPY.es
+  const page = usePageMotion()
   useReveal()
 
   useEffect(() => {
@@ -403,7 +356,7 @@ export default function App() {
   }, [tw.accentIntensity, tw.density, tw.showGrain])
 
   return (
-    <>
+    <m.div {...page}>
       <Header t={t} monogram={tw.monogram} />
 
       <main>
@@ -490,6 +443,6 @@ export default function App() {
           />
         </TweakSection>
       </TweaksPanel>
-    </>
+    </m.div>
   )
 }

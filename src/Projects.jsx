@@ -1,41 +1,18 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { m } from 'framer-motion'
 import { COPY } from './copy'
 import { Monogram } from './Brand'
-
-function useScrolledPast(threshold) {
-  const [past, setPast] = useState(false)
-  useEffect(() => {
-    const onScroll = () => setPast(window.scrollY > threshold)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [threshold])
-  return past
-}
-
-function useReveal() {
-  useEffect(() => {
-    const els = document.querySelectorAll('[data-reveal]')
-    const io = new IntersectionObserver(
-      entries => entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target) }
-      }),
-      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
-    )
-    els.forEach(el => io.observe(el))
-    return () => io.disconnect()
-  })
-}
+import { useScrolledPast, useReveal, usePageMotion } from './hooks'
 
 export default function Projects() {
   const t = COPY.es
   const condensed = useScrolledPast(80)
+  const page = usePageMotion()
   useReveal()
   const projects = t.allProjects
 
   return (
-    <>
+    <m.div {...page}>
       {/* Header */}
       <header className={'site-header ' + (condensed ? 'is-condensed' : '')}>
         <div className="hdr-inner">
@@ -109,6 +86,6 @@ export default function Projects() {
           </ul>
         </div>
       </footer>
-    </>
+    </m.div>
   )
 }

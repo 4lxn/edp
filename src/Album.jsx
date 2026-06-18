@@ -1,52 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { m } from 'framer-motion'
 import { PROJECT_ALBUMS } from './copy'
 import { Monogram } from './Brand'
-
-function useScrollY() {
-  const [y, setY] = useState(0)
-  useEffect(() => {
-    let raf = 0
-    const onScroll = () => {
-      if (raf) return
-      raf = requestAnimationFrame(() => { setY(window.scrollY); raf = 0 })
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-  return y
-}
-
-function useScrolledPast(threshold) {
-  const [past, setPast] = useState(false)
-  useEffect(() => {
-    const onScroll = () => setPast(window.scrollY > threshold)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [threshold])
-  return past
-}
-
-function useReveal() {
-  useEffect(() => {
-    const els = document.querySelectorAll('[data-reveal]')
-    const io = new IntersectionObserver(
-      entries => entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target) }
-      }),
-      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
-    )
-    els.forEach(el => io.observe(el))
-    return () => io.disconnect()
-  })
-}
+import { useScrollY, useScrolledPast, useReveal, usePageMotion } from './hooks'
+import Lightbox from './Lightbox'
 
 export default function Album() {
   const { slug } = useParams()
   const y = useScrollY()
   const condensed = useScrolledPast(80)
+  const page = usePageMotion()
+  const [lbIndex, setLbIndex] = useState(null)
   const project = PROJECT_ALBUMS[slug]
   useReveal()
 
@@ -64,7 +29,7 @@ export default function Album() {
   const bgShift = Math.min(y * 0.3, 180)
 
   return (
-    <>
+    <m.div {...page}>
       {/* Header */}
       <header className={'site-header ' + (condensed ? 'is-condensed' : '')}>
         <div className="hdr-inner">
@@ -134,15 +99,17 @@ export default function Album() {
           {project.images.length === 1 ? (
             /* Single image — full width with "more coming soon" */
             <>
-              <div data-reveal style={{
+              <button type="button" onClick={() => setLbIndex(0)} data-reveal style={{
+                display: 'block', width: '100%', padding: 0, cursor: 'zoom-in',
                 position: 'relative', overflow: 'hidden',
                 border: '1px solid var(--hair)',
                 aspectRatio: '16/9',
                 maxHeight: 680,
               }}>
                 <img src={project.images[0].src} alt={project.images[0].caption}
+                     loading="lazy" decoding="async"
                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-              </div>
+              </button>
               <p style={{
                 marginTop: 32,
                 fontFamily: 'var(--display)',
@@ -167,26 +134,30 @@ export default function Album() {
                   transitionDelay: `${i * 60}ms`,
                   ...(i === 0 ? { gridColumn: 'span 2' } : {}),
                 }}>
-                  <div style={{
+                  <button type="button" onClick={() => setLbIndex(i)} style={{
+                    padding: 0, cursor: 'zoom-in', display: 'block',
                     position: 'relative', overflow: 'hidden',
                     border: '1px solid var(--hair)',
                     aspectRatio: i === 0 ? '16/9' : '4/3',
                   }}>
                     <img src={img.src} alt={img.caption}
+                         loading="lazy" decoding="async"
                          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block',
                                   transition: 'transform 900ms cubic-bezier(.2,.7,.2,1)' }}
                          onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.04)'}
                          onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'} />
-                  </div>
-                  <figcaption style={{
-                    fontFamily: 'var(--display)',
-                    fontSize: 12,
-                    letterSpacing: '0.22em',
-                    textTransform: 'uppercase',
-                    color: 'var(--ink-soft)',
-                  }}>
-                    {img.caption}
-                  </figcaption>
+                  </button>
+                  {img.caption && (
+                    <figcaption style={{
+                      fontFamily: 'var(--display)',
+                      fontSize: 12,
+                      letterSpacing: '0.22em',
+                      textTransform: 'uppercase',
+                      color: 'var(--ink-soft)',
+                    }}>
+                      {img.caption}
+                    </figcaption>
+                  )}
                 </figure>
               ))}
             </div>
@@ -213,6 +184,7 @@ export default function Album() {
                       }}>
                   <div style={{ position: 'relative', overflow: 'hidden', border: '1px solid var(--hair)', aspectRatio: '4/3' }}>
                     <img src={p.hero} alt={p.title}
+                         loading="lazy" decoding="async"
                          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block',
                                   transition: 'transform 900ms cubic-bezier(.2,.7,.2,1)' }}
                          onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
@@ -247,6 +219,8 @@ export default function Album() {
           </ul>
         </div>
       </footer>
-    </>
+
+      <Lightbox images={project.images} index={lbIndex} setIndex={setLbIndex} />
+    </m.div>
   )
 }
