@@ -3,15 +3,26 @@
   "featured": true,
   "title": "Tanta Vida",
   "type": {
-    "es": "Palapa de Costa",
-    "en": "Coastal Palapa"
+    "es": "",
+    "en": ""
   },
   "location": {
-    "es": "Costa del Pacífico · MX",
-    "en": "Pacific Coast · MX"
+    "es": "Zihuatanejo, Gro. · MX",
+    "en": "Zihuatanejo, Gro. · MX"
   },
   "hero": "01-palapa-costa.jpeg",
+  "imageOrder": [
+    "01-palapa-costa.jpeg",
+    "02.jpeg"
+  ],
   "captions": {
-    "01-palapa-costa.jpeg": { "es": "Palapa de costa", "en": "Coastal palapa" }
+    "01-palapa-costa.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "02.jpeg": {
+      "es": "",
+      "en": ""
+    }
   }
 }

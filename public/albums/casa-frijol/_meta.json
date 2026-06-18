@@ -3,16 +3,111 @@
   "featured": true,
   "title": "Casa Frijol",
   "type": {
-    "es": "Conjunto Residencial",
-    "en": "Residential"
+    "es": "",
+    "en": ""
   },
   "location": {
-    "es": "Costa del Pacífico · MX",
-    "en": "Pacific Coast · MX"
+    "es": "Zihuatanejo, Gro. · MX",
+    "en": "Zihuatanejo, Gro. · MX"
   },
-  "hero": "01-deck-bahia.jpeg",
+  "hero": "17.jpeg",
+  "imageOrder": [
+    "01.jpeg",
+    "02.jpeg",
+    "03.jpeg",
+    "04.jpeg",
+    "05.jpeg",
+    "06.jpeg",
+    "07.jpeg",
+    "08.jpeg",
+    "09.jpeg",
+    "10.jpeg",
+    "11.jpeg",
+    "12.jpeg",
+    "13.jpeg",
+    "14.jpeg",
+    "15.jpeg",
+    "16.jpeg",
+    "17.jpeg",
+    "18.jpeg",
+    "20.jpeg"
+  ],
   "captions": {
-    "01-deck-bahia.jpeg": { "es": "Deck sobre la bahía", "en": "Deck over the bay" },
-    "02-detalle-parota.jpeg": { "es": "Detalle de parota", "en": "Parota detail" }
+    "01.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "02.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "03.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "04.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "05.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "06.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "07.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "08.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "09.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "10.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "11.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "12.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "13.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "14.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "15.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "16.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "17.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "18.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "20.jpeg": {
+      "es": "",
+      "en": ""
+    }
   }
 }

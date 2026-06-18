@@ -3,21 +3,131 @@
   "featured": true,
   "title": "Punta Garrobo",
   "type": {
-    "es": "Palapa Monumental",
-    "en": "Monumental Palapa"
+    "es": "",
+    "en": ""
   },
   "location": {
     "es": "Zihuatanejo, Gro. · MX",
     "en": "Zihuatanejo, Gro. · MX"
   },
-  "hero": "01-cumbrera.jpeg",
+  "hero": "07.jpeg",
+  "imageOrder": [
+    "07.jpeg",
+    "02-vista-mar.jpeg",
+    "03-jungla.jpeg",
+    "04-pergola-acceso.jpeg",
+    "08.jpeg",
+    "09.jpeg",
+    "10.jpeg",
+    "11.jpeg",
+    "12.jpeg",
+    "19.jpeg",
+    "14.jpeg",
+    "15.jpeg",
+    "05.jpeg",
+    "16.jpeg",
+    "17.jpeg",
+    "18.jpeg",
+    "21.jpeg",
+    "22.jpeg",
+    "23.jpeg",
+    "25.jpeg",
+    "26.jpeg",
+    "27.jpeg",
+    "28.jpeg"
+  ],
   "captions": {
-    "01-cumbrera.jpeg": { "es": "Cumbrera monumental", "en": "Monumental ridge" },
-    "02-vista-mar.jpeg": { "es": "Vista desde el mar", "en": "View from the sea" },
-    "03-jungla.jpeg": { "es": "Integración al entorno", "en": "Integration with the landscape" },
-    "04-pergola-acceso.jpeg": { "es": "Pérgola de acceso", "en": "Entry pergola" },
-    "05.jpeg": { "es": "", "en": "" },
-    "06.jpeg": { "es": "", "en": "" },
-    "07.jpeg": { "es": "", "en": "" }
+    "02-vista-mar.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "03-jungla.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "04-pergola-acceso.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "05.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "07.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "08.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "09.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "10.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "11.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "12.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "14.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "15.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "16.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "17.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "18.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "19.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "21.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "22.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "23.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "25.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "26.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "27.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "28.jpeg": {
+      "es": "",
+      "en": ""
+    }
   }
 }

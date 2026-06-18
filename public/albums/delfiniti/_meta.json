@@ -3,17 +3,41 @@
   "featured": true,
   "title": "Delfiniti",
   "type": {
-    "es": "Pérgola y Deck",
-    "en": "Pergola & Deck"
+    "es": "",
+    "en": ""
   },
   "location": {
-    "es": "Costa del Pacífico · MX",
-    "en": "Pacific Coast · MX"
+    "es": "Zihuatanejo, Gro. · MX",
+    "en": "Zihuatanejo, Gro. · MX"
   },
-  "hero": "01-pergola.jpeg",
+  "hero": "01.jpeg",
+  "imageOrder": [
+    "01.jpeg",
+    "02.jpeg",
+    "03.jpeg",
+    "04.jpeg",
+    "05.jpeg"
+  ],
   "captions": {
-    "01-pergola.jpeg": { "es": "Pérgola principal", "en": "Main pergola" },
-    "02-deck.jpeg": { "es": "Deck de madera", "en": "Timber deck" },
-    "03-alberca.jpeg": { "es": "Vista a la alberca", "en": "Pool view" }
+    "01.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "02.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "03.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "04.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "05.jpeg": {
+      "es": "",
+      "en": ""
+    }
   }
 }

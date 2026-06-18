@@ -3,13 +3,36 @@
   "featured": false,
   "title": "Acapulco",
   "type": {
-    "es": "Proyecto",
-    "en": "Project"
+    "es": "",
+    "en": ""
   },
   "location": {
     "es": "Acapulco, Gro. · MX",
     "en": "Acapulco, Gro. · MX"
   },
-  "hero": "01.jpeg",
-  "captions": {}
+  "hero": "04.jpeg",
+  "imageOrder": [
+    "01.jpeg",
+    "02.jpeg",
+    "03.jpeg",
+    "04.jpeg",
+    "05.jpeg",
+    "06.jpeg",
+    "07.jpeg",
+    "08.jpeg",
+    "09.jpeg",
+    "10.jpeg",
+    "11.jpeg",
+    "12.jpeg",
+    "14.jpeg",
+    "15.jpeg",
+    "16.jpeg",
+    "34.jpeg"
+  ],
+  "captions": {
+    "34.jpeg": {
+      "es": "",
+      "en": ""
+    }
+  }
 }
