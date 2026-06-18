@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { m, useReducedMotion } from 'framer-motion'
+import { m, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { COPY } from './copy'
 import { Monogram } from './Brand'
 import { useScrollY, useReveal, useScrolledPast, usePageMotion } from './hooks'
@@ -54,11 +54,16 @@ function Header({ t, monogram }) {
 
 /* ---------- Hero ---------- */
 function Hero({ t, treatment }) {
-  const y = useScrollY()
-  const bgShift = Math.min(y * 0.35, 240)
-  const overlayOpacity = Math.min(y / 600, 0.25)
   const reduce = useReducedMotion()
   const ease = [0.2, 0.7, 0.2, 1]
+
+  // Parallax driven by scroll-linked motion values (framer-motion) instead of
+  // React state: the transform updates on the compositor without re-rendering
+  // the component each frame, so the full-bleed hero stays smooth on mobile.
+  const { scrollY } = useScroll()
+  const heroY = useTransform(scrollY, [0, 685], [0, reduce ? 0 : 240])
+  const heroScale = useTransform(scrollY, [0, 1000], [1, reduce ? 1 : 1.2])
+  const veilOpacity = useTransform(scrollY, [0, 600], [0.32, reduce ? 0.32 : 0.57])
 
   // Entrance choreography: media fade → eyebrow → title lines → foot → scroll → spec.
   const container = {
@@ -85,14 +90,15 @@ function Hero({ t, treatment }) {
   return (
     <section className={'hero hero-' + treatment} id="top">
       <m.div className="hero-media" variants={media} initial="hidden" animate="show">
-        <div
+        <m.div
           className="hero-img"
           style={{
             backgroundImage: `url(${B}assets/portada-palapa-mar.jpeg)`,
-            transform: `translate3d(0, ${bgShift}px, 0) scale(${1 + y * 0.0002})`,
+            y: heroY,
+            scale: heroScale,
           }}
         />
-        <div className="hero-veil" style={{ opacity: 0.32 + overlayOpacity }} />
+        <m.div className="hero-veil" style={{ opacity: veilOpacity }} />
       </m.div>
 
       <m.div className="hero-grid" variants={container} initial="hidden" animate="show">

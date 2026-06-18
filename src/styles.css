@@ -594,7 +594,7 @@ button { font: inherit; cursor: pointer; border: 0; background: none; color: inh
   margin: 0;
 }
 .break-img {
-  position: absolute; inset: -15% -2%;
+  position: absolute; inset: -24% -2%;
   background-size: cover;
   background-position: center;
   will-change: transform;
