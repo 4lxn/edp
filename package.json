@@ -8,7 +8,8 @@
     "build": "npm run sync && vite build",
     "preview": "vite preview",
     "sync": "node scripts/sync-albums.mjs",
-    "optimize": "node scripts/optimize-images.mjs"
+    "optimize": "node scripts/optimize-images.mjs",
+    "new-album": "node scripts/new-album.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.40.0",
