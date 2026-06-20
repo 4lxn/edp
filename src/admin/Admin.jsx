@@ -54,6 +54,7 @@ export default function Admin() {
   const [status, setStatus] = useState('')
   const [busy, setBusy] = useState(false)
   const [dragOver, setDragOver] = useState(false)
+  const [dirty, setDirty] = useState(false)
   const fileInput = useRef(null)
 
   const refresh = async () => {
@@ -64,14 +65,24 @@ export default function Admin() {
 
   useEffect(() => { refresh().catch((e) => setStatus('Error: ' + e.message)) }, [])
 
+  // Guard against losing unsaved edits when closing/reloading the tab.
+  useEffect(() => {
+    if (!dirty) return
+    const warn = (e) => { e.preventDefault(); e.returnValue = '' }
+    window.addEventListener('beforeunload', warn)
+    return () => window.removeEventListener('beforeunload', warn)
+  }, [dirty])
+
   const select = (al) => {
+    if (dirty && !confirm('Tienes cambios sin guardar. ¿Descartarlos?')) return
     setSelected(al.slug)
     setDraft(toDraft(al))
     setFiles(al.files || [])
     setStatus('')
+    setDirty(false)
   }
 
-  const patch = (edits) => setDraft((d) => ({ ...d, ...edits }))
+  const patch = (edits) => { setDraft((d) => ({ ...d, ...edits })); setDirty(true) }
 
   const run = async (label, fn) => {
     setBusy(true)
@@ -91,6 +102,7 @@ export default function Admin() {
       const res = await api.saveAlbum(selected, draftToMeta(draft, files))
       setFiles(res.files)
       await refresh()
+      setDirty(false)
     })
 
   const handleFiles = (fileList) => {
@@ -109,6 +121,7 @@ export default function Admin() {
         setFiles(last.files)
       }
       await refresh()
+      setDirty(false)
     })
   }
 
@@ -119,6 +132,7 @@ export default function Admin() {
       setDraft(toDraft({ ...res.meta, files: res.files }))
       setFiles(res.files)
       await refresh()
+      setDirty(false)
     })
 
   const moveImage = (file, dir) => {
@@ -130,11 +144,13 @@ export default function Admin() {
     patch({ imageOrder: ord })
   }
 
-  const setCaption = (file, lang, value) =>
+  const setCaption = (file, lang, value) => {
     setDraft((d) => ({
       ...d,
       captions: { ...d.captions, [file]: { ...(d.captions[file] || { es: '', en: '' }), [lang]: value } },
     }))
+    setDirty(true)
+  }
 
   const newAlbum = () =>
     run('Álbum creado', async () => {
@@ -159,6 +175,7 @@ export default function Admin() {
       setDraft(null)
       setFiles([])
       await refresh()
+      setDirty(false)
     })
   }
 
@@ -244,7 +261,7 @@ export default function Admin() {
               </section>
 
               <div className="adm-savebar">
-                <button className="adm-save" onClick={saveMeta} disabled={busy}>Guardar cambios</button>
+                <button className="adm-save" onClick={saveMeta} disabled={busy || !dirty}>{dirty ? 'Guardar cambios •' : 'Sin cambios'}</button>
                 <span className="adm-hint">Subir/borrar guarda automáticamente. Para publicar online: <code>git push</code>.</span>
               </div>
 

@@ -1,22 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useReducedMotion } from 'framer-motion'
 
-/** Tracks window.scrollY (rAF-throttled) for parallax effects. */
-export function useScrollY() {
-  const [y, setY] = useState(0)
-  useEffect(() => {
-    let raf = 0
-    const onScroll = () => {
-      if (raf) return
-      raf = requestAnimationFrame(() => { setY(window.scrollY); raf = 0 })
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-  return y
-}
-
 /** True once the page has scrolled past `threshold` px (for condensed header). */
 export function useScrolledPast(threshold) {
   const [past, setPast] = useState(false)
@@ -41,7 +25,7 @@ export function useReveal() {
     )
     els.forEach(el => io.observe(el))
     return () => io.disconnect()
-  })
+  }, [])
 }
 
 /**

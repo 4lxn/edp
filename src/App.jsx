@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { m, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { COPY } from './copy'
 import { Monogram } from './Brand'
-import { useScrollY, useReveal, useScrolledPast, usePageMotion } from './hooks'
+import { useReveal, useScrolledPast, usePageMotion } from './hooks'
 
 const B = import.meta.env.BASE_URL
 import {
@@ -170,7 +170,8 @@ function Statement({ t }) {
 
 /* ---------- Gallery (featured) ---------- */
 function Gallery({ t }) {
-  const y = useScrollY()
+  const reduce = useReducedMotion()
+  const { scrollY } = useScroll()
   const sectionRef = useRef(null)
   const [sectTop, setSectTop] = useState(0)
 
@@ -183,11 +184,10 @@ function Gallery({ t }) {
     return () => window.removeEventListener('resize', update)
   }, [])
 
-  const parallaxFor = (idx) => {
-    const offset = (y - sectTop) * 0.06
-    const sign = idx % 2 === 0 ? -1 : 1
-    return sign * offset
-  }
+  // Parallax on the compositor (motion values, no per-frame re-render). Even
+  // cards shift one way, odd cards the other — same 0.06 factor as before.
+  const posShift = useTransform(scrollY, v => (reduce ? 0 : (v - sectTop) * 0.06))
+  const negShift = useTransform(posShift, v => -v)
 
   return (
     <section className="gallery" id="sec-0" ref={sectionRef}>
@@ -215,11 +215,11 @@ function Gallery({ t }) {
             style={{ transitionDelay: `${i * 80}ms` }}
           >
             <Link className="g-frame" to={`/album/${g.slug}`}>
-              <div
+              <m.div
                 className="g-img"
                 style={{
                   backgroundImage: `url(${g.img})`,
-                  transform: `translate3d(0, ${parallaxFor(i)}px, 0)`,
+                  y: i % 2 === 0 ? negShift : posShift,
                 }}
               />
               <div className="g-overlay">
@@ -251,7 +251,8 @@ function Gallery({ t }) {
 
 /* ---------- Image break ---------- */
 function ImageBreak({ src, caption, num }) {
-  const y = useScrollY()
+  const reduce = useReducedMotion()
+  const { scrollY } = useScroll()
   const ref = useRef(null)
   const [top, setTop] = useState(0)
   useEffect(() => {
@@ -261,12 +262,12 @@ function ImageBreak({ src, caption, num }) {
     window.addEventListener('resize', u)
     return () => window.removeEventListener('resize', u)
   }, [])
-  const shift = (y - top + 600) * 0.12
+  const shift = useTransform(scrollY, v => (reduce ? 0 : (v - top + 600) * 0.12))
   return (
     <section className="break" ref={ref}>
-      <div className="break-img" style={{
+      <m.div className="break-img" style={{
         backgroundImage: `url(${src})`,
-        transform: `translate3d(0, ${shift}px, 0)`,
+        y: shift,
       }} />
       <div className="break-cap" data-reveal>
         <span className="break-num">{num}</span>
@@ -274,6 +275,63 @@ function ImageBreak({ src, caption, num }) {
         <span>{caption}</span>
       </div>
     </section>
+  )
+}
+
+/* ---------- Contact form (FormSubmit AJAX — no backend) ---------- */
+function ContactForm({ email }) {
+  const [sent, setSent] = useState(false)
+  const [error, setError] = useState(false)
+  const [sending, setSending] = useState(false)
+
+  const onSubmit = async (e) => {
+    e.preventDefault()
+    setSending(true); setError(false)
+    try {
+      const res = await fetch(`https://formsubmit.co/ajax/${email}`, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(e.currentTarget),
+      })
+      if (!res.ok) throw new Error('bad status')
+      setSent(true)
+    } catch {
+      setError(true)
+    } finally {
+      setSending(false)
+    }
+  }
+
+  if (sent) {
+    return <p className="contact-ok">¡Gracias! Recibimos tu mensaje y te contactamos pronto.</p>
+  }
+
+  return (
+    <form className="contact-form" onSubmit={onSubmit}>
+      <input type="hidden" name="_subject" value="Nuevo contacto — estructurasdelpacifico.com" />
+      {/* honeypot: bots fill this, FormSubmit drops them */}
+      <input type="text" name="_honey" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ display: 'none' }} />
+      <label className="contact-field">
+        <span>Nombre</span>
+        <input type="text" name="name" required autoComplete="name" />
+      </label>
+      <label className="contact-field">
+        <span>Correo</span>
+        <input type="email" name="email" required autoComplete="email" />
+      </label>
+      <label className="contact-field">
+        <span>Mensaje</span>
+        <textarea name="message" rows={4} required />
+      </label>
+      <button className="btn btn-solid" type="submit" disabled={sending}>
+        {sending ? 'Enviando…' : 'Enviar mensaje'}<span className="btn-arrow">→</span>
+      </button>
+      {error && (
+        <p className="contact-err" role="alert">
+          No se pudo enviar. Escríbenos directo a <a href={`mailto:${email}`}>{email}</a>.
+        </p>
+      )}
+    </form>
   )
 }
 
@@ -298,9 +356,7 @@ function Contact({ t, monogram }) {
 
         <div className="contact-side" data-reveal>
           <p className="contact-body">{t.contactBody}</p>
-          <a className="btn btn-solid" href={`mailto:${t.contactEmail}`}>
-            {t.contactCta}<span className="btn-arrow">→</span>
-          </a>
+          <ContactForm email={t.contactEmail} />
           <ul className="contact-meta">
             {t.contactMeta.map((m) => (
               <li key={m}>{m}</li>

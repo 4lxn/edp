@@ -3,3 +3,7 @@ dist
 .vite
 .DS_Store
 *.local
+
+# Local junk — not part of the build
+scripts/venv/
+scripts/C:Usersalanglol-analyzer

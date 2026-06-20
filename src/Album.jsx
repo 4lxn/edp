@@ -1,14 +1,16 @@
 import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { m } from 'framer-motion'
+import { m, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { PROJECT_ALBUMS } from './copy'
 import { Monogram } from './Brand'
-import { useScrollY, useScrolledPast, useReveal, usePageMotion } from './hooks'
+import { useScrolledPast, useReveal, usePageMotion } from './hooks'
 import Lightbox from './Lightbox'
 
 export default function Album() {
   const { slug } = useParams()
-  const y = useScrollY()
+  const reduce = useReducedMotion()
+  const { scrollY } = useScroll()
+  const bgShift = useTransform(scrollY, v => (reduce ? 0 : Math.min(v * 0.3, 180)))
   const condensed = useScrolledPast(80)
   const page = usePageMotion()
   const [lbIndex, setLbIndex] = useState(null)
@@ -25,8 +27,6 @@ export default function Album() {
       </div>
     )
   }
-
-  const bgShift = Math.min(y * 0.3, 180)
 
   return (
     <m.div {...page}>
@@ -56,11 +56,11 @@ export default function Album() {
       {/* Hero */}
       <section className="hero hero-fullbleed" style={{ minHeight: '72vh' }}>
         <div className="hero-media">
-          <div
+          <m.div
             className="hero-img"
             style={{
               backgroundImage: `url(${project.hero})`,
-              transform: `translate3d(0, ${bgShift}px, 0)`,
+              y: bgShift,
             }}
           />
           <div className="hero-veil" style={{ opacity: 0.45 }} />
