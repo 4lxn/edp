@@ -919,3 +919,22 @@ button { font: inherit; cursor: pointer; border: 0; background: none; color: inh
 }
 .contact-err { margin-top: 4px; font-size: 13px; color: #b4452f; }
 .contact-err a { color: inherit; text-decoration: underline; }
+
+/* ---------- Mobile: kill per-frame scroll cost (no jank/jumps) ---------- */
+/* Touch devices: the header's backdrop blur recomputes every scroll frame
+   (its bg is already ~94% opaque, so the blur was nearly invisible), and
+   JS scroll-parallax can't keep pace with native mobile scrolling so the
+   image layers visibly jump. Drop the blur and pin the layers — they're
+   oversized (overscan), so they still cover fully, just static. */
+@media (hover: none), (pointer: coarse) {
+  .site-header.is-condensed {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(244, 243, 240, 0.98);
+  }
+  .hero-img,
+  .g-img,
+  .break-img {
+    transform: none !important;
+  }
+}
