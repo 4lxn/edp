@@ -64,6 +64,15 @@ edp/
 
 Necesitas [Node.js](https://nodejs.org) 18+.
 
+**Atajo (instala todo de una):**
+
+```bash
+bash scripts/setup.sh   # instala Node si falta, deps y la lista de álbumes
+npm run dev             # servidor local con recarga en caliente
+```
+
+O a mano:
+
 ```bash
 npm install        # instalar dependencias (una sola vez)
 npm run sync       # generar la lista de álbumes

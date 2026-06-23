@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { m, useReducedMotion, useScroll, useTransform } from 'framer-motion'
+import { m, useReducedMotion } from 'framer-motion'
 import { COPY } from './copy'
 import { Monogram } from './Brand'
 import { useReveal, useScrolledPast, usePageMotion } from './hooks'
@@ -57,13 +57,9 @@ function Hero({ t, treatment }) {
   const reduce = useReducedMotion()
   const ease = [0.2, 0.7, 0.2, 1]
 
-  // Parallax driven by scroll-linked motion values (framer-motion) instead of
-  // React state: the transform updates on the compositor without re-rendering
-  // the component each frame, so the full-bleed hero stays smooth on mobile.
-  const { scrollY } = useScroll()
-  const heroY = useTransform(scrollY, [0, 685], [0, reduce ? 0 : 240])
-  const heroScale = useTransform(scrollY, [0, 1000], [1, reduce ? 1 : 1.2])
-  const veilOpacity = useTransform(scrollY, [0, 600], [0.32, reduce ? 0.32 : 0.57])
+  // Parallax is pure CSS (scroll-driven animations, see styles.css) so it runs
+  // on the compositor off the main thread — smooth on mobile, where JS
+  // scroll listeners can't keep pace with native momentum scrolling.
 
   // Entrance choreography: media fade → eyebrow → title lines → foot → scroll → spec.
   const container = {
@@ -90,15 +86,11 @@ function Hero({ t, treatment }) {
   return (
     <section className={'hero hero-' + treatment} id="top">
       <m.div className="hero-media" variants={media} initial="hidden" animate="show">
-        <m.div
+        <div
           className="hero-img"
-          style={{
-            backgroundImage: `url(${B}assets/portada-palapa-mar.jpeg)`,
-            y: heroY,
-            scale: heroScale,
-          }}
+          style={{ backgroundImage: `url(${B}assets/portada-palapa-mar.jpeg)` }}
         />
-        <m.div className="hero-veil" style={{ opacity: veilOpacity }} />
+        <div className="hero-veil" />
       </m.div>
 
       <m.div className="hero-grid" variants={container} initial="hidden" animate="show">
@@ -170,27 +162,11 @@ function Statement({ t }) {
 
 /* ---------- Gallery (featured) ---------- */
 function Gallery({ t }) {
-  const reduce = useReducedMotion()
-  const { scrollY } = useScroll()
-  const sectionRef = useRef(null)
-  const [sectTop, setSectTop] = useState(0)
-
-  useEffect(() => {
-    const el = sectionRef.current
-    if (!el) return
-    const update = () => setSectTop(el.offsetTop)
-    update()
-    window.addEventListener('resize', update)
-    return () => window.removeEventListener('resize', update)
-  }, [])
-
-  // Parallax on the compositor (motion values, no per-frame re-render). Even
-  // cards shift one way, odd cards the other — same 0.06 factor as before.
-  const posShift = useTransform(scrollY, v => (reduce ? 0 : (v - sectTop) * 0.06))
-  const negShift = useTransform(posShift, v => -v)
-
+  // Parallax is CSS-only (see .g-img in styles.css): a view()-timeline
+  // animation drifts each image as its card crosses the viewport. Even/odd
+  // cards drift opposite ways via :nth-child.
   return (
-    <section className="gallery" id="sec-0" ref={sectionRef}>
+    <section className="gallery" id="sec-0">
       <header className="gallery-head">
         <div className="sect-head" data-reveal>
           <span className="kicker">
@@ -215,13 +191,7 @@ function Gallery({ t }) {
             style={{ transitionDelay: `${i * 80}ms` }}
           >
             <Link className="g-frame" to={`/album/${g.slug}`}>
-              <m.div
-                className="g-img"
-                style={{
-                  backgroundImage: `url(${g.img})`,
-                  y: i % 2 === 0 ? negShift : posShift,
-                }}
-              />
+              <div className="g-img" style={{ backgroundImage: `url(${g.img})` }} />
               <div className="g-overlay">
                 <span className="g-view">Ver álbum <span className="arr">→</span></span>
               </div>
@@ -251,24 +221,10 @@ function Gallery({ t }) {
 
 /* ---------- Image break ---------- */
 function ImageBreak({ src, caption, num }) {
-  const reduce = useReducedMotion()
-  const { scrollY } = useScroll()
-  const ref = useRef(null)
-  const [top, setTop] = useState(0)
-  useEffect(() => {
-    if (!ref.current) return
-    const u = () => setTop(ref.current.offsetTop)
-    u()
-    window.addEventListener('resize', u)
-    return () => window.removeEventListener('resize', u)
-  }, [])
-  const shift = useTransform(scrollY, v => (reduce ? 0 : (v - top + 600) * 0.12))
+  // Parallax is CSS-only (see .break-img in styles.css).
   return (
-    <section className="break" ref={ref}>
-      <m.div className="break-img" style={{
-        backgroundImage: `url(${src})`,
-        y: shift,
-      }} />
+    <section className="break">
+      <div className="break-img" style={{ backgroundImage: `url(${src})` }} />
       <div className="break-cap" data-reveal>
         <span className="break-num">{num}</span>
         <span className="break-rule" />
