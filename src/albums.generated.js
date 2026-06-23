@@ -113,7 +113,6 @@ export const ALBUMS = {
       { src: a('acapulco/14.jpeg'), caption: {"es":"","en":""} },
       { src: a('acapulco/15.jpeg'), caption: {"es":"","en":""} },
       { src: a('acapulco/16.jpeg'), caption: {"es":"","en":""} },
-      { src: a('acapulco/34.jpeg'), caption: {"es":"","en":""} },
     ],
   },
 }

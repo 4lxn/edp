@@ -26,13 +26,7 @@
     "12.jpeg",
     "14.jpeg",
     "15.jpeg",
-    "16.jpeg",
-    "34.jpeg"
+    "16.jpeg"
   ],
-  "captions": {
-    "34.jpeg": {
-      "es": "",
-      "en": ""
-    }
-  }
+  "captions": {}
 }
