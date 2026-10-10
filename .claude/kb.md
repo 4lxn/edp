@@ -119,3 +119,9 @@ scripts/              prerender, sync-albums, new-album, optimize-images,
 
 Railway: *Deployments* (logs) y `/healthz`. DNS en Porkbun: ALIAS en la raíz +
 CNAME `www` + TXT de verificación de Railway (ver README → "Cómo se publica").
+
+**CDN de Railway (activado):** cachea en el edge `/_app/*`, `/_img/*`, fotos e
+iconos según su `Cache-Control`; el HTML no se cachea (`max-age=0`). Cada deploy
+purga solo HTML → si reemplazas una foto **con el mismo nombre de archivo**,
+corre `railway cdn purge all` (CLI ya instalada y enlazada en WSL:
+`railway cdn status`).

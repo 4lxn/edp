@@ -130,7 +130,9 @@ pide y lo guarda.
    `/data`. Ahí se guardan las fotos ya optimizadas entre deploys.
 3. **Settings → Healthcheck Path**: `/healthz`.
 4. **Settings → Edge → CDN**: actívalo (gratis) para servir fotos y archivos
-   desde la red de Railway.
+   desde la red de Railway (o con la CLI: `railway cdn enable`). Cada deploy
+   limpia solo el HTML cacheado; si reemplazas una foto conservando el mismo
+   nombre de archivo, limpia todo con `railway cdn purge all`.
 5. **Networking → Custom Domain**: agrega `estructurasdelpacifico.com` y
    `www.estructurasdelpacifico.com`. Railway te da los valores para el DNS.
 
