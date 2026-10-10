@@ -23,9 +23,11 @@ export default function SiteHeader({ lang, solid = false }) {
       <a className="skip-link" href="#contenido">{t.skip}</a>
       <header className={'site-header' + (condensed ? ' is-condensed' : '')}>
         <div className="hdr-inner">
-          <Link className="brand" to={pathFor(lang, 'home')} aria-label={`${business.name} — ${t.nav.home}`}>
+          {/* Named by its visible text (brand + tagline), so voice control
+              users can say what they see. */}
+          <Link className="brand" to={pathFor(lang, 'home')}>
             <Monogram size={condensed ? 24 : 30} />
-            <span className="brand-words" aria-hidden="true">
+            <span className="brand-words">
               <span className="brand-name">{business.name}</span>
               <span className="brand-mark">{t.brandMark}</span>
             </span>
