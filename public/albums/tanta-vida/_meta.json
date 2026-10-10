@@ -3,12 +3,16 @@
   "featured": true,
   "title": "Tanta Vida",
   "type": {
-    "es": "",
-    "en": ""
+    "es": "Terraza de madera frente al mar",
+    "en": "Beachfront timber deck"
   },
   "location": {
     "es": "Zihuatanejo, Gro. · MX",
     "en": "Zihuatanejo, Gro. · MX"
+  },
+  "description": {
+    "es": "Terraza de madera con barandal en el nivel superior de un edificio frente a la playa en Zihuatanejo.",
+    "en": "An upper-level timber deck with wooden railings on a beachfront building in Zihuatanejo."
   },
   "hero": "01-palapa-costa.jpeg",
   "imageOrder": [
@@ -23,6 +27,16 @@
     "02.jpeg": {
       "es": "",
       "en": ""
+    }
+  },
+  "alts": {
+    "01-palapa-costa.jpeg": {
+      "es": "Terraza de madera en el nivel superior, frente a la playa",
+      "en": "Upper-level timber deck facing the beach"
+    },
+    "02.jpeg": {
+      "es": "Andador de madera con barandal a lo largo de la playa",
+      "en": "Timber boardwalk with a railing running along the beach"
     }
   }
 }

@@ -9,16 +9,20 @@
  *   public/albums/<slug>/_meta.json                  → OPTIONAL overrides
  *
  * Everything in _meta.json is optional. Sensible defaults are derived:
- *   - title    → folder name in Title Case ("casa-frijol" → "Casa Frijol")
- *   - type     → "Proyecto" / "Project"
- *   - location → empty
- *   - hero     → first image alphabetically
- *   - order    → numeric prefix in folder name ("02-..." → 2), else 999
- *   - captions → empty
+ *   - title       → folder name in Title Case ("casa-frijol" → "Casa Frijol")
+ *   - type        → empty (the line is hidden on the site)
+ *   - location    → empty
+ *   - description → empty (a short paragraph on the album page + its SEO text)
+ *   - hero        → first image alphabetically
+ *   - order       → numeric prefix in folder name ("02-..." → 2), else 999
+ *   - captions    → empty (shown under the photo)
+ *   - alts        → empty (photo description for screen readers / Google;
+ *                   falls back to the caption, then "<title>: photo n of N")
  *
  * Tolerant inputs:
- *   - type/location/caption can be a plain string (used for both languages)
- *     or { es, en }; a missing language falls back to the other.
+ *   - type/location/description/caption/alt can be a plain string (used for
+ *     both languages) or { es, en }; a missing or empty language falls back
+ *     to the other.
  *   - a malformed _meta.json warns and falls back to defaults (never crashes
  *     the build).
  *
@@ -71,13 +75,13 @@ function orderFromSlug(slug, metaOrder) {
 }
 
 // Accept a string ("hola"), a partial object ({ es }) or a full { es, en }.
-// A missing language falls back to the other so one caption is enough.
+// A missing or empty language falls back to the other so one caption is enough.
 function bilingual(val, fallback = { es: '', en: '' }) {
-  if (val == null) return { ...fallback }
-  if (typeof val === 'string') return { es: val, en: val }
-  if (typeof val === 'object') {
-    const es = val.es ?? val.en ?? fallback.es
-    const en = val.en ?? val.es ?? fallback.en
+  const str = (v) => (typeof v === 'string' && v.trim() ? v.trim() : null)
+  if (typeof val === 'string') return str(val) ? { es: str(val), en: str(val) } : { ...fallback }
+  if (val && typeof val === 'object') {
+    const es = str(val.es) ?? str(val.en) ?? fallback.es
+    const en = str(val.en) ?? str(val.es) ?? fallback.en
     return { es, en }
   }
   return { ...fallback }
@@ -106,6 +110,7 @@ function readAlbums() {
     const images = orderImages(files, meta.imageOrder).map(file => ({
       file,
       caption: bilingual(meta.captions?.[file]),
+      alt: bilingual(meta.alts?.[file]),
     }))
 
     if (images.length === 0) {
@@ -126,8 +131,9 @@ function readAlbums() {
       order: orderFromSlug(slug, meta.order),
       featured: meta.featured ?? false,
       title,
-      type: bilingual(meta.type, { es: 'Proyecto', en: 'Project' }),
+      type: bilingual(meta.type),
       location: bilingual(meta.location),
+      description: bilingual(meta.description),
       hero,
       images,
     }
@@ -137,26 +143,28 @@ function readAlbums() {
 }
 
 function generate(albums) {
+  // Paths are public URLs ("/albums/<slug>/<file>"); components turn them into
+  // responsive /_img/ variants (see src/images.js).
+  const src = (slug, file) => JSON.stringify(`/albums/${slug}/${file}`)
   const header = `/**
  * AUTO-GENERATED — do not edit by hand.
  * Run \`npm run sync\` to regenerate from public/albums/.
- */
-const B = import.meta.env.BASE_URL
-const a = (p) => \`\${B}albums/\${p}\`
-`
+ */`
 
   const albumEntries = albums.map(al => {
-    const imgs = al.images.map(img => {
-      const cap = JSON.stringify(img.caption)
-      return `      { src: a('${al.slug}/${img.file}'), caption: ${cap} },`
-    }).join('\n')
+    const imgs = al.images.map(img =>
+      `      { src: ${src(al.slug, img.file)}, caption: ${JSON.stringify(img.caption)}, alt: ${JSON.stringify(img.alt)} },`
+    ).join('\n')
 
     return `  '${al.slug}': {
+    slug: '${al.slug}',
     order: ${al.order},
+    featured: ${al.featured},
     title: ${JSON.stringify(al.title)},
     type: ${JSON.stringify(al.type)},
     location: ${JSON.stringify(al.location)},
-    hero: a('${al.slug}/${al.hero}'),
+    description: ${JSON.stringify(al.description)},
+    hero: ${src(al.slug, al.hero)},
     images: [
 ${imgs}
     ],
@@ -172,7 +180,7 @@ ${imgs}
     title: ${JSON.stringify(al.title)},
     type: ${JSON.stringify(al.type)},
     location: ${JSON.stringify(al.location)},
-    img: a('${al.slug}/${al.hero}'),
+    img: ${src(al.slug, al.hero)},
   },`
   }).join('\n')
 

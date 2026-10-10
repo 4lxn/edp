@@ -1,0 +1,26 @@
+name: Build check
+
+# The site is served by Railway, which deploys `main` on its own (see README →
+# "Cómo se publica"). This workflow only checks that every push and pull request
+# builds and pre-renders cleanly (prerender fails on missing titles, canonicals,
+# etc.). It no longer deploys to GitHub Pages: the new server can't run there.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build

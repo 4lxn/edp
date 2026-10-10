@@ -69,10 +69,11 @@
 }
 .adm-f { display: flex; flex-direction: column; gap: 5px; }
 .adm-f > span { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(44, 44, 44, 0.55); }
-.adm-f input[type="text"], .adm-f input:not([type]), .adm-f input[type="number"] {
+.adm-f input[type="text"], .adm-f input:not([type]), .adm-f input[type="number"], .adm-f textarea {
   padding: 9px 10px; border: 1px solid var(--aline); border-radius: 6px; font: inherit; background: #fff;
 }
-.adm-f input:focus { outline: 2px solid var(--abronze); outline-offset: -1px; }
+.adm-f textarea { resize: vertical; line-height: 1.45; }
+.adm-f input:focus, .adm-f textarea:focus { outline: 2px solid var(--abronze); outline-offset: -1px; }
 .adm-f-check { flex-direction: row; align-items: center; gap: 10px; grid-column: 1 / -1; }
 .adm-f-check span { text-transform: none; letter-spacing: 0; font-size: 13px; color: var(--aink); }
 

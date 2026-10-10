@@ -7,22 +7,29 @@ const emptyMeta = (title = '') => ({
   title,
   type: { es: '', en: '' },
   location: { es: '', en: '' },
+  description: { es: '', en: '' },
   order: 999,
   featured: false,
   hero: '',
   captions: {},
+  alts: {},
   imageOrder: [],
 })
+
+// type/location/description may be a plain string in hand-written _meta.json.
+const pair = (v) => (typeof v === 'string' ? { es: v, en: v } : { es: v?.es || '', en: v?.en || '' })
 
 function toDraft(al) {
   return {
     title: al.title || '',
-    type: { es: al.type?.es || '', en: al.type?.en || '' },
-    location: { es: al.location?.es || '', en: al.location?.en || '' },
+    type: pair(al.type),
+    location: pair(al.location),
+    description: pair(al.description),
     order: al.order ?? 999,
     featured: !!al.featured,
     hero: al.hero || (al.files?.[0] || ''),
     captions: al.captions || {},
+    alts: al.alts || {},
     imageOrder: Array.isArray(al.imageOrder) ? al.imageOrder : [],
   }
 }
@@ -40,9 +47,11 @@ function draftToMeta(draft, files) {
     title: draft.title,
     type: draft.type,
     location: draft.location,
+    description: draft.description,
     hero: draft.hero || files[0] || '',
     imageOrder: orderedFiles(files, draft.imageOrder),
     captions: draft.captions || {},
+    alts: draft.alts || {},
   }
 }
 
@@ -224,7 +233,7 @@ export default function Admin() {
               <div className="adm-head">
                 <h2>{draft.title || selected} <span className="adm-slug">/{selected}</span></h2>
                 <div className="adm-head-actions">
-                  <Link className="adm-link" to={`/album/${selected}`}>Ver álbum →</Link>
+                  <Link className="adm-link" to={`/proyectos/${selected}`}>Ver álbum →</Link>
                   <button className="adm-danger" onClick={removeAlbum} disabled={busy}>Borrar álbum</button>
                 </div>
               </div>
@@ -253,6 +262,14 @@ export default function Admin() {
                 <label className="adm-f">
                   <span>Ubicación (EN)</span>
                   <input value={draft.location.en} onChange={(e) => patch({ location: { ...draft.location, en: e.target.value } })} />
+                </label>
+                <label className="adm-f">
+                  <span>Descripción (ES)</span>
+                  <textarea rows={3} value={draft.description.es} onChange={(e) => patch({ description: { ...draft.description, es: e.target.value } })} />
+                </label>
+                <label className="adm-f">
+                  <span>Descripción (EN)</span>
+                  <textarea rows={3} value={draft.description.en} onChange={(e) => patch({ description: { ...draft.description, en: e.target.value } })} />
                 </label>
                 <label className="adm-f adm-f-check">
                   <input type="checkbox" checked={draft.featured} onChange={(e) => patch({ featured: e.target.checked })} />

@@ -1,17 +1,33 @@
 <!doctype html>
-<html lang="es">
+<html lang="es-MX">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#2C2C2C" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preload" as="image" href="/assets/portada-palapa-mar.jpeg" fetchpriority="high" />
-    <title>Estructuras del Pacífico — Maestría en madera y arquitectura tropical</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <script>
+      // Runs before first paint: mark JS as available (scroll reveals may hide
+      // content only then) and forward old hash links (/#/album/x) to real URLs.
+      // If the app hasn't started after 4 s (script blocked or failed), drop the
+      // flag so nothing stays hidden.
+      (function (d, l) {
+        var root = d.documentElement
+        root.classList.add('js')
+        setTimeout(function () { if (!window.__edpStarted) root.classList.remove('js') }, 4000)
+        // Only the old shapes are rewritten: #/ · #/proyectos · #/album/<slug>
+        // · #/#<section>. Anything else (e.g. #//other-site) is left alone.
+        var m = l.hash.match(/^#\/(?:album\/([\w-]+)|(proyectos))?(#[\w-]+)?$/)
+        if (!m) return
+        var t = (m[1] ? '/proyectos/' + m[1] : m[2] ? '/proyectos' : '/') + (m[3] || '')
+        if (t.split('#')[0] === l.pathname) history.replaceState(null, '', t)
+        else l.replace(t)
+      })(document, location)
+    </script>
+    <!--app-head-->
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <div id="root"><!--app-html--></div>
+    <script type="module" src="/src/entry-client.jsx"></script>
   </body>
 </html>

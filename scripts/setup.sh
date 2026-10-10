@@ -10,7 +10,7 @@ if ! command -v node >/dev/null 2>&1; then
     echo "→ Instalando Node con Homebrew…"
     brew install node
   else
-    echo "Instala Node 18+ desde https://nodejs.org y vuelve a correr esto."
+    echo "Instala Node 24 desde https://nodejs.org y vuelve a correr esto."
     exit 1
   fi
 fi
@@ -24,4 +24,4 @@ echo
 echo "Listo ✅  Arranca el sitio con:"
 echo "    npm run dev"
 echo "  Sitio:  http://localhost:5173/"
-echo "  Panel para subir fotos:  http://localhost:5173/#/admin"
+echo "  Panel para subir fotos: el link /admin?token=… que imprime npm run dev"

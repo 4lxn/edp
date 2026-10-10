@@ -6,6 +6,12 @@
       "runtimeExecutable": "bash",
       "runtimeArgs": ["-c", "export NVM_DIR=~/.nvm && . ~/.nvm/nvm.sh && npm run dev -- --port 5173 --host"],
       "port": 5173
+    },
+    {
+      "name": "estructuras-prod",
+      "runtimeExecutable": "wsl.exe",
+      "runtimeArgs": ["-d", "ubuntu", "-e", "bash", "-lc", "export NVM_DIR=~/.nvm && . ~/.nvm/nvm.sh && cd ~/Desktop/Projects/edp && npm run build && PORT=3000 exec npm start"],
+      "port": 3000
     }
   ]
 }

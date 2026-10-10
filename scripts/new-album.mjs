@@ -62,8 +62,9 @@ fs.mkdirSync(dir, { recursive: true })
 const template = {
   order: 999,
   title,
-  type: { es: 'Proyecto', en: 'Project' },
+  type: { es: '', en: '' },
   location: { es: '', en: '' },
+  description: { es: '', en: '' },
   captions: {},
 }
 
@@ -73,7 +74,7 @@ console.log(`✓ Creado public/albums/${slug}/`)
 console.log('')
 console.log('Siguientes pasos:')
 console.log(`  1. Copia tus fotos a public/albums/${slug}/`)
-console.log(`  2. (opcional) Edita _meta.json: ubicación, captions, orden`)
+console.log(`  2. (opcional) Edita _meta.json: tipo, ubicación, descripción, captions, orden`)
 console.log(`  3. npm run sync        # actualiza la galería`)
 console.log(`  4. git add -A && git commit -m "feat: álbum ${slug}" && git push`)
 console.log('')

@@ -1,23 +1,30 @@
 # Álbumes de proyectos
 
 Cada carpeta aquí dentro = 1 proyecto en el sitio.
-La carpeta `<slug>/` se vuelve la URL `/#/album/<slug>`.
+La carpeta `<slug>/` se vuelve la URL `/proyectos/<slug>` (y
+`/en/projects/<slug>` en inglés).
 
 **Lo mínimo para que aparezca un proyecto: una carpeta con fotos.** Todo lo
-demás (título, captions, etc.) es opcional y se rellena solo con valores por
-defecto. Al hacer push a `main`, el sitio se reconstruye y publica solo.
+demás (título, descripción, captions, etc.) es opcional y se rellena solo con
+valores por defecto. Al hacer push a `main`, el sitio se reconstruye y publica
+solo. El servidor genera cada foto en el tamaño y formato que necesita cada
+pantalla, así que no hace falta achicarlas a mano.
 
 ## ⭐ Lo más fácil: panel de administración local
 
-Con el sitio corriendo en desarrollo (`npm run dev`), abre:
+Arranca el sitio en desarrollo (`npm run dev`) y abre el link del panel que
+imprime la terminal:
 
-> **http://localhost:5173/#/admin**
+> **http://localhost:5173/admin?token=…**
+
+(El token protege el panel: sin él nadie en tu misma red Wi-Fi puede editar o
+borrar álbumes. Cambia cada vez que arrancas `npm run dev`.)
 
 Desde ahí, sin tocar archivos a mano: crear álbumes; editar título, tipo,
-ubicación (ES/EN), orden, destacado y portada; subir fotos arrastrándolas (se
-**optimizan solas** a ≤2400px); escribir captions (ES/EN) y reordenar. El panel
-**solo existe en desarrollo** (nunca en el sitio publicado) y escribe en estas
-mismas carpetas. Para publicar online, haz `git push`.
+ubicación, descripción (ES/EN), orden, destacado y portada; subir fotos
+arrastrándolas (se **optimizan solas** a ≤2400px); escribir captions (ES/EN) y
+reordenar. El panel **solo existe en desarrollo** (nunca en el sitio publicado)
+y escribe en estas mismas carpetas. Para publicar online, haz `git push`.
 
 ---
 
@@ -76,19 +83,32 @@ Puedes borrar los campos que no necesites.
   "title": "Mi Proyecto",
   "type": { "es": "Palapa de Playa", "en": "Beach Palapa" },
   "location": { "es": "Sayulita · MX", "en": "Sayulita · MX" },
+  "description": {
+    "es": "Palapa de playa con techo de palma y estructura de parota.",
+    "en": "Beach palapa with a palm-thatched roof on a parota frame."
+  },
   "hero": "01-vista.jpeg",
   "imageOrder": ["01-vista.jpeg", "02-detalle.jpeg"],
   "captions": {
     "01-vista.jpeg": { "es": "Vista frontal", "en": "Front view" }
+  },
+  "alts": {
+    "02-detalle.jpeg": { "es": "Ensamble de vigas de parota bajo el techo de palma", "en": "Parota beam joinery under the palm roof" }
   }
 }
 ```
 
+- `description` aparece bajo el título del álbum y es el texto que Google
+  muestra en los resultados: 1–2 frases sobre qué se construyó, dónde y con
+  qué madera.
+- `captions` se ven debajo de cada foto. `alts` no se ven: describen la foto
+  para lectores de pantalla y Google Imágenes (si falta, se usa el caption).
+
 Atajos para escribir menos:
 
-- `type`, `location` y cada `caption` pueden ser **solo un texto** en vez de
-  `{ es, en }`. Ej.: `"type": "Palapa de Playa"` usa el mismo texto en ambos
-  idiomas. Si solo pones `es`, el inglés copia el español.
+- `type`, `location`, `description`, cada `caption` y cada `alt` pueden ser
+  **solo un texto** en vez de `{ es, en }`. Ej.: `"type": "Palapa de Playa"` usa
+  el mismo texto en ambos idiomas. Si solo pones `es`, el inglés copia el español.
 - `order` también se puede controlar con un **prefijo numérico en el nombre de
   la carpeta**: `02-mi-proyecto/` se ordena como 2 (y el "02-" no aparece en el
   título).
@@ -100,20 +120,23 @@ Atajos para escribir menos:
 | Campo | Default |
 |-------|---------|
 | `title` | nombre de la carpeta en Mayúsculas (`casa-luna` → "Casa Luna") |
-| `type` | "Proyecto" / "Project" |
+| `type` | vacío (no se muestra la línea) |
 | `location` | vacío |
+| `description` | vacío (Google usa un texto genérico con título y ubicación) |
 | `hero` | primera foto en orden alfabético |
 | `order` | prefijo numérico de la carpeta, o 999 (al final) |
 | `featured` | `false` |
 | `captions` | vacío |
+| `alts` | el caption, o "Título: foto 3 de 12" |
 
 ---
 
 ## Reglas
 
 - Formato de imagen: `.jpg`, `.jpeg`, `.png`, `.webp`, `.avif`
-- Tamaño recomendado: 2000–3000px lado largo, <500KB cada una
-  (el panel `/admin` y `npm run optimize` lo hacen por ti)
+- Tamaño: cualquiera sirve (el servidor genera las versiones web). Para no
+  inflar el repositorio conviene ≤2400px de lado largo — el panel `/admin` y
+  `npm run optimize` lo hacen por ti.
 - El `slug` (nombre de carpeta) debe ser kebab-case sin acentos
   (ej. `casa-luna`, no `Casa Luna`)
 - Para controlar el orden de las fotos dentro del álbum, nómbralas con prefijo:

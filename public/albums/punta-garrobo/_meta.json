@@ -3,12 +3,16 @@
   "featured": true,
   "title": "Punta Garrobo",
   "type": {
-    "es": "",
-    "en": ""
+    "es": "Palapa residencial",
+    "en": "Residential palapa"
   },
   "location": {
     "es": "Zihuatanejo, Gro. · MX",
     "en": "Zihuatanejo, Gro. · MX"
+  },
+  "description": {
+    "es": "Villa sobre los acantilados de Punta Garrobo: una palapa de gran altura con techo de palma, pérgolas de madera junto a la alberca infinita y terrazas abiertas al Océano Pacífico.",
+    "en": "A cliffside villa at Punta Garrobo: a tall palm-thatched palapa, timber pergolas beside the infinity pool and terraces open to the Pacific Ocean."
   },
   "hero": "07.jpeg",
   "imageOrder": [
@@ -128,6 +132,100 @@
     "28.jpeg": {
       "es": "",
       "en": ""
+    }
+  },
+  "alts": {
+    "07.jpeg": {
+      "es": "Sendero de piedra hacia la palapa principal, junto a la alberca infinita y una pérgola de madera frente al mar",
+      "en": "Stone path to the main palapa, beside the infinity pool and a timber pergola facing the sea"
+    },
+    "02-vista-mar.jpeg": {
+      "es": "Palapa de palma sobre la casa en el acantilado, con terrazas hacia el Océano Pacífico",
+      "en": "Palm-thatched palapa crowning the cliffside house, with terraces facing the Pacific Ocean"
+    },
+    "03-jungla.jpeg": {
+      "es": "Palapa entre la vegetación tropical del jardín",
+      "en": "Palapa rising above the tropical garden"
+    },
+    "04-pergola-acceso.jpeg": {
+      "es": "Pérgola de madera sobre la alberca infinita, con vista a la costa",
+      "en": "Timber pergola over the infinity pool, overlooking the coast"
+    },
+    "08.jpeg": {
+      "es": "Deck de madera bajo una cubierta de vigas, con vista al mar",
+      "en": "Timber deck under a beamed roof, looking out to sea"
+    },
+    "09.jpeg": {
+      "es": "Cubierta de vigas de madera sobre la terraza junto a la casa",
+      "en": "Exposed timber-beam roof over the terrace beside the house"
+    },
+    "10.jpeg": {
+      "es": "Terraza con deck de madera y cubierta de vigas al borde del acantilado",
+      "en": "Terrace with a timber deck and beamed roof at the edge of the cliff"
+    },
+    "11.jpeg": {
+      "es": "Deck de madera y cubierta de vigas frente a los ventanales de la casa",
+      "en": "Timber deck and beamed roof in front of the glass walls of the house"
+    },
+    "12.jpeg": {
+      "es": "Interior de una palapa: estructura de madera aparente, columnas blancas y banca integrada",
+      "en": "Inside a palapa: exposed timber frame, white columns and a built-in bench"
+    },
+    "19.jpeg": {
+      "es": "Remate de la palapa principal entre la vegetación",
+      "en": "Peak of the main palapa above the vegetation"
+    },
+    "14.jpeg": {
+      "es": "Vista al mar desde bajo el alero de palma",
+      "en": "Sea view from beneath the palm-thatch eave"
+    },
+    "15.jpeg": {
+      "es": "Pasillo con barandal de madera bajo el alero de la palapa, sobre el acantilado",
+      "en": "Walkway with a timber railing under the palapa eave, above the cliffs"
+    },
+    "05.jpeg": {
+      "es": "Estructura radial de troncos bajo el techo de palma",
+      "en": "Radial log structure beneath the palm-thatched roof"
+    },
+    "16.jpeg": {
+      "es": "Casa con varias palapas y balcones de madera durante la construcción",
+      "en": "House with several palapa roofs and timber balconies during construction"
+    },
+    "17.jpeg": {
+      "es": "Techo de palma de la palapa visto desde abajo",
+      "en": "The palm-thatched palapa roof seen from below"
+    },
+    "18.jpeg": {
+      "es": "Fachada con palapas de palma y pérgolas de madera",
+      "en": "Facade with palm-thatched palapas and timber pergolas"
+    },
+    "21.jpeg": {
+      "es": "Salón bajo la palapa: vigas de madera, columnas blancas y lámparas colgantes",
+      "en": "Living area under the palapa: timber rafters, white columns and pendant lamps"
+    },
+    "22.jpeg": {
+      "es": "Techo de palma de la palapa entre palmas y vegetación",
+      "en": "The palm palapa roof among palms and greenery"
+    },
+    "23.jpeg": {
+      "es": "Interior de la palapa durante la obra, con vista al mar",
+      "en": "Inside the palapa during construction, with a view of the sea"
+    },
+    "25.jpeg": {
+      "es": "Terraza en la azotea con pérgola de madera y alero de palma",
+      "en": "Roof terrace with a timber pergola and palm-thatch eave"
+    },
+    "26.jpeg": {
+      "es": "Terraza bajo la palapa con barandal de madera y vista a la caleta",
+      "en": "Terrace under the palapa with a timber railing and a view of the cove"
+    },
+    "27.jpeg": {
+      "es": "La caleta de Punta Garrobo vista desde el alero de palma",
+      "en": "The Punta Garrobo cove seen from beneath the palm-thatch eave"
+    },
+    "28.jpeg": {
+      "es": "Estructura de madera y palma enmarcando los acantilados y el mar",
+      "en": "Timber and palm structure framing the cliffs and the sea"
     }
   }
 }

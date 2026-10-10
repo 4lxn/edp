@@ -1,8 +1,8 @@
 # Identidad gráfica — Estructuras del Pacífico
 
-Guía de marca aplicada en el sitio. El código la implementa en `src/Brand.jsx`
-(componentes `Monogram` y `Logo`), `public/favicon.svg` y las variables CSS de
-`src/styles.css`.
+Guía de marca aplicada en el sitio. El código la implementa en
+`src/components/Brand.jsx` (componentes `Monogram` y `Logo`), `public/favicon.svg`
+y las variables CSS de `src/styles.css`.
 
 ## Paleta
 
@@ -25,7 +25,7 @@ Guía de marca aplicada en el sitio. El código la implementa en `src/Brand.jsx`
 
 Monograma de **cabriada de madera** (king-post truss): pares con alero, tirante,
 pendolón, jabalcones y postes verticales. Trazo en bronce sobre charcoal o greige.
-Es la variante `trussed` en `Monogram` (oficial).
+Es el componente `Monogram` (único monograma oficial).
 
 ## Lockup
 

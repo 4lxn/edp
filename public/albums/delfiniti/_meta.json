@@ -3,12 +3,16 @@
   "featured": true,
   "title": "Delfiniti",
   "type": {
-    "es": "",
-    "en": ""
+    "es": "Pérgola de madera",
+    "en": "Timber pergola"
   },
   "location": {
     "es": "Zihuatanejo, Gro. · MX",
     "en": "Zihuatanejo, Gro. · MX"
+  },
+  "description": {
+    "es": "Pérgola de troncos y vigas de madera que da sombra a la zona junto a la alberca en Delfiniti, Zihuatanejo.",
+    "en": "A log-and-beam timber pergola shading the poolside area at Delfiniti, Zihuatanejo."
   },
   "hero": "01.jpeg",
   "imageOrder": [
@@ -38,6 +42,28 @@
     "05.jpeg": {
       "es": "",
       "en": ""
+    }
+  },
+  "alts": {
+    "01.jpeg": {
+      "es": "Pérgola de troncos y vigas de madera junto a la alberca",
+      "en": "Log-and-beam timber pergola beside the pool"
+    },
+    "02.jpeg": {
+      "es": "Terraza de madera con bancas bajo la cubierta, junto a la alberca",
+      "en": "Timber deck with benches under the roof, next to the pool"
+    },
+    "03.jpeg": {
+      "es": "Mesas y bancas de madera bajo la cubierta de la terraza",
+      "en": "Timber tables and benches under the terrace roof"
+    },
+    "04.jpeg": {
+      "es": "Cubierta de vigas de madera a lo largo de la alberca",
+      "en": "Timber-beam roof running alongside the pool"
+    },
+    "05.jpeg": {
+      "es": "Vigas de madera de la cubierta sobre la orilla de la alberca",
+      "en": "Timber roof beams over the edge of the pool"
     }
   }
 }

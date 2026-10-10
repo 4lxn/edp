@@ -1,0 +1,341 @@
+{
+  "business": {
+    "name": "Estructuras del Pacífico",
+    "email": "contacto@estructurasdelpacifico.com",
+    "phone": "",
+    "whatsapp": "",
+    "social": [],
+    "legalName": "",
+    "address": ""
+  },
+  "es": {
+    "brandMark": "Maestría en madera",
+    "skip": "Saltar al contenido",
+    "nav": {
+      "label": "Navegación principal",
+      "home": "Inicio",
+      "projects": "Proyectos",
+      "philosophy": "Filosofía",
+      "contact": "Contacto"
+    },
+    "cta": "Cotizar proyecto",
+    "menu": { "open": "Abrir menú", "close": "Cerrar menú", "label": "Menú" },
+    "lang": { "label": "Idioma", "names": { "es": "Español", "en": "English" } },
+    "hero": {
+      "eyebrow": "Océano Pacífico",
+      "title": ["Maestría en madera", "y arquitectura tropical"],
+      "sub": "High-end tropical palapas & master woodcraft",
+      "scroll": "Descubrir el oficio",
+      "coords": "N 17°38′ · W 101°33′",
+      "place": "Punta Garrobo · Zihuatanejo",
+      "spec": ["Palapas · decks · pérgolas", "Punta Garrobo · Zihuatanejo, Gro.", "Proyectos en todo México"],
+      "imageAlt": "Palapa monumental con techo de palma sobre una casa en el acantilado, frente al Océano Pacífico en Punta Garrobo"
+    },
+    "statement": {
+      "label": "Filosofía",
+      "text": "Construimos en diálogo con el paisaje. Cada palapa, cada deck, cada pérgola nace de una lectura paciente del sitio — del viento, del sol que cruza, de la madera que dura un siglo. No imponemos forma; revelamos estructura.",
+      "sig": "— Estructuras del Pacífico"
+    },
+    "breaks": [
+      {
+        "caption": "Mirador con palapa — Costa del Pacífico, MX",
+        "alt": "Alberca infinita con pérgola de madera y palmeras frente al Océano Pacífico"
+      },
+      {
+        "caption": "Deck de parota — Costa del Pacífico",
+        "alt": "Deck de madera bajo una palapa con vista al Océano Pacífico"
+      }
+    ],
+    "gallery": {
+      "label": "Selección de obra",
+      "title": ["Obra", "selecta"],
+      "lede": "Una selección de obras representativas. Cada una construida en sitio, con ensambles de madera.",
+      "all": "Ver todos los proyectos",
+      "view": "Ver álbum"
+    },
+    "projects": {
+      "label": "Portafolio",
+      "title": ["Todos los", "proyectos"],
+      "lede": "El catálogo completo de obras."
+    },
+    "album": {
+      "label": "Álbum del proyecto",
+      "comingSoon": "Álbum en preparación: más fotografías próximamente",
+      "others": "Otros proyectos",
+      "back": "Portafolio",
+      "photoAlt": "{title}: foto {n} de {total}",
+      "open": "Ampliar foto {n} de {total}"
+    },
+    "contact": {
+      "label": "Iniciar conversación",
+      "title": ["Cada proyecto", "comienza con una", "visita al lugar"],
+      "body": "Aceptamos un número limitado de comisiones cada año. Si su proyecto requiere precisión y permanencia, comencemos por escuchar el sitio.",
+      "region": "Océano Pacífico · MX",
+      "form": {
+        "subject": "Nuevo contacto — estructurasdelpacifico.com",
+        "name": "Nombre",
+        "email": "Correo",
+        "message": "Mensaje",
+        "send": "Enviar mensaje",
+        "sending": "Enviando…",
+        "ok": "¡Gracias! Recibimos tu mensaje y te contactamos pronto.",
+        "error": "No se pudo enviar. Escríbenos directo a"
+      }
+    },
+    "footer": {
+      "note": "Estructuras del Pacífico · Arquitectura tropical en madera · Océano Pacífico · MX",
+      "copyright": "© MMXXVI",
+      "privacy": "Aviso de privacidad"
+    },
+    "lightbox": { "label": "Visor de fotos", "close": "Cerrar", "prev": "Foto anterior", "next": "Foto siguiente" },
+    "notFound": {
+      "label": "Error 404",
+      "title": ["Página", "no encontrada"],
+      "body": "La página que buscas no existe o cambió de dirección.",
+      "home": "Volver al inicio",
+      "projects": "Ver proyectos"
+    },
+    "privacy": {
+      "label": "Legal",
+      "title": "Aviso de privacidad",
+      "updated": "Última actualización: octubre de 2026",
+      "intro": "En {business} respetamos tu privacidad. Este aviso explica qué datos personales recabamos a través de este sitio, para qué los usamos y cómo puedes ejercer tus derechos, conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.",
+      "sections": [
+        {
+          "heading": "Responsable",
+          "paragraphs": [
+            "{responsible} es responsable del tratamiento de tus datos personales. Para cualquier asunto relacionado con este aviso, escríbenos a {email}.",
+            "{address}"
+          ]
+        },
+        {
+          "heading": "Datos que recabamos",
+          "paragraphs": [
+            "Cuando nos escribes por el formulario de contacto o por correo electrónico recabamos tu nombre, tu correo electrónico y la información que incluyas en tu mensaje. No solicitamos datos personales sensibles."
+          ]
+        },
+        {
+          "heading": "Para qué los usamos",
+          "paragraphs": [
+            "Usamos tus datos para responder a tu mensaje, preparar cotizaciones y dar seguimiento a tu proyecto. No los usamos para enviarte publicidad sin tu consentimiento."
+          ]
+        },
+        {
+          "heading": "Con quién los compartimos",
+          "paragraphs": [
+            "El formulario utiliza el servicio FormSubmit (formsubmit.co) para entregarnos tu mensaje por correo electrónico, y el sitio se aloja en Railway. Estos proveedores solo procesan los datos para prestar ese servicio. No vendemos ni compartimos tus datos con terceros para otros fines."
+          ]
+        },
+        {
+          "heading": "Tus derechos (ARCO)",
+          "paragraphs": [
+            "Puedes acceder a tus datos, rectificarlos, cancelarlos u oponerte a su uso, así como revocar tu consentimiento, escribiendo a {email}. Indica tu nombre, el derecho que deseas ejercer y un medio para responderte. Atenderemos tu solicitud en los plazos que establece la ley."
+          ]
+        },
+        {
+          "heading": "Cookies",
+          "paragraphs": [
+            "Este sitio no utiliza cookies de rastreo ni herramientas de publicidad."
+          ]
+        },
+        {
+          "heading": "Cambios a este aviso",
+          "paragraphs": [
+            "Si modificamos este aviso, publicaremos la versión actualizada en esta página junto con su fecha de actualización."
+          ]
+        }
+      ],
+      "addressLine": "Domicilio: {address}."
+    },
+    "seo": {
+      "siteName": "Estructuras del Pacífico",
+      "ogLocale": "es_MX",
+      "home": {
+        "title": "Palapas y arquitectura en madera — Estructuras del Pacífico",
+        "description": "Diseñamos y construimos palapas, decks y pérgolas de madera para residencias, hoteles y desarrollos en todo México. Obra en Zihuatanejo y Acapulco."
+      },
+      "projects": {
+        "title": "Proyectos: palapas y estructuras de madera — Estructuras del Pacífico",
+        "description": "Portafolio de palapas, terrazas, decks y pérgolas de madera construidos por Estructuras del Pacífico en Zihuatanejo, Acapulco y la costa del Pacífico."
+      },
+      "album": {
+        "title": "{title} · {type} — Estructuras del Pacífico",
+        "titleNoType": "{title} — Estructuras del Pacífico",
+        "description": "Fotografías del proyecto {title} en {location}, construido por Estructuras del Pacífico."
+      },
+      "privacy": {
+        "title": "Aviso de privacidad — Estructuras del Pacífico",
+        "description": "Cómo tratamos los datos personales que nos compartes a través de estructurasdelpacifico.com."
+      },
+      "notFound": {
+        "title": "Página no encontrada — Estructuras del Pacífico",
+        "description": "La página que buscas no existe o cambió de dirección."
+      }
+    }
+  },
+  "en": {
+    "brandMark": "Master woodcraft",
+    "skip": "Skip to content",
+    "nav": {
+      "label": "Main navigation",
+      "home": "Home",
+      "projects": "Projects",
+      "philosophy": "Philosophy",
+      "contact": "Contact"
+    },
+    "cta": "Request a quote",
+    "menu": { "open": "Open menu", "close": "Close menu", "label": "Menu" },
+    "lang": { "label": "Language", "names": { "es": "Español", "en": "English" } },
+    "hero": {
+      "eyebrow": "Océano Pacífico",
+      "title": ["Mastery in timber", "and tropical structure"],
+      "sub": "High-end tropical palapas & master woodcraft",
+      "scroll": "Discover the craft",
+      "coords": "N 17°38′ · W 101°33′",
+      "place": "Punta Garrobo · Zihuatanejo",
+      "spec": ["Palapas · decks · pergolas", "Punta Garrobo · Zihuatanejo, Gro.", "Projects across Mexico"],
+      "imageAlt": "A monumental palm-thatched palapa crowning a cliffside house above the Pacific Ocean at Punta Garrobo"
+    },
+    "statement": {
+      "label": "Philosophy",
+      "text": "We build in conversation with the landscape. Every palapa, every deck, every pergola begins with a patient reading of the site — wind, sun path, the timber that will last a century. We do not impose form; we reveal structure.",
+      "sig": "— Estructuras del Pacífico"
+    },
+    "breaks": [
+      {
+        "caption": "Lookout with palapa — Pacific Coast, MX",
+        "alt": "Infinity pool with a timber pergola and palm trees facing the Pacific Ocean"
+      },
+      {
+        "caption": "Parota timber deck — Pacific Coast",
+        "alt": "Timber deck under a palapa overlooking the Pacific Ocean"
+      }
+    ],
+    "gallery": {
+      "label": "Selected work",
+      "title": ["Selected", "work"],
+      "lede": "A selection of representative works. Each built on site, with timber joinery.",
+      "all": "See all projects",
+      "view": "View album"
+    },
+    "projects": {
+      "label": "Portfolio",
+      "title": ["All", "projects"],
+      "lede": "The complete catalogue of works."
+    },
+    "album": {
+      "label": "Project album",
+      "comingSoon": "Album in progress: more photographs coming soon",
+      "others": "Other projects",
+      "back": "Portfolio",
+      "photoAlt": "{title}: photo {n} of {total}",
+      "open": "Enlarge photo {n} of {total}"
+    },
+    "contact": {
+      "label": "Begin a conversation",
+      "title": ["Every project", "begins with a", "visit to the site"],
+      "body": "We take on a limited number of commissions each year. If your project demands precision and permanence, let us begin by listening to the place.",
+      "region": "Océano Pacífico · MX",
+      "form": {
+        "subject": "New inquiry — estructurasdelpacifico.com",
+        "name": "Name",
+        "email": "Email",
+        "message": "Message",
+        "send": "Send message",
+        "sending": "Sending…",
+        "ok": "Thank you! We received your message and will be in touch soon.",
+        "error": "We couldn't send it. Write to us directly at"
+      }
+    },
+    "footer": {
+      "note": "Estructuras del Pacífico · Tropical timber architecture · Océano Pacífico · MX",
+      "copyright": "© MMXXVI",
+      "privacy": "Privacy notice"
+    },
+    "lightbox": { "label": "Photo viewer", "close": "Close", "prev": "Previous photo", "next": "Next photo" },
+    "notFound": {
+      "label": "Error 404",
+      "title": ["Page", "not found"],
+      "body": "The page you're looking for doesn't exist or has moved.",
+      "home": "Back to home",
+      "projects": "See projects"
+    },
+    "privacy": {
+      "label": "Legal",
+      "title": "Privacy notice",
+      "updated": "Last updated: October 2026",
+      "intro": "At {business} we respect your privacy. This notice explains what personal data we collect through this site, what we use it for and how you can exercise your rights under Mexico's Federal Law on the Protection of Personal Data Held by Private Parties. This is a translation; the Spanish version prevails.",
+      "sections": [
+        {
+          "heading": "Who is responsible",
+          "paragraphs": [
+            "{responsible} is responsible for processing your personal data. For anything related to this notice, write to us at {email}.",
+            "{address}"
+          ]
+        },
+        {
+          "heading": "What we collect",
+          "paragraphs": [
+            "When you write to us through the contact form or by email, we collect your name, your email address and whatever you include in your message. We don't ask for sensitive personal data."
+          ]
+        },
+        {
+          "heading": "What we use it for",
+          "paragraphs": [
+            "We use your data to answer your message, prepare quotes and follow up on your project. We don't use it to send you advertising without your consent."
+          ]
+        },
+        {
+          "heading": "Who we share it with",
+          "paragraphs": [
+            "The form uses the FormSubmit service (formsubmit.co) to deliver your message to us by email, and the site is hosted on Railway. These providers only process the data to deliver that service. We don't sell or share your data with third parties for any other purpose."
+          ]
+        },
+        {
+          "heading": "Your rights (ARCO)",
+          "paragraphs": [
+            "You can access, correct or delete your data, object to its use, or withdraw your consent by writing to {email}. Include your name, the right you want to exercise and a way to reply to you. We will respond within the time limits set by law."
+          ]
+        },
+        {
+          "heading": "Cookies",
+          "paragraphs": [
+            "This site doesn't use tracking cookies or advertising tools."
+          ]
+        },
+        {
+          "heading": "Changes to this notice",
+          "paragraphs": [
+            "If we change this notice, we'll publish the updated version on this page along with its update date."
+          ]
+        }
+      ],
+      "addressLine": "Address: {address}."
+    },
+    "seo": {
+      "siteName": "Estructuras del Pacífico",
+      "ogLocale": "en_US",
+      "home": {
+        "title": "Palapa Builders in Mexico — Estructuras del Pacífico",
+        "description": "High-end palapas, timber decks and pergolas for homes, hotels and developments across Mexico. Recent work in Zihuatanejo and Acapulco."
+      },
+      "projects": {
+        "title": "Projects: Palapas & Timber Structures — Estructuras del Pacífico",
+        "description": "Portfolio of palapas, terraces, decks and timber pergolas built by Estructuras del Pacífico in Zihuatanejo, Acapulco and along Mexico's Pacific coast."
+      },
+      "album": {
+        "title": "{title} · {type} — Estructuras del Pacífico",
+        "titleNoType": "{title} — Estructuras del Pacífico",
+        "description": "Photographs of the {title} project in {location}, built by Estructuras del Pacífico."
+      },
+      "privacy": {
+        "title": "Privacy Notice — Estructuras del Pacífico",
+        "description": "How we handle the personal data you share with us through estructurasdelpacifico.com."
+      },
+      "notFound": {
+        "title": "Page Not Found — Estructuras del Pacífico",
+        "description": "The page you're looking for doesn't exist or has moved."
+      }
+    }
+  }
+}

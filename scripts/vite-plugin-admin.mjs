@@ -8,13 +8,26 @@
  *
  * This plugin only applies during `vite serve` (development). It is NEVER part of
  * the production build, so the static site never exposes write endpoints.
+ *
+ * Every API call must carry the token printed in the terminal when `npm run dev`
+ * starts (open the printed /admin?token=… link). The dev server listens on the
+ * whole network (`--host`), so without it anyone on the same Wi-Fi could edit
+ * or delete albums. Set ADMIN_TOKEN to keep the same token across restarts.
  */
+import crypto from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
 import sharp from 'sharp'
 import { syncAlbums, ALBUMS_DIR, IMG_EXT } from './sync-albums.mjs'
 
 const API_PREFIX = '/__albums/api'
+const TOKEN = process.env.ADMIN_TOKEN || crypto.randomBytes(16).toString('hex')
+
+function hasToken(req) {
+  const given = Buffer.from(String(req.headers['x-admin-token'] || ''))
+  const want = Buffer.from(TOKEN)
+  return given.length === want.length && crypto.timingSafeEqual(given, want)
+}
 const MAX_LONG_SIDE = 2400
 const JPEG_QUALITY = 80
 
@@ -61,6 +74,8 @@ function listImageFiles(slug) {
   return fs.readdirSync(dir).filter((f) => IMG_EXT.test(f)).sort()
 }
 
+// Never reuses a name: a short unique suffix means a new photo can't inherit a
+// deleted photo's caption/alt or its cached /_img/ versions (cached 30 days).
 function nextImageName(slug) {
   const files = listImageFiles(slug)
   let max = 0
@@ -68,12 +83,10 @@ function nextImageName(slug) {
     const m = f.match(/^(\d+)/)
     if (m) max = Math.max(max, parseInt(m[1], 10))
   }
-  let n = max + 1
-  let name = `${String(n).padStart(2, '0')}.jpeg`
-  while (fs.existsSync(path.join(albumDir(slug), name))) {
-    n += 1
-    name = `${String(n).padStart(2, '0')}.jpeg`
-  }
+  let name
+  do {
+    name = `${String(max + 1).padStart(2, '0')}-${crypto.randomBytes(3).toString('hex')}.jpeg`
+  } while (fs.existsSync(path.join(albumDir(slug), name)))
   return name
 }
 
@@ -156,11 +169,14 @@ async function handle(req, res) {
   if (req.method === 'POST' && resource === 'delete-image' && slug) {
     const { file } = await readJson(req)
     const safe = path.basename(String(file || ''))
+    // Only photos can be deleted here (never _meta.json or anything else).
+    if (!IMG_EXT.test(safe)) return send(res, 400, { error: 'not an image file' })
     const fp = path.join(albumDir(slug), safe)
-    if (safe && fs.existsSync(fp)) fs.rmSync(fp)
+    if (fs.existsSync(fp)) fs.rmSync(fp)
 
     const meta = readMeta(slug)
     if (meta.captions) delete meta.captions[safe]
+    if (meta.alts) delete meta.alts[safe]
     if (Array.isArray(meta.imageOrder)) meta.imageOrder = meta.imageOrder.filter((f) => f !== safe)
     if (meta.hero === safe) meta.hero = listImageFiles(slug)[0] || ''
     writeMeta(slug, meta)
@@ -177,8 +193,14 @@ export default function adminPlugin() {
     name: 'edp-album-admin',
     apply: 'serve', // dev only — never in production build
     configureServer(server) {
+      server.httpServer?.once('listening', () => {
+        const addr = server.httpServer.address()
+        const port = typeof addr === 'object' && addr ? addr.port : 5173
+        server.config.logger.info(`\n  Admin panel: http://localhost:${port}/admin?token=${TOKEN}\n`)
+      })
       server.middlewares.use((req, res, next) => {
         if (!req.url || !req.url.startsWith(API_PREFIX)) return next()
+        if (!hasToken(req)) return send(res, 401, { error: 'missing or wrong admin token — open the /admin?token=… link printed by npm run dev' })
         handle(req, res).catch((err) => {
           console.error('[admin api]', err)
           send(res, 500, { error: err.message || 'server error' })

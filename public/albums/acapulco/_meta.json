@@ -3,12 +3,16 @@
   "featured": false,
   "title": "Acapulco",
   "type": {
-    "es": "",
-    "en": ""
+    "es": "Palapas de playa",
+    "en": "Beach palapas"
   },
   "location": {
     "es": "Acapulco, Gro. · MX",
     "en": "Acapulco, Gro. · MX"
+  },
+  "description": {
+    "es": "Dos palapas de playa con techo de palma sobre estructura de madera, frente al mar en Acapulco.",
+    "en": "Two palm-thatched beach palapas on timber frames, right on the waterfront in Acapulco."
   },
   "hero": "04.jpeg",
   "imageOrder": [
@@ -28,5 +32,67 @@
     "15.jpeg",
     "16.jpeg"
   ],
-  "captions": {}
+  "captions": {},
+  "alts": {
+    "01.jpeg": {
+      "es": "Interior de la palapa: vigas de madera y plafón tejido bajo el techo de palma",
+      "en": "Inside the palapa: timber rafters and a woven ceiling under the palm roof"
+    },
+    "02.jpeg": {
+      "es": "Pasillo bajo vigas redondas de madera",
+      "en": "Walkway beneath round timber beams"
+    },
+    "03.jpeg": {
+      "es": "Vista a la bahía de Acapulco desde el alero de una palapa",
+      "en": "View of Acapulco Bay from beneath a palapa eave"
+    },
+    "04.jpeg": {
+      "es": "Dos palapas de palma en la playa, con la colina de Acapulco al fondo",
+      "en": "Two palm-thatched palapas on the beach, with the Acapulco hillside behind"
+    },
+    "05.jpeg": {
+      "es": "Fachada con pérgolas de madera en dos niveles",
+      "en": "Facade with timber pergolas on two levels"
+    },
+    "06.jpeg": {
+      "es": "Ensambles de troncos y vigas bajo el techo de la palapa",
+      "en": "Log and beam joinery beneath the palapa roof"
+    },
+    "07.jpeg": {
+      "es": "Cubierta de vigas de madera sobre el acceso y las escaleras",
+      "en": "Timber-beam roof over the entrance and stairs"
+    },
+    "08.jpeg": {
+      "es": "Comedor bajo la palapa con vista a la bahía de Acapulco",
+      "en": "Dining area under the palapa overlooking Acapulco Bay"
+    },
+    "09.jpeg": {
+      "es": "Estructura de madera en construcción junto a la alberca, frente al mar",
+      "en": "Timber structure under construction beside the pool, facing the sea"
+    },
+    "10.jpeg": {
+      "es": "Montaje de vigas de madera con andamios, frente al mar",
+      "en": "Timber beams being installed on scaffolding, facing the sea"
+    },
+    "11.jpeg": {
+      "es": "Pérgola de vigas redondas de madera vista desde abajo",
+      "en": "Pergola of round timber rafters seen from below"
+    },
+    "12.jpeg": {
+      "es": "Palapa sobre la terraza junto a la alberca",
+      "en": "Palapa over the terrace beside the pool"
+    },
+    "14.jpeg": {
+      "es": "Palapa con techo de palma sobre la barra al aire libre",
+      "en": "Palm-thatched palapa over the open-air bar"
+    },
+    "15.jpeg": {
+      "es": "Techo de la palapa durante el tejido de la palma",
+      "en": "The palapa roof while the palm thatch is being laid"
+    },
+    "16.jpeg": {
+      "es": "Habitación con techo de vigas de madera y plafón tejido",
+      "en": "Room with a timber-rafter ceiling and woven infill"
+    }
+  }
 }

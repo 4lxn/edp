@@ -3,12 +3,16 @@
   "featured": true,
   "title": "Casa Frijol",
   "type": {
-    "es": "",
-    "en": ""
+    "es": "Terrazas con vigas de madera",
+    "en": "Timber-beam terraces"
   },
   "location": {
     "es": "Zihuatanejo, Gro. · MX",
     "en": "Zihuatanejo, Gro. · MX"
+  },
+  "description": {
+    "es": "Terrazas en varios niveles con vigas de madera aparentes, integradas a una residencia en Zihuatanejo.",
+    "en": "Multi-level terraces with exposed timber beams, built into a home in Zihuatanejo."
   },
   "hero": "17.jpeg",
   "imageOrder": [
@@ -108,6 +112,84 @@
     "20.jpeg": {
       "es": "",
       "en": ""
+    }
+  },
+  "alts": {
+    "01.jpeg": {
+      "es": "Terraza con deck de madera y barandal metálico frente a la bahía de Zihuatanejo",
+      "en": "Timber deck terrace with a metal railing overlooking Zihuatanejo Bay"
+    },
+    "02.jpeg": {
+      "es": "Balcón con vigas de madera y plafón tejido, con vista a los cerros",
+      "en": "Balcony with timber rafters and a woven ceiling, looking out to the hills"
+    },
+    "03.jpeg": {
+      "es": "Deck de madera junto a la alberca, con vista a la bahía",
+      "en": "Timber deck beside the pool, with a view of the bay"
+    },
+    "04.jpeg": {
+      "es": "La bahía enmarcada por la cubierta de vigas de madera",
+      "en": "The bay framed by the timber-beam roof"
+    },
+    "05.jpeg": {
+      "es": "Alero de vigas redondas de madera con plafón tejido",
+      "en": "Eave of round timber rafters with a woven ceiling"
+    },
+    "06.jpeg": {
+      "es": "Detalle de vigas de madera y plafón tejido sobre una viga de acero",
+      "en": "Detail of timber rafters and woven ceiling resting on a steel beam"
+    },
+    "07.jpeg": {
+      "es": "Balcón con deck y poste de madera, con vista a la bahía",
+      "en": "Balcony with a timber deck and post, overlooking the bay"
+    },
+    "08.jpeg": {
+      "es": "Deck de madera con vista al pueblo y la bahía de Zihuatanejo",
+      "en": "Timber deck overlooking the town and Zihuatanejo Bay"
+    },
+    "09.jpeg": {
+      "es": "Terraza techada con vigas de madera y plafón tejido",
+      "en": "Covered terrace with timber rafters and a woven ceiling"
+    },
+    "10.jpeg": {
+      "es": "Interior con vigas de madera aparentes y tragaluces",
+      "en": "Interior with exposed timber beams and skylights"
+    },
+    "11.jpeg": {
+      "es": "Vigas de madera bajo los tragaluces, junto a ventanales altos",
+      "en": "Timber beams beneath the skylights, beside tall windows"
+    },
+    "12.jpeg": {
+      "es": "Habitación con vigas de madera en el techo y ventana en arco",
+      "en": "Room with timber ceiling beams and an arched window"
+    },
+    "13.jpeg": {
+      "es": "Sala con techo de vigas de madera",
+      "en": "Living room with a timber-beam ceiling"
+    },
+    "14.jpeg": {
+      "es": "Techo de vigas de madera con tragaluces",
+      "en": "Timber-beam ceiling with skylights"
+    },
+    "15.jpeg": {
+      "es": "Vigas de madera y tragaluces en el techo de doble altura",
+      "en": "Timber beams and skylights in the double-height ceiling"
+    },
+    "16.jpeg": {
+      "es": "Vigas de madera paralelas bajo los tragaluces",
+      "en": "Parallel timber beams beneath the skylights"
+    },
+    "17.jpeg": {
+      "es": "Balcones en tres niveles con vigas de madera, durante la construcción",
+      "en": "Three levels of balconies with timber rafters, during construction"
+    },
+    "18.jpeg": {
+      "es": "Alero de vigas de madera y plafón tejido con vista a la bahía",
+      "en": "Timber-rafter eave with a woven ceiling and a view of the bay"
+    },
+    "20.jpeg": {
+      "es": "Balcón techado con vigas de madera sobre la bahía de Zihuatanejo",
+      "en": "Covered balcony with timber rafters above Zihuatanejo Bay"
     }
   }
 }
