@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run sync && vite build && vite build --ssr src/entry-server.jsx && node scripts/prerender.mjs",
+    "build": "npm run sync && vite build && vite build --mode admin && vite build --ssr src/entry-server.jsx && node scripts/prerender.mjs",
     "start": "node server/index.mjs",
     "preview": "npm run build && npm start",
     "sync": "node scripts/sync-albums.mjs",

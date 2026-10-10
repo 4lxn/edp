@@ -18,8 +18,8 @@ solo verifica que compile (`ci.yml`).
 | Comando | Qué hace |
 |---------|----------|
 | `npm install` | Instalar deps (Node 24) |
-| `npm run dev` | Vite con HMR → http://localhost:5173 (sin pre-render; imprime el link del admin) |
-| `npm run build` | sync → bundle cliente (`dist/client`) → bundle SSR (`dist/server`) → `scripts/prerender.mjs` |
+| `npm run dev` | Vite con HMR → http://localhost:5173 (sin pre-render; imprime link y contraseña del admin) |
+| `npm run build` | sync → bundle cliente (`dist/client`) → admin (`--mode admin` → `dist/client/admin/`) → bundle SSR (`dist/server`) → `scripts/prerender.mjs` |
 | `npm start` | Servidor de producción sobre `dist/` (puerto `$PORT` o 3000) |
 | `npm run preview` | build + start (igual que Railway) |
 | `npm run sync` | Regenera `src/albums.generated.js` desde `public/albums/` |
@@ -47,6 +47,7 @@ redirige el script inline de `index.html` (antes de pintar).
 ```
 index.html            Plantilla: script de arranque (clase .js + redirección de
                       links con #), placeholders <!--app-head--> / <!--app-html-->.
+admin/index.html      Página del panel /admin (build aparte: `vite build --mode admin`).
 server/
   index.mjs           Producción: sirv (br/gz precomprimidos, cache headers),
                       redirects (www, http, slash final, index.html), 404 real,
@@ -54,6 +55,11 @@ server/
   images.mjs          /_img/<ancho|og>/<avif|webp|jpeg>/<ruta en public>:
                       sharp bajo demanda + caché en disco (volumen de Railway
                       vía RAILWAY_VOLUME_MOUNT_PATH o IMG_CACHE_DIR).
+  admin-api.mjs       /admin/api/*: sesión, álbumes, fotos, textos, publicar.
+  content-store.mjs   DirectStore (dev: archivos del repo) / OverlayStore (prod:
+                      pendientes en <volumen>/admin/pending encima del checkout).
+  albums.mjs          Operaciones + validación: _meta.json, fotos (sharp), site.json.
+  github.mjs          Publicar = 1 commit vía Git Data API (blobs→tree→commit→ref).
 src/
   entry-client.jsx    hydrateRoot si hay HTML pre-renderizado, si no createRoot.
                       Importa fuentes (Fontsource) y styles.css.
@@ -72,7 +78,8 @@ src/
                       ContactForm, HeadManager, Brand (Monogram).
   hooks.js            useReveal, usePageMotion, ScrollManager, useFocusTrap,
                       useScrollLock, useScrolledPast.
-  admin/              Panel local de álbumes (api.js ↔ vite-plugin-admin.mjs).
+  admin/              Panel /admin: Admin (shell) · AlbumsView · TextsEditor ·
+                      PublishBar · ui (Pair) · api.js (cliente de /admin/api).
   albums.generated.js AUTO-GENERADO por `npm run sync`. NO editar a mano.
 public/
   assets/             Fotos globales (hero, image breaks). Originales 4032px:
@@ -81,7 +88,8 @@ public/
                       type, location, description, hero, imageOrder, captions,
                       alts, featured, order). Ver public/albums/README.md.
 scripts/              prerender, sync-albums, new-album, optimize-images,
-                      vite-plugin-admin (dev, con token), vite-plugin-images (dev).
+                      vite-plugin-admin (dev: misma API sobre el repo),
+                      vite-plugin-images (dev).
 ```
 
 ## Convenciones y trampas (LEER antes de tocar)
@@ -106,10 +114,22 @@ scripts/              prerender, sync-albums, new-album, optimize-images,
   i18n.js, a las rutas de App.jsx y a `buildHead` en seo.js; el pre-render y el
   sitemap las toman de `allPaths()`. El pre-render falla si falta title,
   description, canonical o h1.
-- **Admin local**: solo en dev (`import.meta.env.DEV` + plugin `apply:'serve'`),
-  exige el token impreso por `npm run dev` (header `x-admin-token`). Al guardar
-  reescribe `_meta.json` completo → si agregas un campo al meta, agrégalo a
-  `toDraft`/`draftToMeta` en Admin.jsx o se borrará al guardar.
+- **Admin (`/admin`)**: página aparte (admin/index.html, build `--mode admin`),
+  nunca entra al bundle del sitio. Misma API (server/admin-api.mjs) en prod
+  (OverlayStore en el volumen; Publicar = commit a la rama del deploy) y en dev
+  (vite-plugin-admin, DirectStore sobre el repo). Auth: `ADMIN_PASSWORD` →
+  cookie HMAC HttpOnly/SameSite=Strict de 30 días; todo POST/PUT/DELETE exige
+  el header `x-edp-admin: 1`; login con rate limit.
+- `saveAlbum` reescribe `_meta.json` solo con los campos conocidos → si agregas
+  un campo al meta, agrégalo a `saveAlbum` (server/albums.mjs) y a `toDraft`
+  (src/admin/AlbumsView.jsx) o se borrará al guardar.
+- `saveSite` exige la forma actual de site.json (claves, tipos, largo de listas);
+  el editor de Textos recorre esa forma solo, así que textos nuevos aparecen
+  solos (etiquetas en `SECTIONS`/`PATH_LABELS` de TextsEditor.jsx).
+- El admin hace **commits directos** a la rama que despliega Railway → `git pull
+  --rebase` antes de hacer push. Mientras publica, bloquea ediciones; al
+  arrancar, el deploy cuyo `RAILWAY_GIT_COMMIT_SHA` es el publicado limpia los
+  pendientes (y `prune()` descarta pendientes que ya están en el checkout).
 - **Formulario de contacto**: FormSubmit AJAX, con honeypot.
 - No editar `albums.generated.js`.
 - `public/CNAME` solo servía a GitHub Pages; se puede borrar tras mover el DNS
@@ -119,6 +139,9 @@ scripts/              prerender, sync-albums, new-album, optimize-images,
 
 Railway: *Deployments* (logs) y `/healthz`. DNS en Porkbun: ALIAS en la raíz +
 CNAME `www` + TXT de verificación de Railway (ver README → "Cómo se publica").
+Variables del panel: `ADMIN_PASSWORD` (activa /admin) y `GITHUB_TOKEN`
+(fine-grained, solo este repo, Contents read/write; sin él no publica). Las pone
+el dueño en Railway → Variables; nunca en el repo ni en el chat.
 
 **CDN de Railway (activado):** cachea en el edge `/_app/*`, `/_img/*`, fotos e
 iconos según su `Cache-Control`; el HTML no se cachea (`max-age=0`). Cada deploy

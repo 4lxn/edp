@@ -10,21 +10,25 @@ valores por defecto. Al hacer push a `main`, el sitio se reconstruye y publica
 solo. El servidor genera cada foto en el tamaño y formato que necesita cada
 pantalla, así que no hace falta achicarlas a mano.
 
-## ⭐ Lo más fácil: panel de administración local
+## ⭐ Lo más fácil: el panel `/admin`
 
-Arranca el sitio en desarrollo (`npm run dev`) y abre el link del panel que
-imprime la terminal:
+Desde el celular o la compu: **https://estructurasdelpacifico.com/admin** →
+contraseña → **Proyectos**.
 
-> **http://localhost:5173/admin?token=…**
+- **+ Nuevo proyecto** crea la carpeta (el nombre se vuelve la URL).
+- **+ Subir fotos**: elige varias a la vez; se **optimizan solas** (≤2400px,
+  JPG). En iPhone se convierten solas a JPG; si alguna marca error de formato:
+  *Ajustes › Cámara › Formatos › Más compatible*.
+- En cada foto: **↑ ↓** para ordenar, **★** para hacerla portada, **✕** para
+  borrarla, su pie de foto (ES/EN) y una descripción para Google.
+- Arriba: nombre, tipo de obra, ubicación, descripción, orden y "Destacado en
+  el inicio".
 
-(El token protege el panel: sin él nadie en tu misma red Wi-Fi puede editar o
-borrar álbumes. Cambia cada vez que arrancas `npm run dev`.)
+**Guardar** deja los cambios *sin publicar*; **Publicar** los sube al sitio
+(~2 minutos). Detalles en el README principal → "Panel de administración".
 
-Desde ahí, sin tocar archivos a mano: crear álbumes; editar título, tipo,
-ubicación, descripción (ES/EN), orden, destacado y portada; subir fotos
-arrastrándolas (se **optimizan solas** a ≤2400px); escribir captions (ES/EN) y
-reordenar. El panel **solo existe en desarrollo** (nunca en el sitio publicado)
-y escribe en estas mismas carpetas. Para publicar online, haz `git push`.
+En la compu también funciona con `npm run dev` (link y contraseña en la
+terminal): ahí escribe directo en estas carpetas y se publica con `git push`.
 
 ---
 

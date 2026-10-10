@@ -16,6 +16,9 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import sirv from 'sirv'
 import { createImageHandler, IMG_PREFIX } from './images.mjs'
+import { OverlayStore } from './content-store.mjs'
+import { createAdminApi } from './admin-api.mjs'
+import { createPublisher } from './github.mjs'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const CLIENT_DIR = path.join(ROOT, 'dist', 'client')
@@ -23,9 +26,9 @@ const WARM_LIST = path.join(ROOT, 'dist', 'img-warm.json')
 const PORT = Number(process.env.PORT) || 3000
 const SITE_URL = (process.env.SITE_URL || 'https://estructurasdelpacifico.com').replace(/\/+$/, '')
 const SITE_HOST = new URL(SITE_URL).host
-const CACHE_DIR = process.env.IMG_CACHE_DIR
-  || (process.env.RAILWAY_VOLUME_MOUNT_PATH && path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'img-cache'))
-  || path.join(ROOT, '.cache', 'img')
+// Persistent storage: the Railway volume (image cache + unpublished admin edits).
+const DATA_DIR = process.env.RAILWAY_VOLUME_MOUNT_PATH || path.join(ROOT, '.data')
+const CACHE_DIR = process.env.IMG_CACHE_DIR || path.join(DATA_DIR, 'img-cache')
 
 if (!fs.existsSync(path.join(CLIENT_DIR, 'index.html'))) {
   console.error('✗ dist/client not found — run `npm run build` first')
@@ -45,12 +48,18 @@ const BASE_HEADERS = {
   'Strict-Transport-Security': 'max-age=31536000',
 }
 
+const isAdminPage = (pathname) => pathname === '/admin' || pathname.startsWith('/admin/')
+
 function cacheControl(pathname) {
+  if (isAdminPage(pathname)) return 'no-store'
   // Vite output (JS, CSS, fonts) has content hashes in the file names.
   if (pathname.startsWith('/_app/')) return 'public, max-age=31536000, immutable'
   if (/\.(jpe?g|png|webp|avif|svg|ico)$/i.test(pathname)) return 'public, max-age=86400'
   if (/\.(xml|txt)$/i.test(pathname)) return 'public, max-age=3600'
-  return 'public, max-age=0, must-revalidate' // HTML pages
+  // HTML pages: browsers always revalidate; the CDN may keep a copy for a
+  // minute and serve it while revalidating — which also covers the few
+  // seconds a deploy takes (Railway purges cached HTML on each deploy).
+  return 'public, max-age=0, s-maxage=60, stale-while-revalidate=600'
 }
 
 const images = createImageHandler({ sourceRoot: CLIENT_DIR, cacheDir: CACHE_DIR })
@@ -60,8 +69,29 @@ const serveStatic = sirv(CLIENT_DIR, {
   gzip: true,
   brotli: true,
   extensions: ['html'],
-  setHeaders: (res, pathname) => res.setHeader('Cache-Control', cacheControl(pathname)),
+  setHeaders: (res, pathname) => {
+    res.setHeader('Cache-Control', cacheControl(pathname))
+    if (isAdminPage(pathname)) res.setHeader('X-Robots-Tag', 'noindex')
+  },
 })
+
+/* ---------- Admin (/admin page + /admin/api) ---------- */
+const repo = process.env.GITHUB_REPO
+  || (process.env.RAILWAY_GIT_REPO_OWNER && `${process.env.RAILWAY_GIT_REPO_OWNER}/${process.env.RAILWAY_GIT_REPO_NAME}`)
+const branch = process.env.GITHUB_BRANCH || process.env.RAILWAY_GIT_BRANCH
+const publisher = process.env.GITHUB_TOKEN && repo && branch
+  ? createPublisher({ token: process.env.GITHUB_TOKEN, repo, branch, apiUrl: process.env.GITHUB_API_URL })
+  : null
+const adminApi = await createAdminApi({
+  store: new OverlayStore({ root: ROOT, dataDir: DATA_DIR }),
+  mode: 'prod',
+  password: process.env.ADMIN_PASSWORD,
+  dataDir: DATA_DIR,
+  publisher,
+  deployedSha: process.env.RAILWAY_GIT_COMMIT_SHA || process.env.DEPLOYED_SHA,
+})
+console.log(`  admin: ${process.env.ADMIN_PASSWORD ? 'password set' : 'disabled (no ADMIN_PASSWORD)'}`
+  + ` · publish: ${publisher ? `${repo}@${branch}` : 'off (needs GITHUB_TOKEN)'}`)
 
 /** Split a raw request target into path + query without URL parsing (which
  *  would treat "//host/…" as an authority and can throw on garbage). */
@@ -118,6 +148,13 @@ function handle(req, res) {
   }
 
   if (pathname.startsWith(IMG_PREFIX)) return images(req, res)
+  if (pathname.startsWith('/admin/api/')) {
+    return adminApi(req, res).catch((err) => {
+      console.error('[admin]', err)
+      if (!res.headersSent) res.writeHead(500, { 'Content-Type': 'text/plain' })
+      res.end('server error')
+    })
+  }
 
   // One canonical path: no trailing slash (except "/"), no index.html.
   // Rebuilt from a single leading slash so the Location can't become "//host".

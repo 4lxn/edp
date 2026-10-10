@@ -2,6 +2,8 @@ node_modules
 dist
 .vite
 .cache
+# Local stand-in for the Railway volume (image cache, unpublished admin edits)
+.data
 .DS_Store
 *.local
 

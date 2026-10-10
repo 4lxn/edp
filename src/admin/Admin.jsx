@@ -1,333 +1,124 @@
-import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
-import * as api from './api'
-import './admin.css'
+import { useCallback, useEffect, useState } from 'react'
+import { api } from './api'
+import { Monogram } from '../components/Brand'
+import Login from './Login'
+import PublishBar from './PublishBar'
+import AlbumsView from './AlbumsView'
+import TextsEditor from './TextsEditor'
 
-const emptyMeta = (title = '') => ({
-  title,
-  type: { es: '', en: '' },
-  location: { es: '', en: '' },
-  description: { es: '', en: '' },
-  order: 999,
-  featured: false,
-  hero: '',
-  captions: {},
-  alts: {},
-  imageOrder: [],
-})
-
-// type/location/description may be a plain string in hand-written _meta.json.
-const pair = (v) => (typeof v === 'string' ? { es: v, en: v } : { es: v?.es || '', en: v?.en || '' })
-
-function toDraft(al) {
-  return {
-    title: al.title || '',
-    type: pair(al.type),
-    location: pair(al.location),
-    description: pair(al.description),
-    order: al.order ?? 999,
-    featured: !!al.featured,
-    hero: al.hero || (al.files?.[0] || ''),
-    captions: al.captions || {},
-    alts: al.alts || {},
-    imageOrder: Array.isArray(al.imageOrder) ? al.imageOrder : [],
-  }
-}
-
-function orderedFiles(files, imageOrder) {
-  const inOrder = (imageOrder || []).filter((f) => files.includes(f))
-  const rest = files.filter((f) => !inOrder.includes(f)).sort()
-  return [...inOrder, ...rest]
-}
-
-function draftToMeta(draft, files) {
-  return {
-    order: Number(draft.order) || 999,
-    featured: !!draft.featured,
-    title: draft.title,
-    type: draft.type,
-    location: draft.location,
-    description: draft.description,
-    hero: draft.hero || files[0] || '',
-    imageOrder: orderedFiles(files, draft.imageOrder),
-    captions: draft.captions || {},
-    alts: draft.alts || {},
-  }
-}
-
+/**
+ * Admin panel (/admin). Same UI online (Railway) and in `npm run dev`:
+ * online, edits stay "sin publicar" until Publicar commits them to GitHub;
+ * locally they're written straight into the repo files.
+ */
 export default function Admin() {
-  const [albums, setAlbums] = useState([])
-  const [selected, setSelected] = useState(null)
-  const [draft, setDraft] = useState(null)
-  const [files, setFiles] = useState([])
-  const [status, setStatus] = useState('')
-  const [busy, setBusy] = useState(false)
-  const [dragOver, setDragOver] = useState(false)
-  const [dirty, setDirty] = useState(false)
-  const fileInput = useRef(null)
+  const [session, setSession] = useState(null) // { authenticated, configured, mode }
+  const [content, setContent] = useState(null)
+  const [tab, setTab] = useState('albums')
+  const [toast, setToast] = useState(null)
+  const [fatal, setFatal] = useState('')
 
-  const refresh = async () => {
-    const { albums } = await api.listAlbums()
-    setAlbums(albums)
-    return albums
-  }
-
-  useEffect(() => { refresh().catch((e) => setStatus('Error: ' + e.message)) }, [])
-
-  // Guard against losing unsaved edits when closing/reloading the tab.
+  const notify = useCallback((text, kind = 'ok') => setToast({ text, kind, id: Date.now() }), [])
   useEffect(() => {
-    if (!dirty) return
-    const warn = (e) => { e.preventDefault(); e.returnValue = '' }
-    window.addEventListener('beforeunload', warn)
-    return () => window.removeEventListener('beforeunload', warn)
-  }, [dirty])
+    if (!toast) return
+    const t = setTimeout(() => setToast(null), toast.kind === 'err' ? 6000 : 3500)
+    return () => clearTimeout(t)
+  }, [toast])
 
-  const select = (al) => {
-    if (dirty && !confirm('Tienes cambios sin guardar. ¿Descartarlos?')) return
-    setSelected(al.slug)
-    setDraft(toDraft(al))
-    setFiles(al.files || [])
-    setStatus('')
-    setDirty(false)
-  }
+  const signedOut = useCallback(() => setSession((s) => ({ ...s, authenticated: false })), [])
 
-  const patch = (edits) => { setDraft((d) => ({ ...d, ...edits })); setDirty(true) }
-
-  const run = async (label, fn) => {
-    setBusy(true)
-    setStatus(label + '…')
-    try {
-      await fn()
-      setStatus(label + ' ✓')
-    } catch (e) {
-      setStatus('Error: ' + e.message)
-    } finally {
-      setBusy(false)
+  const load = useCallback(async () => {
+    try { setContent(await api.content()) } catch (e) {
+      if (e.status === 401) signedOut()
+      else setFatal(e.message)
     }
+  }, [signedOut])
+
+  useEffect(() => {
+    api.session()
+      .then((s) => { setSession(s); if (s.authenticated) load() })
+      .catch((e) => setFatal(e.message))
+  }, [load])
+
+  /** Runs an API call; a returned snapshot replaces the content. */
+  const run = useCallback(async (fn, okText) => {
+    try {
+      const data = await fn()
+      if (data?.albums) setContent(data)
+      if (okText) notify(okText)
+      return data
+    } catch (e) {
+      if (e.status === 401) signedOut()
+      notify(e.message, 'err')
+      throw e
+    }
+  }, [notify, signedOut])
+
+  const logout = async () => {
+    await api.logout().catch(() => {})
+    signedOut()
   }
 
-  const saveMeta = () =>
-    run('Guardado', async () => {
-      const res = await api.saveAlbum(selected, draftToMeta(draft, files))
-      setFiles(res.files)
-      await refresh()
-      setDirty(false)
-    })
-
-  const handleFiles = (fileList) => {
-    const arr = Array.from(fileList).filter((f) => f.type.startsWith('image/'))
-    if (!arr.length || !selected) return
-    run(`Subiendo ${arr.length} foto(s)`, async () => {
-      // Persist current edits first so the server appends onto saved meta.
-      await api.saveAlbum(selected, draftToMeta(draft, files))
-      let last
-      for (const f of arr) {
-        const dataUrl = await api.fileToDataUrl(f)
-        last = await api.uploadImage(selected, f.name, dataUrl)
-      }
-      if (last) {
-        setDraft(toDraft({ ...last.meta, files: last.files }))
-        setFiles(last.files)
-      }
-      await refresh()
-      setDirty(false)
-    })
+  if (fatal) return <Screen><p className="adm-msg err">{fatal}</p><button className="adm-btn" onClick={() => location.reload()}>Reintentar</button></Screen>
+  if (!session) return <Screen><p className="adm-msg">Cargando…</p></Screen>
+  if (!session.configured) {
+    return (
+      <Screen>
+        <h1>Panel no activado</h1>
+        <p className="adm-msg">
+          En Railway → servicio <b>web</b> → <b>Variables</b>, crea <code>ADMIN_PASSWORD</code> con tu
+          contraseña. El sitio se vuelve a desplegar solo y el panel queda activo.
+        </p>
+      </Screen>
+    )
   }
-
-  const removeImage = (file) =>
-    run('Foto eliminada', async () => {
-      await api.saveAlbum(selected, draftToMeta(draft, files))
-      const res = await api.deleteImage(selected, file)
-      setDraft(toDraft({ ...res.meta, files: res.files }))
-      setFiles(res.files)
-      await refresh()
-      setDirty(false)
-    })
-
-  const moveImage = (file, dir) => {
-    const ord = orderedFiles(files, draft.imageOrder)
-    const i = ord.indexOf(file)
-    const j = i + dir
-    if (j < 0 || j >= ord.length) return
-    ;[ord[i], ord[j]] = [ord[j], ord[i]]
-    patch({ imageOrder: ord })
+  if (!session.authenticated) {
+    return <Login onLogin={() => { setSession((s) => ({ ...s, authenticated: true })); load() }} />
   }
+  if (!content) return <Screen><p className="adm-msg">Cargando contenido…</p></Screen>
 
-  const setCaption = (file, lang, value) => {
-    setDraft((d) => ({
-      ...d,
-      captions: { ...d.captions, [file]: { ...(d.captions[file] || { es: '', en: '' }), [lang]: value } },
-    }))
-    setDirty(true)
-  }
-
-  const newAlbum = () =>
-    run('Álbum creado', async () => {
-      const slug = (prompt('Slug del álbum (kebab-case, ej. "el-cielo"):') || '').trim()
-      if (!slug) throw new Error('cancelado')
-      if (!/^[a-z0-9][a-z0-9-]*$/.test(slug)) throw new Error('slug inválido (usa a-z, 0-9, -)')
-      if (albums.some((a) => a.slug === slug)) throw new Error('ese slug ya existe')
-      const title = (prompt('Título visible (ej. "El Cielo"):') || slug).trim()
-      const order = (albums.reduce((m, a) => Math.max(m, a.order ?? 0), 0) || 0) + 1
-      await api.saveAlbum(slug, { ...emptyMeta(title), order })
-      const list = await refresh()
-      const created = list.find((a) => a.slug === slug)
-      if (created) select(created)
-    })
-
-  const removeAlbum = () => {
-    if (!selected) return
-    if (!confirm(`¿Borrar el álbum "${selected}" y todas sus fotos? Esto no se puede deshacer.`)) return
-    run('Álbum borrado', async () => {
-      await api.deleteAlbum(selected)
-      setSelected(null)
-      setDraft(null)
-      setFiles([])
-      await refresh()
-      setDirty(false)
-    })
-  }
-
-  const ordered = draft ? orderedFiles(files, draft.imageOrder) : []
+  const locked = !!content.publishing
 
   return (
     <div className="adm">
       <header className="adm-top">
-        <div className="adm-top-l">
-          <strong>Modo edición</strong>
-          <span className="adm-badge">local · dev</span>
-        </div>
+        <a className="adm-brand" href="/" target="_blank" rel="noreferrer" title="Ver el sitio">
+          <Monogram size={22} color="#B39B78" />
+          <span>Admin</span>
+        </a>
+        <nav className="adm-tabs" aria-label="Secciones">
+          <button className={tab === 'albums' ? 'is-on' : ''} aria-pressed={tab === 'albums'} onClick={() => setTab('albums')}>Proyectos</button>
+          <button className={tab === 'texts' ? 'is-on' : ''} aria-pressed={tab === 'texts'} onClick={() => setTab('texts')}>Textos</button>
+        </nav>
         <div className="adm-top-r">
-          <Link to="/" className="adm-link">↗ Ver sitio</Link>
-          <span className={'adm-status' + (status.startsWith('Error') ? ' is-err' : '')}>{status}</span>
+          <a className="adm-link" href="/" target="_blank" rel="noreferrer">Ver sitio ↗</a>
+          <button className="adm-link" onClick={logout}>Salir</button>
         </div>
       </header>
 
-      <div className="adm-body">
-        {/* Sidebar */}
-        <aside className="adm-side">
-          <button className="adm-new" onClick={newAlbum} disabled={busy}>+ Nuevo álbum</button>
-          <ul className="adm-list">
-            {albums.map((a) => (
-              <li key={a.slug}>
-                <button
-                  className={'adm-item' + (a.slug === selected ? ' is-sel' : '')}
-                  onClick={() => select(a)}
-                >
-                  <span className="adm-item-t">{a.title || a.slug}</span>
-                  <span className="adm-item-m">
-                    {a.files?.length || 0} fotos{a.featured ? ' · ★' : ''}
-                  </span>
-                </button>
-              </li>
-            ))}
-          </ul>
-        </aside>
+      <PublishBar content={content} run={run} reload={load} notify={notify} />
 
-        {/* Editor */}
-        <main className="adm-main">
-          {!draft ? (
-            <div className="adm-empty">Selecciona un álbum o crea uno nuevo.</div>
-          ) : (
-            <>
-              <div className="adm-head">
-                <h2>{draft.title || selected} <span className="adm-slug">/{selected}</span></h2>
-                <div className="adm-head-actions">
-                  <Link className="adm-link" to={`/proyectos/${selected}`}>Ver álbum →</Link>
-                  <button className="adm-danger" onClick={removeAlbum} disabled={busy}>Borrar álbum</button>
-                </div>
-              </div>
+      {/* Both stay mounted so switching tabs keeps unsaved edits. */}
+      <main className="adm-main">
+        <div hidden={tab !== 'albums'}>
+          <AlbumsView content={content} run={run} notify={notify} locked={locked} />
+        </div>
+        <div hidden={tab !== 'texts'}>
+          <TextsEditor site={content.site} run={run} locked={locked} mode={content.mode} />
+        </div>
+      </main>
 
-              <section className="adm-fields">
-                <label className="adm-f">
-                  <span>Título</span>
-                  <input value={draft.title} onChange={(e) => patch({ title: e.target.value })} />
-                </label>
-                <label className="adm-f">
-                  <span>Orden</span>
-                  <input type="number" value={draft.order} onChange={(e) => patch({ order: e.target.value })} />
-                </label>
-                <label className="adm-f">
-                  <span>Tipo (ES)</span>
-                  <input value={draft.type.es} onChange={(e) => patch({ type: { ...draft.type, es: e.target.value } })} />
-                </label>
-                <label className="adm-f">
-                  <span>Tipo (EN)</span>
-                  <input value={draft.type.en} onChange={(e) => patch({ type: { ...draft.type, en: e.target.value } })} />
-                </label>
-                <label className="adm-f">
-                  <span>Ubicación (ES)</span>
-                  <input value={draft.location.es} onChange={(e) => patch({ location: { ...draft.location, es: e.target.value } })} />
-                </label>
-                <label className="adm-f">
-                  <span>Ubicación (EN)</span>
-                  <input value={draft.location.en} onChange={(e) => patch({ location: { ...draft.location, en: e.target.value } })} />
-                </label>
-                <label className="adm-f">
-                  <span>Descripción (ES)</span>
-                  <textarea rows={3} value={draft.description.es} onChange={(e) => patch({ description: { ...draft.description, es: e.target.value } })} />
-                </label>
-                <label className="adm-f">
-                  <span>Descripción (EN)</span>
-                  <textarea rows={3} value={draft.description.en} onChange={(e) => patch({ description: { ...draft.description, en: e.target.value } })} />
-                </label>
-                <label className="adm-f adm-f-check">
-                  <input type="checkbox" checked={draft.featured} onChange={(e) => patch({ featured: e.target.checked })} />
-                  <span>Destacado en el inicio (★)</span>
-                </label>
-              </section>
+      {toast && <div key={toast.id} className={`adm-toast is-${toast.kind}`} role="status">{toast.text}</div>}
+    </div>
+  )
+}
 
-              <div className="adm-savebar">
-                <button className="adm-save" onClick={saveMeta} disabled={busy || !dirty}>{dirty ? 'Guardar cambios •' : 'Sin cambios'}</button>
-                <span className="adm-hint">Subir/borrar guarda automáticamente. Para publicar online: <code>git push</code>.</span>
-              </div>
-
-              {/* Dropzone */}
-              <div
-                className={'adm-drop' + (dragOver ? ' is-over' : '')}
-                onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
-                onDragLeave={() => setDragOver(false)}
-                onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFiles(e.dataTransfer.files) }}
-                onClick={() => fileInput.current?.click()}
-              >
-                <input
-                  ref={fileInput} type="file" accept="image/*" multiple hidden
-                  onChange={(e) => { handleFiles(e.target.files); e.target.value = '' }}
-                />
-                Arrastra fotos aquí o haz clic para subir (se optimizan automáticamente)
-              </div>
-
-              {/* Image grid */}
-              <div className="adm-grid">
-                {ordered.map((file, i) => {
-                  const cap = draft.captions[file] || { es: '', en: '' }
-                  return (
-                    <div key={file} className={'adm-card' + (draft.hero === file ? ' is-hero' : '')}>
-                      <div className="adm-thumb">
-                        <img src={`/albums/${selected}/${file}`} alt={file} loading="lazy" />
-                        {draft.hero === file && <span className="adm-herotag">Portada</span>}
-                      </div>
-                      <div className="adm-card-body">
-                        <div className="adm-card-row">
-                          <span className="adm-fname">{i + 1}. {file}</span>
-                          <span className="adm-card-btns">
-                            <button onClick={() => moveImage(file, -1)} disabled={busy || i === 0} title="Subir">↑</button>
-                            <button onClick={() => moveImage(file, 1)} disabled={busy || i === ordered.length - 1} title="Bajar">↓</button>
-                            <button onClick={() => patch({ hero: file })} disabled={busy} title="Usar como portada">★</button>
-                            <button className="adm-x" onClick={() => removeImage(file)} disabled={busy} title="Borrar">✕</button>
-                          </span>
-                        </div>
-                        <input className="adm-cap" placeholder="Caption ES" value={cap.es} onChange={(e) => setCaption(file, 'es', e.target.value)} />
-                        <input className="adm-cap" placeholder="Caption EN" value={cap.en} onChange={(e) => setCaption(file, 'en', e.target.value)} />
-                      </div>
-                    </div>
-                  )
-                })}
-                {ordered.length === 0 && <div className="adm-empty">Sin fotos todavía. Sube algunas arriba.</div>}
-              </div>
-            </>
-          )}
-        </main>
+function Screen({ children }) {
+  return (
+    <div className="adm-screen">
+      <div className="adm-box">
+        <Monogram size={40} color="#B39B78" />
+        {children}
       </div>
     </div>
   )

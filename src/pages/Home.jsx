@@ -198,6 +198,13 @@ function Contact({ t, lang }) {
           <ul className="contact-meta">
             <li><a href={`mailto:${business.email}`}>{business.email}</a></li>
             {business.phone && <li><a href={`tel:${business.phone.replace(/[^\d+]/g, '')}`}>{business.phone}</a></li>}
+            {business.whatsapp && (
+              <li>
+                <a href={`https://wa.me/${business.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
+                  WhatsApp {business.whatsapp}
+                </a>
+              </li>
+            )}
             <li>{t.contact.region}</li>
           </ul>
         </div>
