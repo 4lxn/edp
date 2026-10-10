@@ -628,7 +628,10 @@ ul { list-style: none; }
 .g-frame {
   display: block;
   position: relative;
-  overflow: hidden;
+  /* clip, not hidden: `overflow: hidden` makes this box a scroll container,
+     and the .g-img view() parallax would then track it instead of the page
+     (it never moved). clip crops the same without being a scroller. */
+  overflow: clip;
   background: var(--bg-2);
   flex: 1;
   min-height: 280px;
@@ -695,7 +698,7 @@ ul { list-style: none; }
 .break {
   position: relative;
   height: clamp(380px, 70vh, 720px);
-  overflow: hidden;
+  overflow: clip; /* not hidden — see .g-frame: keeps the view() parallax alive */
   background: var(--ink);
   margin: 0;
 }
