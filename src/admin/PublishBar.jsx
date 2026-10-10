@@ -16,37 +16,47 @@ function summarize({ written, deleted }) {
   return [...counts].map(([k, n]) => (n > 1 ? `${k} ×${n}` : k))
 }
 
-const POLL_MS = 8000
+const STUCK_S = 600 // the server allows unlocking after 10 minutes
 
 /**
- * Sticky bar: how many edits are unpublished, and the Publicar flow. After
- * publishing it polls /status until the server reports the new commit is the
- * running deployment (Railway rebuilds in ~2 minutes).
+ * Sticky bar: how many edits are unpublished, and the Publicar flow. Publishing
+ * runs on the server in two phases — sending the commit to GitHub, then Railway
+ * rebuilding the site (~2 minutes) — and this bar follows it via /status.
  */
-export default function PublishBar({ content, run, reload, notify }) {
+export default function PublishBar({ content, run, reload, notify, busy }) {
   const [open, setOpen] = useState(false)
   const [note, setNote] = useState('')
-  const [busy, setBusy] = useState(false)
+  const [sending, setSending] = useState(false)
   const [elapsed, setElapsed] = useState(0)
-  const { changes, publishing, canPublish, mode } = content
+  const { changes, publishing, canPublish, mode, lastError } = content
   const pending = changes.written.length + changes.deleted.length
+  const phase = publishing ? publishing.phase || 'deploying' : null
 
   useEffect(() => {
     if (!publishing) return
     const started = Date.parse(publishing.at)
-    const tick = setInterval(() => setElapsed(Math.round((Date.now() - started) / 1000)), 1000)
-    const poll = setInterval(async () => {
+    const update = () => setElapsed(Math.max(0, Math.round((Date.now() - started) / 1000)))
+    update()
+    const tick = setInterval(update, 1000)
+    let stopped = false
+    let timer
+    const every = phase === 'committing' ? 2000 : 8000
+    const poll = async () => {
       try {
         const st = await api.status()
+        if (stopped) return
         if (!st.publishing) {
-          clearInterval(poll)
-          notify('¡Publicado! Los cambios ya están en línea.')
-          reload()
+          const failed = st.lastError && Date.parse(st.lastError.at) >= started
+          notify(failed ? `No se publicó: ${st.lastError.message}` : '¡Publicado! Los cambios ya están en línea.', failed ? 'err' : 'ok')
+          return reload()
         }
+        if ((st.publishing.phase || 'deploying') !== phase) return reload() // GitHub done → now Railway
       } catch { /* the server restarts during the deploy — keep waiting */ }
-    }, POLL_MS)
-    return () => { clearInterval(tick); clearInterval(poll) }
-  }, [publishing, notify, reload])
+      if (!stopped) timer = setTimeout(poll, every)
+    }
+    timer = setTimeout(poll, every)
+    return () => { stopped = true; clearInterval(tick); clearTimeout(timer) }
+  }, [publishing, phase, notify, reload])
 
   if (mode === 'dev') {
     return (
@@ -62,9 +72,12 @@ export default function PublishBar({ content, run, reload, notify }) {
     return (
       <div className="adm-bar is-busy" role="status">
         <span className="adm-spinner" aria-hidden="true" />
-        <span>Publicando… el sitio se actualiza en unos 2 minutos <span className="adm-muted">({min}:{sec})</span></span>
-        {elapsed > 600 && (
-          <button className="adm-btn" onClick={() => run(api.unlock, 'Desbloqueado')}>¿Tarda demasiado? Desbloquear</button>
+        <span>
+          {phase === 'committing' ? 'Enviando los cambios a GitHub…' : 'Publicando… el sitio se actualiza en unos 2 minutos'}
+          {' '}<span className="adm-muted">({min}:{sec})</span>
+        </span>
+        {phase !== 'committing' && elapsed > STUCK_S && (
+          <button className="adm-btn" onClick={() => run(api.unlock).catch(() => {})}>¿Tarda demasiado? Desbloquear</button>
         )}
       </div>
     )
@@ -73,13 +86,13 @@ export default function PublishBar({ content, run, reload, notify }) {
   if (!pending) return <div className="adm-bar is-ok">Todo publicado ✓</div>
 
   const publish = async () => {
-    setBusy(true)
+    setSending(true)
     try {
       await run(() => api.publish(note))
       setOpen(false)
       setNote('')
     } catch { /* toast already shown */ }
-    setBusy(false)
+    setSending(false)
   }
 
   const discard = async () => {
@@ -95,13 +108,17 @@ export default function PublishBar({ content, run, reload, notify }) {
           <span aria-hidden="true">{open ? '▴' : '▾'}</span>
         </button>
         <div className="adm-bar-actions">
-          <button className="adm-btn" onClick={discard} disabled={busy}>Descartar</button>
-          <button className="adm-btn adm-btn-primary" onClick={() => setOpen(true)} disabled={busy || !canPublish}>Publicar</button>
+          <button className="adm-btn" onClick={discard} disabled={sending || busy}>Descartar</button>
+          <button className="adm-btn adm-btn-primary" onClick={() => setOpen(true)} disabled={sending || busy || !canPublish}>
+            Publicar
+          </button>
         </div>
       </div>
+      {busy && <p className="adm-msg">Espera a que terminen de subir las fotos para publicar.</p>}
       {!canPublish && (
         <p className="adm-msg err">Publicar aún no está activo: falta <code>GITHUB_TOKEN</code> en las variables de Railway.</p>
       )}
+      {lastError && <p className="adm-msg err" role="alert">La última publicación no se completó: {lastError.message}</p>}
       {open && (
         <div className="adm-bar-panel">
           <ul>{summarize(changes).map((line) => <li key={line}>{line}</li>)}</ul>
@@ -111,8 +128,8 @@ export default function PublishBar({ content, run, reload, notify }) {
                 <span>Nota (opcional)</span>
                 <input value={note} onChange={(e) => setNote(e.target.value)} placeholder="Ej. fotos nuevas de Acapulco" maxLength={200} />
               </label>
-              <button className="adm-btn adm-btn-primary" onClick={publish} disabled={busy}>
-                {busy ? 'Publicando…' : 'Publicar ahora'}
+              <button className="adm-btn adm-btn-primary" onClick={publish} disabled={sending || busy}>
+                {sending ? 'Publicando…' : 'Publicar ahora'}
               </button>
             </>
           )}

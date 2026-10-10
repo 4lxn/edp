@@ -2,11 +2,13 @@ import { useEffect, useRef, useState } from 'react'
 import { api, slugify } from './api'
 import { Pair, useUnsavedWarning } from './ui'
 
+const MAX_UPLOAD_MB = 30 // same limit as server/admin-api.mjs
+
 const pair = (v) => (typeof v === 'string' ? { es: v, en: v } : { es: v?.es || '', en: v?.en || '' })
 
 function toDraft(al) {
   return {
-    title: al.title || '',
+    title: typeof al.title === 'string' ? al.title : al.title?.es || al.title?.en || '',
     type: pair(al.type),
     location: pair(al.location),
     description: pair(al.description),
@@ -30,7 +32,7 @@ const pendingIn = (changes, slug) =>
 
 const DISCARD = 'Tienes cambios sin guardar en este proyecto. ¿Descartarlos?'
 
-export default function AlbumsView({ content, run, notify, locked }) {
+export default function AlbumsView({ content, run, notify, locked, onBusyChange }) {
   const [selected, setSelected] = useState(null)
   const [dirty, setDirty] = useState(false)
   const album = content.albums.find((a) => a.slug === selected)
@@ -63,7 +65,7 @@ export default function AlbumsView({ content, run, notify, locked }) {
                   ? <img src={api.thumb(a.slug, a.hero, 240)} alt="" loading="lazy" />
                   : <span className="adm-item-ph" aria-hidden="true" />}
                 <span className="adm-item-txt">
-                  <span className="adm-item-t">{a.title || a.slug}</span>
+                  <span className="adm-item-t">{toDraft(a).title || a.slug}</span>
                   <span className="adm-item-m">
                     {a.files.length} {a.files.length === 1 ? 'foto' : 'fotos'}
                     {a.featured && ' · ★ inicio'}
@@ -86,6 +88,7 @@ export default function AlbumsView({ content, run, notify, locked }) {
             locked={locked}
             later={later}
             onDirtyChange={setDirty}
+            onBusyChange={onBusyChange}
             onBack={() => select(null)}
           />
         )
@@ -127,18 +130,21 @@ function NewAlbum({ run, locked, onCreated }) {
   )
 }
 
-function AlbumEditor({ album, run, notify, locked, later, onDirtyChange, onBack }) {
+function AlbumEditor({ album, run, notify, locked, later, onDirtyChange, onBusyChange, onBack }) {
   const [draft, setDraft] = useState(() => toDraft(album))
   const [dirty, setDirty] = useState(false)
+  const [saving, setSaving] = useState(false)
   const [uploads, setUploads] = useState([])
   const [over, setOver] = useState(false)
   const fileInput = useRef(null)
   const uploading = uploads.some((u) => !u.done)
-  const disabled = locked || uploading
+  const disabled = locked || uploading || saving
 
-  useUnsavedWarning(dirty)
+  useUnsavedWarning(dirty || uploading)
   useEffect(() => { onDirtyChange(dirty) }, [dirty, onDirtyChange])
   useEffect(() => () => onDirtyChange(false), [onDirtyChange])
+  useEffect(() => { onBusyChange?.(uploading) }, [uploading, onBusyChange])
+  useEffect(() => () => onBusyChange?.(false), [onBusyChange])
 
   // A fresh snapshot (after an upload or a deleted photo) refreshes the form
   // unless it holds unsaved edits.
@@ -154,11 +160,17 @@ function AlbumEditor({ album, run, notify, locked, later, onDirtyChange, onBack 
   const files = ordered(album.files, draft.imageOrder)
   const hero = files.includes(draft.hero) ? draft.hero : files[0]
 
+  // The form is disabled while saving, so nothing typed meanwhile is lost.
   const save = async () => {
-    const data = await run(() => api.saveAlbum(album.slug, { ...draft, imageOrder: files }), 'Guardado' + later)
-    const fresh = data.albums?.find((a) => a.slug === album.slug)
-    if (fresh) setDraft(toDraft(fresh))
-    setDirty(false)
+    setSaving(true)
+    try {
+      const data = await run(() => api.saveAlbum(album.slug, { ...draft, imageOrder: files }), 'Guardado' + later)
+      const fresh = data.albums?.find((a) => a.slug === album.slug)
+      if (fresh) setDraft(toDraft(fresh))
+      setDirty(false)
+    } finally {
+      setSaving(false)
+    }
   }
   const saveIfDirty = async () => { if (dirty) await save() }
 
@@ -180,13 +192,21 @@ function AlbumEditor({ album, run, notify, locked, later, onDirtyChange, onBack 
   }
 
   const upload = async (list) => {
-    const picked = [...list].filter((f) => f.type.startsWith('image/') || /\.(jpe?g|png|webp|heic|heif)$/i.test(f.name))
+    const picked = [...list].filter((f) => f.type.startsWith('image/') || /\.(jpe?g|png|webp|avif|heic|heif)$/i.test(f.name))
     if (!picked.length) return
     try { await saveIfDirty() } catch { return }
-    const entries = picked.map((f, i) => ({ id: `${Date.now()}-${i}`, name: f.name, progress: 0, done: false, error: '' }))
+    const entries = picked.map((f, i) => ({
+      id: `${Date.now()}-${i}`,
+      name: f.name,
+      progress: 0,
+      ...(f.size > MAX_UPLOAD_MB * 1024 * 1024
+        ? { done: true, error: `Pesa ${Math.round(f.size / 1024 / 1024)} MB; el máximo es ${MAX_UPLOAD_MB} MB.` }
+        : { done: false, error: '' }),
+    }))
     setUploads((u) => [...u.filter((x) => x.error), ...entries])
     let ok = 0
     for (let i = 0; i < picked.length; i++) {
+      if (entries[i].error) continue
       const { id } = entries[i]
       const update = (edits) => setUploads((u) => u.map((x) => (x.id === id ? { ...x, ...edits } : x)))
       try {
@@ -266,7 +286,7 @@ function AlbumEditor({ album, run, notify, locked, later, onDirtyChange, onBack 
         onDragLeave={() => setOver(false)}
         onDrop={(e) => { e.preventDefault(); setOver(false); if (!disabled) upload(e.dataTransfer.files) }}
       >
-        Arrastra fotos aquí o usa «Subir fotos». Se optimizan solas (JPG o PNG).
+        Arrastra fotos aquí o usa «Subir fotos». Se optimizan solas (JPG o PNG, hasta {MAX_UPLOAD_MB} MB).
       </div>
 
       {uploads.length > 0 && (
@@ -325,9 +345,9 @@ function AlbumEditor({ album, run, notify, locked, later, onDirtyChange, onBack 
 
       {dirty && (
         <div className="adm-savebar" role="region" aria-label="Cambios sin guardar">
-          <span>Cambios sin guardar</span>
-          <button className="adm-btn" onClick={() => { setDraft(toDraft(album)); setDirty(false) }}>Deshacer</button>
-          <button className="adm-btn adm-btn-primary" onClick={() => save().catch(() => {})} disabled={locked}>Guardar</button>
+          <span>{saving ? 'Guardando…' : 'Cambios sin guardar'}</span>
+          <button className="adm-btn" onClick={() => { setDraft(toDraft(album)); setDirty(false) }} disabled={saving}>Deshacer</button>
+          <button className="adm-btn adm-btn-primary" onClick={() => save().catch(() => {})} disabled={locked || saving}>Guardar</button>
         </div>
       )}
     </section>

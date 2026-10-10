@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { api } from './api'
 import { Monogram } from '../components/Brand'
 
-export default function Login({ onLogin }) {
+export default function Login({ onLogin, expired = false }) {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
@@ -25,7 +25,9 @@ export default function Login({ onLogin }) {
       <form className="adm-box" onSubmit={submit}>
         <Monogram size={40} color="#B39B78" />
         <h1>Estructuras del Pacífico</h1>
-        <p className="adm-msg">Administración del sitio</p>
+        <p className="adm-msg">
+          {expired ? 'Tu sesión terminó. Entra de nuevo: tus cambios sin guardar siguen aquí.' : 'Administración del sitio'}
+        </p>
         <label className="adm-f">
           <span>Contraseña</span>
           <input

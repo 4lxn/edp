@@ -127,9 +127,17 @@ scripts/              prerender, sync-albums, new-album, optimize-images,
   el editor de Textos recorre esa forma solo, así que textos nuevos aparecen
   solos (etiquetas en `SECTIONS`/`PATH_LABELS` de TextsEditor.jsx).
 - El admin hace **commits directos** a la rama que despliega Railway → `git pull
-  --rebase` antes de hacer push. Mientras publica, bloquea ediciones; al
-  arrancar, el deploy cuyo `RAILWAY_GIT_COMMIT_SHA` es el publicado limpia los
-  pendientes (y `prune()` descarta pendientes que ya están en el checkout).
+  --rebase` antes de hacer push. Los cambios corren uno a la vez (cola en
+  admin-api) y ninguno mientras se publica. Publicar va en segundo plano:
+  `publishing.phase` = `committing` (GitHub) → `deploying` (Railway); un error
+  queda en `lastError` y desbloquea. Si la rama cambió un JSON desde que se
+  empezó a editar (`origins.json`), se combina con `server/merge.mjs` (gana el
+  admin solo donde ambos tocaron lo mismo). Al arrancar, `prune()` quita lo que
+  el checkout ya tiene; nada más se borra.
+- Lo que el admin guarda no puede romper el build: `albums.mjs` rechaza textos
+  vacíos que antes tenían algo y las palabras que el pre-render toma como bug
+  (`undefined`, `NaN`, `[object Object]`). Prueba de punta a punta (sin tocar el
+  repo): se hizo con copias temporales y un mock de la API de GitHub.
 - **Formulario de contacto**: FormSubmit AJAX, con honeypot.
 - No editar `albums.generated.js`.
 - `public/CNAME` solo servía a GitHub Pages; se puede borrar tras mover el DNS

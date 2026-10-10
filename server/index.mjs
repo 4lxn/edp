@@ -82,16 +82,28 @@ const branch = process.env.GITHUB_BRANCH || process.env.RAILWAY_GIT_BRANCH
 const publisher = process.env.GITHUB_TOKEN && repo && branch
   ? createPublisher({ token: process.env.GITHUB_TOKEN, repo, branch, apiUrl: process.env.GITHUB_API_URL })
   : null
-const adminApi = await createAdminApi({
-  store: new OverlayStore({ root: ROOT, dataDir: DATA_DIR }),
-  mode: 'prod',
-  password: process.env.ADMIN_PASSWORD,
-  dataDir: DATA_DIR,
-  publisher,
-  deployedSha: process.env.RAILWAY_GIT_COMMIT_SHA || process.env.DEPLOYED_SHA,
-})
-console.log(`  admin: ${process.env.ADMIN_PASSWORD ? 'password set' : 'disabled (no ADMIN_PASSWORD)'}`
-  + ` · publish: ${publisher ? `${repo}@${branch}` : 'off (needs GITHUB_TOKEN)'}`)
+const deployedSha = process.env.RAILWAY_GIT_COMMIT_SHA || process.env.DEPLOYED_SHA
+let adminApi
+try {
+  adminApi = await createAdminApi({
+    store: new OverlayStore({ root: ROOT, dataDir: DATA_DIR }),
+    mode: 'prod',
+    password: process.env.ADMIN_PASSWORD,
+    dataDir: DATA_DIR,
+    publisher,
+    deployedSha,
+  })
+  console.log(`  admin: ${process.env.ADMIN_PASSWORD ? 'password set' : 'disabled (no ADMIN_PASSWORD)'}`
+    + ` · publish: ${publisher ? `${repo}@${branch}` : `off (needs GITHUB_TOKEN${repo && branch ? '' : ' + repo/branch'})`}`
+    + ` · deployed ${deployedSha ? deployedSha.slice(0, 7) : 'unknown'}`)
+} catch (err) {
+  // The site must keep running even if the admin can't start (e.g. a full volume).
+  console.error('✗ admin failed to start; serving the site without it:', err)
+  adminApi = async (req, res) => {
+    res.writeHead(503, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' })
+    res.end(JSON.stringify({ error: 'El panel no pudo iniciar. Revisa los logs en Railway.' }))
+  }
+}
 
 /** Split a raw request target into path + query without URL parsing (which
  *  would treat "//host/…" as an authority and can throw on garbage). */

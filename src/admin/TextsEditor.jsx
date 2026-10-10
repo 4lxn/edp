@@ -149,6 +149,7 @@ const toDraft = (site) => {
 export default function TextsEditor({ site, run, locked, mode }) {
   const [draft, setDraft] = useState(() => toDraft(site))
   const [dirty, setDirty] = useState(false)
+  const [saving, setSaving] = useState(false)
   const [query, setQuery] = useState('')
   const later = mode === 'prod' ? ' · falta publicar' : ''
   const sections = useMemo(() => sectionsOf(site.es), [site])
@@ -162,20 +163,34 @@ export default function TextsEditor({ site, run, locked, mode }) {
   const social = draft.business.social || []
   const badSocial = social.filter((u) => u.trim() && !/^https:\/\/\S+$/.test(u.trim()))
   const badEmail = !EMAIL.test(draft.business.email.trim())
+  // Texts that had words can't be left empty (the server refuses it too).
+  const empty = new Set()
+  for (const s of sections) {
+    for (const f of s.fields) {
+      for (const lang of ['es', 'en']) {
+        const was = String(getIn(site[lang], f.path) ?? '').trim()
+        if (was && !String(getIn(draft[lang], f.path) ?? '').trim()) empty.add(`${lang}:${f.path.join('.')}`)
+      }
+    }
+  }
+  const invalid = badEmail || badSocial.length > 0 || empty.size > 0
 
   const save = async () => {
-    if (badEmail || badSocial.length) return
+    if (invalid) return
     const lost = lostTokens(site, draft, sections)
     if (lost.length && !confirm(
       `Estos textos perdieron marcadores que el sitio reemplaza solo:\n\n${lost.slice(0, 6).join('\n')}`
       + `${lost.length > 6 ? `\n… y ${lost.length - 6} más` : ''}\n\n¿Guardar de todos modos?`,
     )) return
     const body = { ...draft, business: { ...draft.business, social: social.map((u) => u.trim()).filter(Boolean) } }
+    // The form is disabled while saving, so nothing typed meanwhile is lost.
+    setSaving(true)
     try {
       const data = await run(() => api.saveSite(body), 'Textos guardados' + later)
       if (data?.site) setDraft(toDraft(data.site))
       setDirty(false)
     } catch { /* toast shown */ }
+    setSaving(false)
   }
 
   // Saved and draft texts both count, so a field doesn't vanish while you
@@ -199,7 +214,8 @@ export default function TextsEditor({ site, run, locked, mode }) {
             label={f.label}
             value={{ es, en }}
             onChange={(lang, v) => setText(lang, f.path, v)}
-            long={LONG.has(f.key) || es.length > 90}
+            long={LONG.has(f.key) || String(getIn(site.es, f.path)).length > 90}
+            invalid={['es', 'en'].filter((l) => empty.has(`${l}:${f.path.join('.')}`))}
             max={isSeo && f.key === 'title' ? 60 : isSeo && f.key === 'description' ? 155 : 0}
             hint={marks.length ? `Conserva ${marks.join(' ')}: el sitio los reemplaza solo.` : undefined}
           />
@@ -220,7 +236,7 @@ export default function TextsEditor({ site, run, locked, mode }) {
         />
       </div>
 
-      <fieldset className="adm-texts-body" disabled={locked}>
+      <fieldset className="adm-texts-body" disabled={locked || saving}>
         <legend className="sr-only">Textos del sitio</legend>
         {locked && <p className="adm-msg">Publicando… podrás editar en cuanto termine.</p>}
 
@@ -329,9 +345,14 @@ export default function TextsEditor({ site, run, locked, mode }) {
 
       {dirty && (
         <div className="adm-savebar" role="region" aria-label="Cambios sin guardar">
-          <span>{badEmail || badSocial.length ? 'Revisa los datos marcados' : 'Cambios sin guardar'}</span>
-          <button className="adm-btn" onClick={() => { setDraft(toDraft(site)); setDirty(false) }}>Deshacer</button>
-          <button className="adm-btn adm-btn-primary" onClick={save} disabled={locked || badEmail || badSocial.length > 0}>Guardar</button>
+          <span>
+            {saving ? 'Guardando…'
+              : badEmail || badSocial.length ? 'Revisa los datos marcados'
+              : empty.size ? `${empty.size} ${empty.size === 1 ? 'texto quedó vacío' : 'textos quedaron vacíos'}: escribe algo o deshaz`
+              : 'Cambios sin guardar'}
+          </span>
+          <button className="adm-btn" onClick={() => { setDraft(toDraft(site)); setDirty(false) }} disabled={saving}>Deshacer</button>
+          <button className="adm-btn adm-btn-primary" onClick={save} disabled={locked || saving || invalid}>Guardar</button>
         </div>
       )}
     </div>

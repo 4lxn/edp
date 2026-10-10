@@ -15,13 +15,14 @@ export default function Admin() {
   const [session, setSession] = useState(null) // { authenticated, configured, mode }
   const [content, setContent] = useState(null)
   const [tab, setTab] = useState('albums')
+  const [busy, setBusy] = useState(false) // photos uploading
   const [toast, setToast] = useState(null)
   const [fatal, setFatal] = useState('')
 
   const notify = useCallback((text, kind = 'ok') => setToast({ text, kind, id: Date.now() }), [])
   useEffect(() => {
     if (!toast) return
-    const t = setTimeout(() => setToast(null), toast.kind === 'err' ? 6000 : 3500)
+    const t = setTimeout(() => setToast(null), toast.kind === 'err' ? 7000 : 3500)
     return () => clearTimeout(t)
   }, [toast])
 
@@ -49,13 +50,14 @@ export default function Admin() {
       return data
     } catch (e) {
       if (e.status === 401) signedOut()
-      notify(e.message, 'err')
+      else notify(e.message, 'err')
       throw e
     }
   }, [notify, signedOut])
 
   const logout = async () => {
     await api.logout().catch(() => {})
+    setContent(null)
     signedOut()
   }
 
@@ -72,9 +74,8 @@ export default function Admin() {
       </Screen>
     )
   }
-  if (!session.authenticated) {
-    return <Login onLogin={() => { setSession((s) => ({ ...s, authenticated: true })); load() }} />
-  }
+  const signIn = () => { setSession((s) => ({ ...s, authenticated: true })); if (!content) load() }
+  if (!content && !session.authenticated) return <Login onLogin={signIn} />
   if (!content) return <Screen><p className="adm-msg">Cargando contenido…</p></Screen>
 
   const locked = !!content.publishing
@@ -96,17 +97,24 @@ export default function Admin() {
         </div>
       </header>
 
-      <PublishBar content={content} run={run} reload={load} notify={notify} />
+      <PublishBar content={content} run={run} reload={load} notify={notify} busy={busy} />
 
       {/* Both stay mounted so switching tabs keeps unsaved edits. */}
       <main className="adm-main">
         <div hidden={tab !== 'albums'}>
-          <AlbumsView content={content} run={run} notify={notify} locked={locked} />
+          <AlbumsView content={content} run={run} notify={notify} locked={locked} onBusyChange={setBusy} />
         </div>
         <div hidden={tab !== 'texts'}>
           <TextsEditor site={content.site} run={run} locked={locked} mode={content.mode} />
         </div>
       </main>
+
+      {/* An expired session asks for the password over the page, so unsaved edits survive. */}
+      {!session.authenticated && (
+        <div className="adm-overlay" role="dialog" aria-modal="true" aria-label="Volver a entrar">
+          <Login onLogin={signIn} expired />
+        </div>
+      )}
 
       {toast && <div key={toast.id} className={`adm-toast is-${toast.kind}`} role="status">{toast.text}</div>}
     </div>
