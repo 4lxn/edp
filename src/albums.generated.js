@@ -937,7 +937,7 @@ export const SITE = {
   "w": 4032,
   "h": 3024,
   "focus": "42% 40%",
-  "focusMobile": "30% 40%"
+  "focusMobile": "39% 40%"
  },
  "og": {
   "src": "/assets/portada-palapa-mar.jpeg",
