@@ -1,7 +1,7 @@
 # Álbumes de proyectos
 
 Cada carpeta aquí dentro = 1 proyecto en el sitio.
-La carpeta `<slug>/` se vuelve la URL `/#/album/<slug>`.
+La carpeta `<slug>/` se vuelve la URL `/proyectos/<slug>/`.
 
 **Lo mínimo para que aparezca un proyecto: una carpeta con fotos.** Todo lo
 demás (título, captions, etc.) es opcional y se rellena solo con valores por
@@ -11,7 +11,7 @@ defecto. Al hacer push a `main`, el sitio se reconstruye y publica solo.
 
 Con el sitio corriendo en desarrollo (`npm run dev`), abre:
 
-> **http://localhost:5173/#/admin**
+> **http://localhost:5173/admin**
 
 Desde ahí, sin tocar archivos a mano: crear álbumes; editar título, tipo,
 ubicación (ES/EN), orden, destacado y portada; subir fotos arrastrándolas (se

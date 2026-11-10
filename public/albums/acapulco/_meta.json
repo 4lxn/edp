@@ -28,5 +28,20 @@
     "15.jpeg",
     "16.jpeg"
   ],
-  "captions": {}
+  "captions": {},
+  "sequence": [
+    "05.jpeg",
+    "01.jpeg",
+    "08.jpeg",
+    "06.jpeg",
+    "02.jpeg",
+    "16.jpeg",
+    "14.jpeg",
+    "03.jpeg",
+    "11.jpeg",
+    "12.jpeg"
+  ],
+  "process": [
+    "09.jpeg"
+  ]
 }

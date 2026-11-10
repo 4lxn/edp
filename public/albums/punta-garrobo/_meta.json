@@ -10,7 +10,7 @@
     "es": "Zihuatanejo, Gro. · MX",
     "en": "Zihuatanejo, Gro. · MX"
   },
-  "hero": "07.jpeg",
+  "hero": "02-vista-mar.jpeg",
   "imageOrder": [
     "07.jpeg",
     "02-vista-mar.jpeg",
@@ -129,5 +129,23 @@
       "es": "",
       "en": ""
     }
-  }
+  },
+  "sequence": [
+    "10.jpeg",
+    "19.jpeg",
+    "22.jpeg",
+    "21.jpeg",
+    "12.jpeg",
+    "08.jpeg",
+    "04-pergola-acceso.jpeg",
+    "14.jpeg",
+    "27.jpeg",
+    "03-jungla.jpeg",
+    "15.jpeg"
+  ],
+  "process": [
+    "23.jpeg",
+    "16.jpeg",
+    "17.jpeg"
+  ]
 }

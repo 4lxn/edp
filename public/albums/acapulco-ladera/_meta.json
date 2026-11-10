@@ -1,0 +1,37 @@
+{
+  "order": 6,
+  "featured": false,
+  "title": "Ladera en Acapulco",
+  "type": {
+    "es": "Obra en proceso",
+    "en": "Work in progress"
+  },
+  "location": {
+    "es": "Acapulco, Gro. · MX",
+    "en": "Acapulco, Gro. · MX"
+  },
+  "hero": "01.jpeg",
+  "imageOrder": [
+    "01.jpeg",
+    "02.jpeg",
+    "03.jpeg",
+    "04.jpeg",
+    "05.jpeg",
+    "06.jpeg",
+    "07.jpeg",
+    "08.jpeg"
+  ],
+  "sequence": [
+    "02.jpeg",
+    "05.jpeg",
+    "04.jpeg",
+    "03.jpeg",
+    "06.jpeg",
+    "08.jpeg",
+    "07.jpeg"
+  ],
+  "focus": {
+    "01.jpeg": "50% 30%"
+  },
+  "captions": {}
+}

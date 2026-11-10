@@ -1,0 +1,40 @@
+{
+  "hero": {
+    "src": "assets/portada-palapa-mar.jpeg",
+    "focus": "42% 40%",
+    "focusMobile": "30% 40%"
+  },
+  "og": "assets/portada-palapa-mar.jpeg",
+  "services": {
+    "palapas": "albums/punta-garrobo/19.jpeg",
+    "pergolas": "albums/punta-garrobo/08.jpeg",
+    "hospitality": "albums/tanta-vida/01-palapa-costa.jpeg",
+    "maintenance": "albums/punta-garrobo/12.jpeg"
+  },
+  "film": [
+    {
+      "video": "video/obra-cubierta-petate.mp4",
+      "poster": "video/obra-cubierta-petate.jpg",
+      "alt": {
+        "es": "Recorrido por una cubierta terminada de petate con vigas de madera oscura",
+        "en": "Slow pan across a finished woven-palm ceiling with dark timber rafters"
+      }
+    },
+    {
+      "src": "albums/acapulco-ladera/02.jpeg",
+      "focus": "46% 50%",
+      "alt": {
+        "es": "Armado en sitio de la estructura de troncos de una palapa",
+        "en": "Log frame of a palapa being assembled on site"
+      }
+    },
+    {
+      "video": "video/obra-cubierta-radial.mp4",
+      "poster": "video/obra-cubierta-radial.jpg",
+      "alt": {
+        "es": "Recorrido por una cubierta radial de vigas de madera sobre duela blanca",
+        "en": "Pan along a radial timber roof over white boards"
+      }
+    }
+  ]
+}

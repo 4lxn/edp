@@ -10,7 +10,7 @@
     "es": "Zihuatanejo, Gro. · MX",
     "en": "Zihuatanejo, Gro. · MX"
   },
-  "hero": "01-palapa-costa.jpeg",
+  "hero": "02.jpeg",
   "imageOrder": [
     "01-palapa-costa.jpeg",
     "02.jpeg"
@@ -24,5 +24,8 @@
       "es": "",
       "en": ""
     }
-  }
+  },
+  "sequence": [
+    "01-palapa-costa.jpeg"
+  ]
 }

@@ -10,7 +10,7 @@
     "es": "Zihuatanejo, Gro. · MX",
     "en": "Zihuatanejo, Gro. · MX"
   },
-  "hero": "17.jpeg",
+  "hero": "01.jpeg",
   "imageOrder": [
     "01.jpeg",
     "02.jpeg",
@@ -109,5 +109,19 @@
       "es": "",
       "en": ""
     }
-  }
+  },
+  "sequence": [
+    "08.jpeg",
+    "02.jpeg",
+    "09.jpeg",
+    "04.jpeg",
+    "06.jpeg",
+    "18.jpeg",
+    "12.jpeg",
+    "10.jpeg",
+    "14.jpeg"
+  ],
+  "process": [
+    "17.jpeg"
+  ]
 }
