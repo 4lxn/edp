@@ -1,46 +1,56 @@
 import { useEffect, useState } from 'react'
-import { useReducedMotion } from 'framer-motion'
+import { useLocation } from 'react-router-dom'
+import { T } from './i18n'
+import { langOf, to, projectPath } from './routes'
 
-/** True once the page has scrolled past `threshold` px (for condensed header). */
-export function useScrolledPast(threshold) {
-  const [past, setPast] = useState(false)
-  useEffect(() => {
-    const onScroll = () => setPast(window.scrollY > threshold)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [threshold])
-  return past
+/** Language (from the URL), its strings, and path helpers bound to it. */
+export function useLang() {
+  const { pathname } = useLocation()
+  const lang = langOf(pathname)
+  return {
+    lang,
+    t: T[lang],
+    to: (key) => to(key, lang),
+    projectTo: (slug) => projectPath(slug, lang),
+  }
 }
 
-/** Reveals [data-reveal] elements on scroll via IntersectionObserver. */
-export function useReveal() {
+/** Reveals [data-reveal] elements once as they enter the viewport. */
+export function useReveal(dep) {
   useEffect(() => {
-    const els = document.querySelectorAll('[data-reveal]')
+    const els = document.querySelectorAll('[data-reveal]:not(.is-in)')
+    if (!('IntersectionObserver' in window)) {
+      els.forEach((el) => el.classList.add('is-in'))
+      return
+    }
     const io = new IntersectionObserver(
-      entries => entries.forEach(e => {
+      (entries) => entries.forEach((e) => {
         if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target) }
       }),
-      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+      { threshold: 0.08, rootMargin: '0px 0px -6% 0px' }
     )
-    els.forEach(el => io.observe(el))
+    els.forEach((el) => io.observe(el))
     return () => io.disconnect()
-  }, [])
+  }, [dep])
 }
 
 /**
- * Props for a route's root <m.div> page-transition + scroll-to-top on mount.
- * Pure opacity fade so it doesn't clash with per-section entrance choreography.
+ * True while any element matching `selector` intersects the viewport.
+ * IntersectionObserver only — the site has no scroll listeners.
+ * Returns `fallback` when no element matches.
  */
-export function usePageMotion() {
-  const reduce = useReducedMotion()
-  useEffect(() => { window.scrollTo(0, 0) }, [])
-  return reduce
-    ? {}
-    : {
-        initial: { opacity: 0 },
-        animate: { opacity: 1 },
-        exit: { opacity: 0 },
-        transition: { duration: 0.3, ease: [0.2, 0.7, 0.2, 1] },
-      }
+export function useAnyInView(selector, dep, { rootMargin = '0px', fallback = false, initial = fallback } = {}) {
+  const [inView, setInView] = useState(initial)
+  useEffect(() => {
+    const els = [...document.querySelectorAll(selector)]
+    if (!els.length || !('IntersectionObserver' in window)) { setInView(fallback); return }
+    const visible = new Set()
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => (e.isIntersecting ? visible.add(e.target) : visible.delete(e.target)))
+      setInView(visible.size > 0)
+    }, { rootMargin })
+    els.forEach((el) => io.observe(el))
+    return () => io.disconnect()
+  }, [selector, dep, rootMargin, fallback])
+  return inView
 }

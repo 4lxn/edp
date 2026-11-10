@@ -224,7 +224,7 @@ export default function Admin() {
               <div className="adm-head">
                 <h2>{draft.title || selected} <span className="adm-slug">/{selected}</span></h2>
                 <div className="adm-head-actions">
-                  <Link className="adm-link" to={`/album/${selected}`}>Ver álbum →</Link>
+                  <Link className="adm-link" to={`/proyectos/${selected}/`}>Ver álbum →</Link>
                   <button className="adm-danger" onClick={removeAlbum} disabled={busy}>Borrar álbum</button>
                 </div>
               </div>
