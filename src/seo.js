@@ -30,7 +30,7 @@ const META = {
     notFound: ['Página no encontrada · Estructuras del Pacífico', ''],
     project: (a, type, place) => [
       `${a.title}${type ? `: ${type}` : ''}${place ? ` en ${place}` : ''} · Estructuras del Pacífico`,
-      `${a.title}${place ? `, ${place}` : ''}. ${type ? `${type} construida` : 'Obra construida'} por Estructuras del Pacífico. Fotografías${a.year ? `, ${a.year}` : ''}.`,
+      `${a.title}${place ? `, ${place}` : ''}. ${type ? `${type}. ` : ''}Obra de Estructuras del Pacífico: fotografías${a.year ? `, ${a.year}` : ''}.`,
     ],
   },
   en: {
@@ -53,7 +53,7 @@ const META = {
     notFound: ['Page not found · Estructuras del Pacífico', ''],
     project: (a, type, place) => [
       `${a.title}${type ? `: ${type}` : ''}${place ? ` in ${place}` : ''} · Estructuras del Pacífico`,
-      `${a.title}${place ? `, ${place}` : ''}. ${type || 'Timber structure'} built by Estructuras del Pacífico. Photographs${a.year ? `, ${a.year}` : ''}.`,
+      `${a.title}${place ? `, ${place}` : ''}. ${type ? `${type}. ` : ''}Work by Estructuras del Pacífico: photographs${a.year ? `, ${a.year}` : ''}.`,
     ],
   },
 }

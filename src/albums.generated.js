@@ -16,7 +16,7 @@ export const ALBUMS = {
    "es": "Zihuatanejo, Gro. · MX",
    "en": "Zihuatanejo, Gro. · MX"
   },
-  "hero": 1,
+  "hero": 6,
   "year": null,
   "client": null,
   "architect": null,
@@ -28,7 +28,7 @@ export const ALBUMS = {
   "story": null,
   "press": null,
   "sequence": [
-   6,
+   1,
    9,
    17,
    16,
