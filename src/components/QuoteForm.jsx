@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { ALBUMS } from '../albums.generated'
 import { EMAIL } from '../facts'
+import { titleOf } from '../routes'
 import { useLang } from '../hooks'
 
 const ENDPOINT = `https://formsubmit.co/ajax/${EMAIL}`
@@ -12,8 +13,8 @@ const emailOk = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())
 function Chips({ id, legend, name, options, value, onChange, required, error }) {
   return (
     <fieldset className="fld" aria-describedby={error ? `${id}-err` : undefined}>
-      <legend className="lbl">{legend}</legend>
-      <div className="chips">
+      <legend className="lbl" id={`${id}-lbl`}>{legend}</legend>
+      <div className="chips" role="radiogroup" aria-labelledby={`${id}-lbl`} aria-required={required || undefined} aria-invalid={error ? true : undefined}>
         {options.map(([val, label]) => (
           <label key={val} className="chip">
             <input
@@ -75,7 +76,7 @@ export default function QuoteForm() {
   const summary = () => [
     [q.type, typeLabel], [q.location, v.location], [q.stage, v.stage], [q.timing, v.timing],
     [q.size, v.size], [q.name, v.name], [q.email, v.email], [q.company, v.company],
-    [q.reference, ref ? ALBUMS[ref].title : ''], [q.message, v.message],
+    [q.reference, ref ? titleOf(ALBUMS[ref], lang) : ''], [q.message, v.message],
   ].filter(([, val]) => val)
 
   const mailto = (withAnswers) => {
@@ -118,7 +119,10 @@ export default function QuoteForm() {
     data.append('Idioma del visitante', lang === 'es' ? 'Español' : 'English')
     try {
       const res = await fetch(ENDPOINT, { method: 'POST', headers: { Accept: 'application/json' }, body: data })
-      if (!res.ok) throw new Error('bad status')
+      // FormSubmit answers HTTP 200 with { success: "false" } when the address is
+      // not activated or the message is flagged, so the body decides, not the status.
+      const json = await res.json().catch(() => null)
+      if (!res.ok || !json || String(json.success) !== 'true') throw new Error('not delivered')
       setStatus('ok')
     } catch {
       setStatus('fail')
@@ -147,7 +151,7 @@ export default function QuoteForm() {
 
       {ref && (
         <p className="q-ref">
-          {q.reference}: <Link className="link" to={projectTo(ref)}>{ALBUMS[ref].title}</Link>
+          {q.reference}: <Link className="link" to={projectTo(ref)}>{titleOf(ALBUMS[ref], lang)}</Link>
         </p>
       )}
 
