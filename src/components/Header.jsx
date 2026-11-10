@@ -18,7 +18,7 @@ export function LangSwitch({ className = '' }) {
             hrefLang={l}
             lang={l}
             aria-current={l === lang ? 'true' : undefined}
-            aria-label={l === 'es' ? 'Español' : 'English'}
+            aria-label={`${l.toUpperCase()} · ${l === 'es' ? 'Español' : 'English'}`}
           >
             {l.toUpperCase()}
           </Link>

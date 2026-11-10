@@ -28,10 +28,10 @@ export default function Projects() {
       </div>
       <div className="wrap grid-2">
         {list.map((slug, i) => (
-          <ProjectCard key={slug} slug={slug} eager={i < 2} sizes="(min-width: 900px) 44vw, 90vw" />
+          <ProjectCard key={slug} slug={slug} eager={i < 2} sizes="(min-width: 900px) 44vw, 66vw" />
         ))}
       </div>
-      <CtaBand title={t.index.closing} />
+      <CtaBand title={t.index.closing} light />
     </>
   )
 }

@@ -3,7 +3,7 @@ import { ALBUMS, ALBUM_ORDER, SITE } from '../albums.generated'
 import { useLang } from '../hooks'
 import { present } from '../i18n'
 import Picture from '../components/Picture'
-import { ProjectCard, CtaBand, Process } from '../components/Blocks'
+import { ProjectCard, Process } from '../components/Blocks'
 import { QuoteSection } from '../components/QuoteForm'
 
 export function Quote() {
@@ -27,7 +27,7 @@ export function Service({ k }) {
             <Link className="link" to={to('projects')}>{t.hero.secondary}</Link>
           </div>
         </div>
-        <Picture img={SITE.services[k]} ratio={4 / 5} alt={s.alt} eager sizes="(min-width: 900px) 40vw, 90vw" />
+        <Picture img={SITE.services[k]} ratio={4 / 5} alt={s.alt} eager sizes="(min-width: 900px) 40vw, 66vw" />
       </div>
       <Process />
       <section className="sect">
@@ -37,11 +37,10 @@ export function Service({ k }) {
             <Link className="link" to={to('projects')}>{t.selected.all(ALBUM_ORDER.length)}</Link>
           </div>
           <div className="grid-2">
-            {featured.map((slug) => <ProjectCard key={slug} slug={slug} sizes="(min-width: 900px) 44vw, 90vw" />)}
+            {featured.map((slug) => <ProjectCard key={slug} slug={slug} sizes="(min-width: 900px) 44vw, 66vw" />)}
           </div>
         </div>
       </section>
-      <CtaBand title={t.footer.closing} />
     </>
   )
 }

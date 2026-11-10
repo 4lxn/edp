@@ -45,7 +45,9 @@ export const FACTS = {
   /* ── Claims to confirm (each `true` reveals the sentence/section) ── */
   hospitalityScheduling: null, // "ajustamos el calendario a la operación del hotel…"
   audienceClaims: null,        // landing "Para quién" (own crew, off-season work, on-date delivery…)
-  onSiteCrewClaim: null,       // "En obra" line: "…por la misma cuadrilla, pieza por pieza."
+  onSiteCrewClaim: null,       // one workshop/crew designs, prepares and raises every structure
+                               //   ("En obra" line and the studio paragraph)
+  engineeredForCoast: null,    // "calculadas para el viento y la humedad de la costa"
 
   /* ── Privacy notice ── */
   legalEntity: null,          // string — razón social responsable de los datos

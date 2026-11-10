@@ -31,7 +31,7 @@ export default function Footer() {
           <Link to={to('privacy')}>{t.nav.privacy}</Link>
           <LangSwitch />
         </nav>
-        <p className="ftr-legal">{t.brand} · {t.footer.address} · © 2026</p>
+        <p className="ftr-legal">{t.brand} · {t.footer.address} · {t.footer.rights(__BUILD_YEAR__)}</p>
       </div>
     </footer>
   )

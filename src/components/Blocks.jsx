@@ -4,6 +4,7 @@ import { FACTS } from '../facts'
 import { present } from '../i18n'
 import { placeName } from '../seo'
 import { useLang } from '../hooks'
+import { titleOf } from '../routes'
 import Picture from './Picture'
 
 export const Arrow = () => <span className="arrow" aria-hidden="true">→</span>
@@ -22,16 +23,17 @@ export function pressOn(slug) {
 export function ProjectCard({ slug, ratio = 3 / 2, sizes, className = '', eager }) {
   const { lang, t, projectTo } = useLang()
   const a = ALBUMS[slug]
+  const title = titleOf(a, lang)
   const meta = metaLine(a, lang)
   const press = pressOn(slug)
   return (
     <Link className={'card ' + className} to={projectTo(slug)} data-reveal>
       <Picture
         img={a.images[a.hero]} ratio={ratio} sizes={sizes} eager={eager}
-        alt={t.project.photoAlt(a.title, placeName(a.location[lang]), 1)}
+        alt={t.project.photoAlt(title, placeName(a.location[lang]), 1)}
       />
       <span className="card-text">
-        <span className="h3 card-title">{a.title} <Arrow /></span>
+        <span className="h3 card-title">{title} <Arrow /></span>
         {meta && <span className="meta">{meta}</span>}
         {a.fact && <span className="meta card-fact">{a.fact[lang]}</span>}
         {press && <span className="meta card-fact">{t.press.tag(press.outlet)}</span>}
@@ -40,17 +42,21 @@ export function ProjectCard({ slug, ratio = 3 / 2, sizes, className = '', eager 
   )
 }
 
-/** Charcoal band with one heading, one line and the quote button. */
-export function CtaBand({ title, body, button, to }) {
+/**
+ * Band with one heading, one line and the quote button. Charcoal by default;
+ * `light` keeps it on paper where the charcoal footer follows directly, so two
+ * dark calls to action never stack.
+ */
+export function CtaBand({ title, body, button, to, light = false }) {
   const { t, to: path } = useLang()
   return (
-    <section className="band dark" data-hide-sticky>
+    <section className={'band ' + (light ? 'band-light' : 'dark')} data-hide-sticky>
       <div className="wrap band-in" data-reveal>
         <div>
           <h2 className="h2">{title}</h2>
           {body && <p className="lede">{body}</p>}
         </div>
-        <Link className="btn btn-light" to={to || path('quote')}>{button || t.cta}</Link>
+        <Link className={'btn' + (light ? '' : ' btn-light')} to={to || path('quote')}>{button || t.cta}</Link>
       </div>
     </section>
   )

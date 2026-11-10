@@ -8,6 +8,7 @@ export const ALBUMS = {
   "order": 1,
   "featured": true,
   "title": "Punta Garrobo",
+  "titleEn": null,
   "type": {
    "es": "",
    "en": ""
@@ -30,11 +31,11 @@ export const ALBUMS = {
   "sequence": [
    1,
    9,
-   17,
-   16,
    8,
-   4,
+   16,
    3,
+   4,
+   22,
    10,
    21,
    2,
@@ -260,6 +261,7 @@ export const ALBUMS = {
   "order": 2,
   "featured": true,
   "title": "Delfiniti",
+  "titleEn": null,
   "type": {
    "es": "",
    "en": ""
@@ -378,6 +380,7 @@ export const ALBUMS = {
   "order": 3,
   "featured": true,
   "title": "Casa Frijol",
+  "titleEn": null,
   "type": {
    "es": "",
    "en": ""
@@ -590,6 +593,7 @@ export const ALBUMS = {
   "order": 4,
   "featured": true,
   "title": "Tanta Vida",
+  "titleEn": null,
   "type": {
    "es": "",
    "en": ""
@@ -639,6 +643,7 @@ export const ALBUMS = {
   "order": 5,
   "featured": false,
   "title": "Acapulco",
+  "titleEn": null,
   "type": {
    "es": "",
    "en": ""
@@ -816,6 +821,7 @@ export const ALBUMS = {
   "order": 6,
   "featured": false,
   "title": "Ladera en Acapulco",
+  "titleEn": "Hillside build in Acapulco",
   "type": {
    "es": "Obra en proceso",
    "en": "Work in progress"

@@ -5,6 +5,8 @@ import { FACTS, say } from '../facts'
 import { SERVICE_KEYS } from '../routes'
 import { useLang } from '../hooks'
 import Picture from '../components/Picture'
+import { heroSources } from '../seo'
+import { variantUrl } from '../imgsizes'
 import { ProjectCard, PressLine, Process, Arrow } from '../components/Blocks'
 import { QuoteSection } from '../components/QuoteForm'
 
@@ -15,10 +17,19 @@ function Hero() {
     <section className="hero" data-hero>
       {img && (
         <div className="hero-media">
-          <Picture
-            img={img} alt={t.hero.alt} eager cap={false} sizes="100vw" className="hero-pic"
-            style={{ aspectRatio: 'auto', '--focus': img.focus || '50% 50%', '--focus-m': img.focusMobile || img.focus || '50% 50%' }}
-          />
+          {/* Phones get a pre-cropped portrait file; everything else the landscape one.
+              The same sources are preloaded from <head> (see seo.js). */}
+          <picture className="pic hero-pic" style={{ '--focus': img.focus || '50% 50%' }}>
+            {!import.meta.env.DEV && heroSources(img).flatMap((s) => [
+              <source key={s.media + 'a'} media={s.media} type="image/avif" srcSet={s.avif} sizes={s.sizes} />,
+              <source key={s.media + 'j'} media={s.media} srcSet={s.jpg} sizes={s.sizes} />,
+            ])}
+            <img
+              src={import.meta.env.DEV ? img.src : variantUrl(img.src, 1440, 'jpg')}
+              width={img.w} height={img.h} alt={t.hero.alt}
+              loading="eager" fetchpriority="high" decoding="sync"
+            />
+          </picture>
         </div>
       )}
       <div className="hero-shade" aria-hidden="true" />
@@ -68,10 +79,10 @@ function Selected() {
           <Link className="link" to={to('projects')}>{t.selected.all(ALBUM_ORDER.length)}</Link>
         </div>
         <div className="sel">
-          {a && <ProjectCard slug={a} ratio={16 / 9} className="sel-a" sizes="(min-width: 1440px) 1264px, 90vw" />}
-          {b && <ProjectCard slug={b} ratio={4 / 5} className="sel-b" sizes="(min-width: 900px) 38vw, 90vw" />}
-          {c && <ProjectCard slug={c} ratio={3 / 2} className="sel-c" sizes="(min-width: 900px) 46vw, 90vw" />}
-          {d && <ProjectCard slug={d} ratio={3 / 2} className="sel-d" sizes="(min-width: 900px) 60vw, 90vw" />}
+          {a && <ProjectCard slug={a} ratio={16 / 9} className="sel-a" sizes="(min-width: 1440px) 1264px, (min-width: 900px) 90vw, 66vw" />}
+          {b && <ProjectCard slug={b} ratio={4 / 5} className="sel-b" sizes="(min-width: 900px) 38vw, 66vw" />}
+          {c && <ProjectCard slug={c} ratio={3 / 2} className="sel-c" sizes="(min-width: 900px) 46vw, 66vw" />}
+          {d && <ProjectCard slug={d} ratio={3 / 2} className="sel-d" sizes="(min-width: 900px) 60vw, 66vw" />}
         </div>
       </div>
     </section>
@@ -91,7 +102,7 @@ function Services() {
               const s = t.services.items[k]
               return (
                 <li key={k} data-reveal onMouseEnter={() => setActive(k)} onFocus={() => setActive(k)}>
-                  <Picture img={SITE.services[k]} ratio={3 / 2} alt={s.alt} sizes="90vw" className="svc-pic-m" />
+                  <Picture img={SITE.services[k]} ratio={3 / 2} alt={s.alt} sizes="66vw" className="svc-pic-m" />
                   <span className="step-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                   <div>
                     <h3 className="h3">{s.name}</h3>
@@ -146,7 +157,7 @@ function Film() {
   if (!items.length) return null
   return (
     <section className="film dark">
-      <div className="wrap film-in">
+      <div className={'wrap film-in' + (t.film.body ? '' : ' film-wide')}>
         <div className="film-text" data-reveal>
           <h2 className="h2">{t.film.title}</h2>
           {t.film.body && <p className="lede">{t.film.body}</p>}
@@ -154,7 +165,7 @@ function Film() {
         <div className="film-row" tabIndex={0} role="group" aria-label={t.film.title}>
           {items.map((it) => it.video
             ? <Clip key={it.src} item={{ ...it, alt: say(it.alt, lang) }} />
-            : <Picture key={it.src} img={it} ratio={9 / 16} alt={say(it.alt, lang) || ''} sizes="(min-width: 900px) 20vw, 78vw" className="film-item" />)}
+            : <Picture key={it.src} img={it} ratio={9 / 16} alt={say(it.alt, lang) || ''} sizes="(min-width: 900px) 28vw, 52vw" className="film-item" />)}
         </div>
       </div>
     </section>
@@ -171,7 +182,7 @@ function Studio() {
     <section className="sect studio" id="estudio">
       <div className={'wrap studio-in' + (portrait ? ' has-portrait' : '')}>
         {portrait && (
-          <Picture img={SITE.portrait} ratio={4 / 5} sizes="(min-width: 900px) 38vw, 90vw"
+          <Picture img={SITE.portrait} ratio={4 / 5} sizes="(min-width: 900px) 38vw, 66vw"
             alt={s.portraitAlt(FACTS.founderName || t.brand)} className="studio-pic" />
         )}
         <div className="studio-head" data-reveal>
@@ -179,7 +190,7 @@ function Studio() {
           <h2 className="h2">{s.title}</h2>
         </div>
         <div className="studio-body" data-reveal>
-          {s.body.map((p) => <p key={p}>{p}</p>)}
+          {s.body.filter(Boolean).map((p) => <p key={p}>{p}</p>)}
           {FACTS.founderName && (
             <p className="sign">
               {FACTS.founderName}{FACTS.founderRole ? `, ${say(FACTS.founderRole, lang)}` : ''}

@@ -29,7 +29,10 @@ export const projectPath = (slug, lang) => PATHS.projects[lang] + slug + '/'
 export const langOf = (pathname) =>
   pathname === '/en' || pathname.startsWith('/en/') ? 'en' : 'es'
 
-const norm = (p) => (p.endsWith('/') ? p : p + '/')
+const norm = (p) => { const q = p.replace(/\/index\.html$/, '/'); return q.endsWith('/') ? q : q + '/' }
+
+/** Project name in the page language (`title_en` in _meta.json, else the title). */
+export const titleOf = (album, lang) => (lang === 'en' && album.titleEn) || album.title
 
 /** pathname → { key, lang, slug? } or null when nothing matches. */
 export function resolve(pathname) {

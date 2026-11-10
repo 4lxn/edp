@@ -52,9 +52,9 @@ export const T = {
       items: {
         palapas: {
           name: 'Palapas monumentales',
-          short: `Estructuras de ${say(f.timber, 'es') || 'madera'} con cubierta de ${say(f.palm, 'es') || 'palma'}, calculadas para el viento y la humedad de la costa.`,
+          short: `Estructuras de ${say(f.timber, 'es') || 'madera'} con cubierta de ${say(f.palm, 'es') || 'palma'}${f.engineeredForCoast ? ', calculadas para el viento y la humedad de la costa' : ''}.`,
           body: [
-            `Estructuras de ${say(f.timber, 'es') || 'madera'} con cubierta de ${say(f.palm, 'es') || 'palma'}, calculadas para el viento y la humedad de la costa.`,
+            `Estructuras de ${say(f.timber, 'es') || 'madera'} con cubierta de ${say(f.palm, 'es') || 'palma'}${f.engineeredForCoast ? ', calculadas para el viento y la humedad de la costa' : ''}.`,
             'Circulares, de dos aguas o de gran claro, para salas abiertas, restaurantes, clubes de playa y residencias.',
           ],
           alt: 'Palapa de palma con estructura de madera',
@@ -126,7 +126,9 @@ export const T = {
       title: say(f.studioHeadline, 'es') || 'Construimos en diálogo con el paisaje.',
       body: [
         'Cada palapa, cada deck y cada pérgola parte de una lectura del sitio: el viento dominante, el recorrido del sol, la salinidad, la pendiente.',
-        `${f.foundingYear ? `Desde ${f.foundingYear}, un` : 'Un'} mismo taller diseña, prepara la madera y levanta la estructura en obra.${f.offersMaintenance ? ' Una sola responsabilidad, de la primera visita al mantenimiento.' : ''}`,
+        f.onSiteCrewClaim
+          ? `${f.foundingYear ? `Desde ${f.foundingYear}, un` : 'Un'} mismo taller diseña, prepara la madera y levanta la estructura en obra.${f.offersMaintenance ? ' Una sola responsabilidad, de la primera visita al mantenimiento.' : ''}`
+          : 'Trabajamos en madera y palma: palapas, pérgolas y decks, en Zihuatanejo, Ixtapa y Acapulco.',
       ],
       builtFor: 'Hemos construido para',
       builtWith: 'Hemos construido junto a',
@@ -147,7 +149,7 @@ export const T = {
       title: 'Cotice su proyecto',
       lede: `Cuéntenos qué quiere construir y dónde. Le respondemos por correo ${f.responseTime ? `en ${say(f.responseTime, 'es')}` : 'a la brevedad'}.`,
       direct: 'O escríbanos directamente:',
-      attach: 'Si tiene planos o fotos del sitio, adjúntelos.',
+      attach: 'Si tiene planos o fotos del sitio, envíelos a ese mismo correo.',
       mailSubject: 'Cotización de proyecto',
       mailBody: ['Tipo de proyecto:', 'Ubicación:', 'Superficie aproximada:', 'Etapa:', 'Fecha deseada:'],
       reference: 'Referencia',
@@ -191,7 +193,7 @@ export const T = {
 
     index: {
       title: 'Obras',
-      lede: 'Palapas, decks y pérgolas construidas en la costa de Guerrero.',
+      lede: 'Palapas, decks y pérgolas en la costa de Guerrero.',
       all: 'Todas',
       closing: '¿No ve algo parecido a lo que imagina? Cuéntenos su proyecto.',
     },
@@ -222,6 +224,7 @@ export const T = {
 
     footer: {
       closing: '¿Tiene un proyecto en la costa?',
+      rights: (year) => `© ${year}`,
       address: 'Zihuatanejo, Guerrero, México',
     },
 
@@ -295,9 +298,9 @@ export const T = {
       items: {
         palapas: {
           name: 'Monumental palapas',
-          short: `${cap(say(f.timber, 'en') || 'timber')} frames under a ${say(f.palm, 'en') || 'palm-thatch'} roof, engineered for coastal wind and humidity.`,
+          short: `${cap(say(f.timber, 'en') || 'timber')} frames under a ${say(f.palm, 'en') || 'palm-thatch'} roof${f.engineeredForCoast ? ', engineered for coastal wind and humidity' : ''}.`,
           body: [
-            `${cap(say(f.timber, 'en') || 'timber')} frames under a ${say(f.palm, 'en') || 'palm-thatch'} roof, engineered for coastal wind and humidity.`,
+            `${cap(say(f.timber, 'en') || 'timber')} frames under a ${say(f.palm, 'en') || 'palm-thatch'} roof${f.engineeredForCoast ? ', engineered for coastal wind and humidity' : ''}.`,
             'Round, gabled or long-span, for open living rooms, restaurants, beach clubs and residences.',
           ],
           alt: 'Palm-thatched palapa with a timber frame',
@@ -369,7 +372,9 @@ export const T = {
       title: say(f.studioHeadline, 'en') || 'We build in conversation with the landscape.',
       body: [
         'Every palapa, deck and pergola begins with a reading of the site: prevailing wind, sun path, salt air, slope.',
-        `${f.foundingYear ? `Since ${f.foundingYear}, one` : 'One'} workshop ${f.foundingYear ? 'has designed, prepared the timber and raised' : 'designs, prepares the timber and raises'} the structure on site.${f.offersMaintenance ? ' One point of responsibility, from the first visit to long-term care.' : ''}`,
+        f.onSiteCrewClaim
+          ? `${f.foundingYear ? `Since ${f.foundingYear}, one` : 'One'} workshop ${f.foundingYear ? 'has designed, prepared the timber and raised' : 'designs, prepares the timber and raises'} the structure on site.${f.offersMaintenance ? ' One point of responsibility, from the first visit to long-term care.' : ''}`
+          : 'We work in timber and palm thatch: palapas, pergolas and decks, in Zihuatanejo, Ixtapa and Acapulco.',
       ],
       builtFor: 'We have built for',
       builtWith: 'We have built alongside',
@@ -390,7 +395,7 @@ export const T = {
       title: 'Request a quote',
       lede: `Tell us what you want to build and where. We reply by email ${f.responseTime ? `within ${say(f.responseTime, 'en')}` : 'as soon as we can'}.`,
       direct: 'Or write to us directly:',
-      attach: 'If you have drawings or site photos, attach them.',
+      attach: 'If you have drawings or site photos, send them to that same address.',
       mailSubject: 'Project quote',
       mailBody: ['Project type:', 'Location:', 'Approximate size:', 'Stage:', 'Target date:'],
       reference: 'Reference',
@@ -434,7 +439,7 @@ export const T = {
 
     index: {
       title: 'Projects',
-      lede: 'Palapas, decks and pergolas built on the coast of Guerrero, Mexico.',
+      lede: 'Palapas, decks and pergolas on the coast of Guerrero, Mexico.',
       all: 'All',
       closing: 'Nothing here quite like what you have in mind? Tell us about your project.',
     },
@@ -465,6 +470,7 @@ export const T = {
 
     footer: {
       closing: 'Have a project on the coast?',
+      rights: (year) => `© ${year}`,
       address: 'Zihuatanejo, Guerrero, Mexico',
     },
 

@@ -18,6 +18,7 @@
  *
  * Optional project facts (ficha de obra). Any of these may be omitted; the UI
  * hides rows with no data. Text fields accept a string or { es, en }:
+ *   title_en (project name on English pages, when it needs translating),
  *   year, client, architect, dimensions, materials, duration, scope, fact,
  *   story ({ es: [paragraphs], en: [...] } or a string per language),
  *   sequence: [filenames]  curated photos shown on the project page, in order
@@ -170,6 +171,7 @@ async function readAlbums() {
       order: orderFromSlug(slug, meta.order),
       featured: meta.featured ?? false,
       title,
+      titleEn: typeof meta.title_en === 'string' && meta.title_en ? meta.title_en : null,
       type: bilingual(meta.type),
       location: bilingual(meta.location),
       hero: heroIdx,
