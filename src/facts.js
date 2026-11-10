@@ -53,17 +53,18 @@ export const FACTS = {
   legalEntity: null,          // string — razón social responsable de los datos
   legalAddress: null,         // string — domicilio
 
-  /* ── Press: Architectural Digest. UNCONFIRMED → OFF.
-        Turn on only after the owner confirms EDP built the palapa at Casa
-        Garrobo (see _inbox/marketing/plan.md §6). Text only, no AD logo/photos. ── */
+  /* ── Press: Architectural Digest México, "Serenidad extraordinaria en
+        Zihuatanejo" (Redacción AD, 2016-12-08). The article covers the Punta
+        Garrobo development and credits architect Enrique Zozaya; it does not
+        name EDP, so the line says only that the project was published.
+        Owner confirmed EDP built a palapa there. Text only, no AD logo/photos. ── */
   press: {
-    enabled: false,
+    enabled: true,
     outlet: 'Architectural Digest México',
     project: 'punta-garrobo',   // album slug the mention belongs to
-    house: 'Casa Garrobo',
-    architect: 'Zozaya Arquitectos',
-    issue: null,                // { es, en } — e.g. "febrero 2017"
-    url: null,                  // optional reference link
+    architect: 'Enrique Zozaya',
+    issue: { es: '8 de diciembre de 2016', en: 'December 8, 2016' },
+    url: 'https://www.admagazine.com/arquitectura/punta-garrobo-en-zihuatanejo-mexico-20161208-2613-articulos',
   },
 }
 

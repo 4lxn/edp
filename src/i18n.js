@@ -30,10 +30,10 @@ export const T = {
     press: {
       label: 'Reconocimiento',
       line: (p) =>
-        `Palapa construida por Estructuras del Pacífico en ${p.house}, Punta Garrobo (arquitectura: ${p.architect}). La casa fue publicada en`,
-      issue: (v) => `(edición ${v})`,
-      link: 'Ver referencia',
-      tag: (outlet) => `Casa publicada en ${outlet}`,
+        `Palapa construida por Estructuras del Pacífico en Punta Garrobo, Zihuatanejo (arquitectura: ${p.architect}). El proyecto fue publicado en`,
+      issue: (v) => `(${v})`,
+      link: 'Leer el artículo',
+      tag: (outlet) => `Proyecto publicado en ${outlet}`,
     },
 
     facts: {
@@ -276,10 +276,10 @@ export const T = {
     press: {
       label: 'Recognition',
       line: (p) =>
-        `Palapa built by Estructuras del Pacífico at ${p.house}, Punta Garrobo (architecture: ${p.architect}). The house was featured in`,
-      issue: (v) => `(${v} issue)`,
-      link: 'View reference',
-      tag: (outlet) => `House featured in ${outlet}`,
+        `Palapa built by Estructuras del Pacífico at Punta Garrobo, Zihuatanejo (architecture: ${p.architect}). The project was featured in`,
+      issue: (v) => `(${v})`,
+      link: 'Read the article',
+      tag: (outlet) => `Project featured in ${outlet}`,
     },
 
     facts: {
