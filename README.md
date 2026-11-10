@@ -14,7 +14,7 @@ Una página estática hecha con **Vite + React**. Tiene dos vistas:
 
 - **Inicio** (`/`) — hero, filosofía, galería de obra, materiales, proceso,
   contacto.
-- **Álbum de proyecto** (`/#/album/<slug>`) — galería de fotos de un proyecto.
+- **Álbum de proyecto** (`/proyectos/<slug>/`) — galería de fotos de un proyecto.
 
 Se hospeda gratis en **GitHub Pages** y se publica sola cada vez que se hace
 push a `main`.
@@ -25,12 +25,13 @@ push a `main`.
 |-------|---------|
 | Build | [Vite](https://vitejs.dev) 6 |
 | UI | [React](https://react.dev) 18 |
-| Rutas | React Router 6 (`HashRouter`) |
+| Rutas | React Router 6 (`BrowserRouter`) + prerender estático por ruta |
 | Hosting | GitHub Pages + dominio propio (`estructurasdelpacifico.com`) |
 | CI/CD | GitHub Actions (`.github/workflows/deploy.yml`) |
 
-> Se usa `HashRouter` (URLs con `#`) porque GitHub Pages sirve archivos
-> estáticos y no sabe enrutar rutas del lado del cliente.
+> Cada ruta se prerenderiza a `dist/<ruta>/index.html` (ver
+> `scripts/prerender.mjs`), así GitHub Pages sirve HTML real por página.
+> El mapa de archivos actualizado está en `.claude/kb.md`.
 
 ## Estructura del proyecto
 

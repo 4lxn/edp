@@ -5,11 +5,12 @@ coincide con el código, **gana el código** (y actualiza este archivo).
 
 ## Qué es
 
-Landing editorial + galería de proyectos para un taller de arquitectura
-tropical en madera. Bilingüe ES/EN. Sitio **estático** Vite + React, hosteado
-en **GitHub Pages** con dominio propio (`public/CNAME` →
-estructurasdelpacifico.com). Push a `main` → GitHub Actions hace
-`npm run build` y publica solo (~1 min).
+Sitio del constructor de palapas y estructuras de madera **Estructuras del
+Pacífico** ("Ficha de obra"): landing, índice de obras, página por obra,
+páginas de servicio y formulario de cotización. Bilingüe: **ES en la raíz, EN
+bajo `/en/`**. Sitio **estático** Vite + React **prerenderizado** (HTML real por
+ruta), hosteado en **GitHub Pages** con dominio propio (`public/CNAME`). Push a
+`main` → GitHub Actions hace `npm run build` y publica.
 
 ## Comandos
 
@@ -18,59 +19,72 @@ estructurasdelpacifico.com). Push a `main` → GitHub Actions hace
 | `npm install` | Instalar deps (una vez) |
 | `npm run dev` | Servidor local con HMR → http://localhost:5173 |
 | `npm run sync` | Regenera `src/albums.generated.js` desde `public/albums/` |
+| `npm run images` | Genera variantes AVIF/JPEG en `public/r/` (git-ignored, incremental) |
 | `npm run new-album <slug> ["Título"]` | Crea carpeta de proyecto nuevo |
-| `npm run optimize` | Reduce las imágenes (≤2400px) |
-| `npm run build` | Build a `dist/` (corre `sync` primero) |
+| `npm run optimize` | Reduce los originales (≤2400px) |
+| `npm run build` | sync + images + build cliente + build SSR + prerender → `dist/` |
 
-**Agregar fotos localmente:** lo más fácil es `npm run dev` y abrir
-**http://localhost:5173/#/admin** (panel solo-dev): crear álbumes, subir fotos
-arrastrando — se optimizan solas —, captions, orden, portada, destacados. O a
-mano: mete `.jpeg` en `public/albums/<slug>/`, corre `npm run sync`, y
-`git push` para publicar.
+**Agregar fotos localmente:** `npm run dev` y abrir
+**http://localhost:5173/admin** (panel solo-dev). O a mano: `.jpeg` en
+`public/albums/<slug>/`, `npm run sync`, y `git push` para publicar.
 
 ## Mapa de archivos
 
 ```
 src/
-  main.jsx            Arranque React + HashRouter. Rutas: / , /proyectos,
-                      /album/:slug , /admin (este último SOLO en dev).
-                      Usa LazyMotion → en JSX se usa <m.div>, NO <motion.div>.
-  App.jsx             Landing entera (Hero, Statement, Gallery, ImageBreak,
-                      Contact, Footer) + TweaksPanel (idioma/ajustes).
-  Album.jsx           Página de un álbum (/album/:slug) + lightbox.
-  Projects.jsx        Índice de todos los proyectos.
-  copy.js             TODO el texto ES/EN (export COPY). Deriva PROJECT_ALBUMS
-                      y GALLERY desde albums.generated.js. ← editar textos aquí.
+  main.jsx            Arranque: BrowserRouter; hidrata si hay HTML prerenderizado.
+                      LazyMotion → en JSX se usa <m.div>, NO <motion.div>.
+  entry-server.jsx    Entrada SSR (solo build) usada por scripts/prerender.mjs.
+  App.jsx             Shell (Header, Footer, barra fija móvil) + selección de página.
+  routes.js           Mapa de URLs ES/EN, resolve(), alternate(), allRoutes().
+  seo.js              <head> por ruta: title, description, canonical, hreflang, OG, JSON-LD.
+  facts.js            ← TODOS los datos del negocio. null = no confirmado = no se muestra.
+  i18n.js             TODO el texto ES/EN (depende de facts.js; sin placeholders).
+  pages/              Landing, Projects (índice), Project (ficha), Pages (cotizar,
+                      servicios, privacidad, 404).
+  components/         Header, Footer, Picture (<img> srcset, nunca escala hacia
+                      arriba), QuoteForm (FormSubmit), Blocks (tarjetas, proceso, CTA).
+  imgsizes.js         Anchos de variantes (compartido con scripts/responsive-images).
   albums.generated.js AUTO-GENERADO por `npm run sync`. NO editar a mano.
-  styles.css          Todos los estilos.
-  hooks.js            useScrolledPast, useReveal, usePageMotion.
+  styles.css          Todos los estilos (CRLF — conservar).
   admin/              Panel local (api.js habla con vite-plugin-admin.mjs).
 public/
-  assets/             Imágenes globales del sitio (hero, image breaks). Solo 3.
-  albums/<slug>/      1 carpeta = 1 proyecto. _meta.json opcional (título,
-                      type, location ES/EN, hero, imageOrder, captions,
-                      featured, order). Ver public/albums/README.md.
-scripts/              sync-albums, new-album, optimize-images, vite-plugin-admin.
+  albums/<slug>/      1 carpeta = 1 obra. _meta.json: título, type, location,
+                      hero, imageOrder, captions, featured, order + ficha (year,
+                      client, dimensions, materials, story, fact, sequence,
+                      process, focus). Ver cabecera de scripts/sync-albums.mjs.
+  albums/_site.json   Hero del landing, fotos de servicios, banda "En obra", imagen OG.
+  assets/, video/     Imágenes globales y clips de proceso (mudos, en loop).
+  r/                  Variantes generadas (NO se commitea).
+scripts/              sync-albums, responsive-images, prerender, new-album,
+                      optimize-images, vite-plugin-admin.
 ```
 
 ## Convenciones y trampas (LEER antes de tocar)
 
-- **Parallax = SOLO CSS scroll-driven animations** (`animation-timeline:
-  scroll()/view()` en styles.css, bloque "Parallax"). NO reintroducir parallax
-  con JS (`useScroll`/`useTransform`/listeners de scroll): janquea en móvil
-  porque los navegadores móviles no emiten scroll por-frame durante el scroll
-  inercial → la imagen salta. El CSS corre en el compositor y sí va fluido en
-  móvil; degrada a imagen estática donde no haya soporte (`@supports`).
-  El hover-zoom de la galería usa la propiedad `scale` (no `transform`) para
-  no pelear con el `translate` del parallax. Las capas tienen overscan
-  (inset negativo) para cubrir siempre.
-- **HashRouter** (URLs con `#`) porque GitHub Pages no enruta SPA. `base: '/'`.
+- **Sin datos inventados.** Todo número, año, nombre de cliente, garantía o
+  promesa vive en `src/facts.js`. Si es `null`, la frase/fila/sección no se
+  renderiza. `prerender.mjs` falla si aparece un `[PLACEHOLDER]` en el HTML.
+- **Mención de Architectural Digest**: construida pero apagada
+  (`FACTS.press.enabled = false`) hasta que el dueño la confirme. Solo texto.
+- **Contacto solo por correo**: formulario + correo visible. Sin WhatsApp ni teléfono.
+- **Parallax = SOLO CSS scroll-driven animations** (`animation-timeline`), y
+  solo en el hero del landing. NO reintroducir JS de scroll
+  (`useScroll`/listeners): janquea en móvil. **No hay ningún scroll listener**:
+  header y barra fija usan IntersectionObserver (`useAnyInView`).
+- **Rutas reales** (BrowserRouter) prerenderizadas a `dist/<ruta>/index.html`.
+  `404.html` arranca la SPA para rutas desconocidas; un script en `index.html`
+  redirige los enlaces viejos `/#/album/x` → `/proyectos/x/`.
+- **Componentes SSR-safe**: `window`/`document` solo dentro de efectos.
+- **Fotos**: siempre `<Picture>` (img real, width/height, srcset AVIF+JPEG,
+  lazy). Sin bordes, grano ni tintes. Portadas y hero se eligen en
+  `_meta.json` / `_site.json`, no en código.
+- **Accesibilidad**: bronce nunca como texto pequeño sobre greige (2.4:1);
+  nada bajo 12px; foco visible; animaciones bajo
+  `prefers-reduced-motion: no-preference`.
 - **Admin** existe solo en dev (`import.meta.env.DEV` + plugin `apply:'serve'`).
-  Nunca entra al build de producción.
-- **Formulario de contacto**: FormSubmit AJAX (sin backend), con honeypot.
+- **Formulario**: FormSubmit AJAX (sin backend), con honeypot `_honey`.
 - No editar `albums.generated.js` ni borrar `public/CNAME`.
-- Reduce-motion respetado: animaciones bajo `@media (prefers-reduced-motion:
-  no-preference)`.
 
 ## Despliegue / sitio caído
 
