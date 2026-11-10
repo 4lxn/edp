@@ -3,15 +3,32 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#F4F3F0" />
+    <script>
+      // Old shared links used hash routes (/#/album/x). Send them to the real URL.
+      (function () {
+        var h = location.hash
+        if (h.indexOf('#/') !== 0) { document.documentElement.className = 'js'; return }
+        var p = h.slice(1).replace(/\/+$/, '')
+        var m = p.match(/^\/(?:album|obra)\/([a-z0-9-]+)$/)
+        var to = m ? '/proyectos/' + m[1] + '/'
+          : p === '/proyectos' || p === '/obras' ? '/proyectos/'
+          : p === '/cotizar' ? '/cotizar/'
+          : p === '/admin' ? '/admin'
+          : '/'
+        location.replace(to)
+      })()
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preload" as="image" href="/assets/portada-palapa-mar.jpeg" fetchpriority="high" />
-    <title>Estructuras del Pacífico — Maestría en madera y arquitectura tropical</title>
+    <!--app-head-->
+    <title>Estructuras del Pacífico</title>
+    <!--/app-head-->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

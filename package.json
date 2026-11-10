@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run sync && vite build",
+    "build": "npm run sync && npm run images && vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs",
     "preview": "vite preview",
     "sync": "node scripts/sync-albums.mjs",
+    "images": "node scripts/responsive-images.mjs",
     "optimize": "node scripts/optimize-images.mjs",
     "new-album": "node scripts/new-album.mjs"
   },
