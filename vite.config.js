@@ -7,4 +7,6 @@ import adminPlugin from './scripts/vite-plugin-admin.mjs'
 export default defineConfig(({ command }) => ({
   plugins: [react(), command === 'serve' && adminPlugin()].filter(Boolean),
   base: '/',
+  // Stamped at build time so the prerendered HTML and the client agree (footer ©).
+  define: { __BUILD_YEAR__: new Date().getFullYear() },
 }))

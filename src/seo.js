@@ -6,21 +6,22 @@
 import { ALBUMS } from './albums.generated.js'
 import { FACTS, EMAIL, SITE_URL, SITE_NAME } from './facts.js'
 import { T } from './i18n.js'
-import { resolve, alternate, PATHS } from './routes.js'
-import { variantUrl, variantWidths } from './imgsizes.js'
+import { resolve, alternate, PATHS, titleOf } from './routes.js'
+import { SITE } from './albums.generated.js'
+import { variantUrl, variantWidths, HERO_MOBILE_MEDIA, HERO_MOBILE_WIDTHS, heroMobileUrl } from './imgsizes.js'
 
 const META = {
   es: {
     home: ['Palapas y estructuras de madera en Zihuatanejo, Ixtapa y Acapulco · Estructuras del Pacífico',
       'Diseño y construcción de palapas monumentales, pérgolas y decks de madera para hoteles, restaurantes y residencias en la costa de Guerrero.'],
-    projects: ['Obras: palapas, decks y pérgolas construidas · Estructuras del Pacífico',
-      'Obras construidas por Estructuras del Pacífico en Zihuatanejo, Ixtapa y Acapulco: palapas, decks y pérgolas de madera.'],
+    projects: ['Obras: palapas, decks y pérgolas de madera · Estructuras del Pacífico',
+      'Obras de Estructuras del Pacífico en Zihuatanejo, Ixtapa y Acapulco: palapas, decks y pérgolas de madera.'],
     quote: ['Cotizar una palapa, pérgola o deck · Estructuras del Pacífico',
       'Cuéntenos qué quiere construir y dónde. Respondemos por correo. Palapas, pérgolas y decks de madera en la costa de Guerrero.'],
     privacy: ['Aviso de privacidad · Estructuras del Pacífico',
       'Cómo tratamos los datos personales que nos envía a través del formulario de cotización.'],
     palapas: ['Construcción de palapas en la costa de Guerrero · Estructuras del Pacífico',
-      'Palapas de madera y palma, circulares o de gran claro, calculadas para el viento costero.'],
+      'Palapas de madera y palma, circulares, de dos aguas o de gran claro, para hoteles, restaurantes y residencias.'],
     pergolas: ['Pérgolas y decks de madera en Zihuatanejo e Ixtapa · Estructuras del Pacífico',
       'Pérgolas, terrazas y decks de alberca en madera, con herrajes para ambiente salino.'],
     hospitality: ['Palapas para hoteles y restaurantes · Estructuras del Pacífico',
@@ -36,14 +37,14 @@ const META = {
   en: {
     home: ['Palapas and timber structures in Zihuatanejo, Ixtapa and Acapulco · Estructuras del Pacífico',
       'Design and construction of monumental palapas, pergolas and timber decks for hotels, restaurants and residences on Mexico’s Pacific coast.'],
-    projects: ['Projects: palapas, decks and pergolas we have built · Estructuras del Pacífico',
-      'Work built by Estructuras del Pacífico in Zihuatanejo, Ixtapa and Acapulco: timber palapas, decks and pergolas.'],
+    projects: ['Projects: timber palapas, decks and pergolas · Estructuras del Pacífico',
+      'Work by Estructuras del Pacífico in Zihuatanejo, Ixtapa and Acapulco: timber palapas, decks and pergolas.'],
     quote: ['Request a quote for a palapa, pergola or deck · Estructuras del Pacífico',
       'Tell us what you want to build and where. We reply by email. Timber palapas, pergolas and decks on Mexico’s Pacific coast.'],
     privacy: ['Privacy notice · Estructuras del Pacífico',
       'How we handle the personal data you send us through the quote form.'],
     palapas: ['Palapa construction on Mexico’s Pacific coast · Estructuras del Pacífico',
-      'Timber and palm palapas, round or long-span, engineered for coastal wind.'],
+      'Timber and palm palapas, round, gabled or long-span, for hotels, restaurants and residences.'],
     pergolas: ['Wood pergolas and decks in Zihuatanejo and Ixtapa · Estructuras del Pacífico',
       'Timber pergolas, terraces and pool decks with hardware specified for salt air.'],
     hospitality: ['Palapas for hotels and restaurants · Estructuras del Pacífico',
@@ -68,6 +69,30 @@ const jpg = (img, max = 1440) => {
   return variantUrl(img.src, ws.filter((w) => w <= max).pop() || ws[0], 'jpg')
 }
 
+/**
+ * The landing hero's two sources: a pre-cropped portrait file for phones (so no
+ * hidden pixels are downloaded) and the landscape original for everything else.
+ * Shared by the <Hero> markup and the <link rel="preload"> in the head.
+ */
+export function heroSources(img) {
+  const set = (ws, url, ext) => ws.map((w) => `${url(w, ext)} ${w}w`).join(', ')
+  const wide = variantWidths(img.w)
+  return [
+    {
+      media: HERO_MOBILE_MEDIA,
+      sizes: '82vw', // the crop is ~1.15× the viewport wide; this lands phones on ≈2× files
+      avif: set(HERO_MOBILE_WIDTHS, heroMobileUrl, 'avif'),
+      jpg: set(HERO_MOBILE_WIDTHS, heroMobileUrl, 'jpg'),
+    },
+    {
+      media: `not all and ${HERO_MOBILE_MEDIA}`,
+      sizes: '100vw',
+      avif: set(wide, (w, e) => variantUrl(img.src, w, e), 'avif'),
+      jpg: set(wide, (w, e) => variantUrl(img.src, w, e), 'jpg'),
+    },
+  ]
+}
+
 export function headFor(pathname) {
   const r = resolve(pathname)
   const lang = r ? r.lang : pathname.startsWith('/en') ? 'en' : 'es'
@@ -76,7 +101,7 @@ export function headFor(pathname) {
     return { lang, title: m.notFound[0], description: '', noindex: true, jsonLd: [] }
   }
 
-  let title, description, image = abs('/r/og.jpg')
+  let title, description, image = abs('/r/og.jpg'), preload = []
   const jsonLd = []
   const business = {
     '@type': 'HomeAndConstructionBusiness',
@@ -91,7 +116,7 @@ export function headFor(pathname) {
   }
 
   if (r.key === 'project') {
-    const a = ALBUMS[r.slug]
+    const a = { ...ALBUMS[r.slug], title: titleOf(ALBUMS[r.slug], lang) }
     const place = placeName(a.location[lang])
     ;[title, description] = m.project(a, a.type[lang], place)
     image = abs(jpg(a.images[a.hero]))
@@ -109,7 +134,10 @@ export function headFor(pathname) {
     jsonLd.push(crumbs(lang, [[T[lang].index.title, PATHS.projects[lang]], [a.title, pathname]]))
   } else {
     ;[title, description] = m[r.key]
-    if (r.key === 'home') jsonLd.push({ '@context': 'https://schema.org', ...business })
+    if (r.key === 'home') {
+      jsonLd.push({ '@context': 'https://schema.org', ...business })
+      if (SITE.hero) preload = heroSources(SITE.hero).map((s) => ({ ...s, type: 'image/avif', srcset: s.avif }))
+    }
     else if (r.key !== 'privacy') {
       const name = r.key === 'projects' ? T[lang].index.title
         : r.key === 'quote' ? T[lang].quote.title
@@ -126,6 +154,7 @@ export function headFor(pathname) {
     alternates: { es: abs(alternate(pathname, 'es')), en: abs(alternate(pathname, 'en')) },
     image,
     locale: lang === 'es' ? 'es_MX' : 'en_US',
+    preload,
     jsonLd,
   }
 }
@@ -161,6 +190,9 @@ export function headHtml(h) {
     out.push(`<meta property="og:image" content="${h.image}" />`)
     out.push(`<meta property="og:locale" content="${h.locale}" />`)
     out.push('<meta name="twitter:card" content="summary_large_image" />')
+  }
+  for (const p of h.preload || []) {
+    out.push(`<link rel="preload" as="image" type="${p.type}" imagesrcset="${p.srcset}" imagesizes="${p.sizes}" media="${p.media}" fetchpriority="high" />`)
   }
   for (const ld of h.jsonLd) {
     out.push(`<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>`)

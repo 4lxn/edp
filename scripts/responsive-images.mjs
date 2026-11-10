@@ -2,10 +2,11 @@
  * responsive-images.mjs
  *
  * Generates the responsive variants the site serves: for every photo in
- * public/albums/ and public/assets/, AVIF + JPEG at 640/960/1440/1920/2560
+ * public/albums/ and public/assets/, AVIF + JPEG at 640/800/960/1440/1920/2560
  * (never wider than the source — nothing is upscaled). Output goes to
  * public/r/ (git-ignored, rebuilt on demand) and is skipped when the source is unchanged,
- * so re-running is cheap. Also writes the 1200×630 share image (public/r/og.jpg)
+ * so re-running is cheap. Also writes the phone-portrait crop of the landing
+ * hero (public/r/hero-m-*) and the 1200×630 share image (public/r/og.jpg)
  * from the `og` entry of public/albums/_site.json.
  *
  * Runs as part of `npm run build`. Usage: npm run images
@@ -16,7 +17,7 @@ import os from 'node:os'
 import crypto from 'node:crypto'
 import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
-import { variantWidths, variantUrl } from '../src/imgsizes.js'
+import { variantWidths, variantUrl, HERO_MOBILE_WIDTHS, HERO_MOBILE_RATIO, heroMobileUrl } from '../src/imgsizes.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const PUBLIC = path.resolve(__dirname, '..', 'public')
@@ -81,14 +82,40 @@ async function shareImage() {
     .jpeg({ quality: 82, mozjpeg: true }).toFile(out)
 }
 
+// Portrait crop of the landing hero for phones, centred on its mobile focus point.
+async function heroMobile() {
+  const cfgPath = path.join(PUBLIC, 'albums', '_site.json')
+  if (!fs.existsSync(cfgPath)) return
+  const hero = JSON.parse(fs.readFileSync(cfgPath, 'utf8')).hero
+  const rel = typeof hero === 'string' ? hero : hero?.src
+  if (!rel || !fs.existsSync(path.join(PUBLIC, rel))) return
+  const file = path.join(PUBLIC, rel)
+  const fx = parseFloat(String(hero.focusMobile || hero.focus || '50%')) / 100 || 0.5
+  const key = 'hero-m:' + rel
+  const stamp = `${hashOf(file)}:${fx}:${HERO_MOBILE_RATIO}:${HERO_MOBILE_WIDTHS}`
+  const outs = HERO_MOBILE_WIDTHS.flatMap((w) => ['avif', 'jpg'].map((e) => [w, e, path.join(PUBLIC, heroMobileUrl(w, e))]))
+  if (manifest[key] === stamp && outs.every(([, , o]) => fs.existsSync(o))) return
+  const upright = await sharp(file).rotate().toBuffer({ resolveWithObject: true })
+  const { width: W, height: H } = upright.info
+  const cw = Math.min(W, Math.round(H * HERO_MOBILE_RATIO))
+  const left = Math.max(0, Math.min(W - cw, Math.round(fx * W - cw / 2)))
+  for (const [w, ext, out] of outs) {
+    const pipe = sharp(upright.data).extract({ left, top: 0, width: cw, height: H }).resize({ width: Math.min(w, cw) })
+    if (ext === 'avif') await pipe.avif({ quality: 55, effort: 2 }).toFile(out)
+    else await pipe.jpeg({ quality: 78, mozjpeg: true, progressive: true }).toFile(out)
+  }
+  manifest[key] = stamp
+}
+
 async function main() {
   const files = SOURCES.flatMap((d) => collect(path.join(PUBLIC, d)))
   let made = 0, next = 0
   const worker = async () => {
-    while (next < files.length) made += await variantsFor(files[next++])
+    while (next < files.length) { const n = await variantsFor(files[next++]); made += n }
   }
   await Promise.all(Array.from({ length: Math.max(2, os.cpus().length - 1) }, worker))
   await shareImage()
+  await heroMobile()
   fs.mkdirSync(path.dirname(MANIFEST), { recursive: true })
   fs.writeFileSync(MANIFEST, JSON.stringify(manifest))
   console.log(`✓ Responsive images: ${files.length} sources, ${made} variants written (rest up to date)`)
