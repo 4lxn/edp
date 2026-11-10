@@ -62,7 +62,7 @@ fs.mkdirSync(dir, { recursive: true })
 const template = {
   order: 999,
   title,
-  type: { es: 'Proyecto', en: 'Project' },
+  type: { es: '', en: '' },
   location: { es: '', en: '' },
   captions: {},
 }

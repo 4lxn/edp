@@ -24,6 +24,12 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # Responsive image variants are slow to encode (AVIF); reuse them between deploys.
+      - uses: actions/cache@v4
+        with:
+          path: public/r
+          key: img-${{ hashFiles('public/albums/**', 'public/assets/**', 'src/imgsizes.js', 'scripts/responsive-images.mjs') }}
+          restore-keys: img-
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

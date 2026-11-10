@@ -10,11 +10,27 @@
  *
  * Everything in _meta.json is optional. Sensible defaults are derived:
  *   - title    → folder name in Title Case ("casa-frijol" → "Casa Frijol")
- *   - type     → "Proyecto" / "Project"
+ *   - type     → empty (the UI hides it)
  *   - location → empty
  *   - hero     → first image alphabetically
  *   - order    → numeric prefix in folder name ("02-..." → 2), else 999
  *   - captions → empty
+ *
+ * Optional project facts (ficha de obra). Any of these may be omitted; the UI
+ * hides rows with no data. Text fields accept a string or { es, en }:
+ *   year, client, architect, dimensions, materials, duration, scope, fact,
+ *   story ({ es: [paragraphs], en: [...] } or a string per language),
+ *   sequence: [filenames]  curated photos shown on the project page, in order
+ *   process:  [filenames]  construction photos shown under "Proceso"
+ *   focus:    { "<file>": "50% 40%" }  object-position per photo
+ *   press:    { outlet, title, url, date }  shown only when the site-wide
+ *             press flag in src/facts.js is enabled
+ *
+ * Site-level choices (landing hero, service photos, share image) live in
+ * public/albums/_site.json so they can be swapped without touching code.
+ *
+ * Every image is measured (EXIF-aware) so the site can emit width/height and
+ * never render a photo larger than its source.
  *
  * Tolerant inputs:
  *   - type/location/caption can be a plain string (used for both languages)
@@ -34,6 +50,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import sharp from 'sharp'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 export const ROOT = path.resolve(__dirname, '..')
@@ -93,97 +110,136 @@ function readMeta(slug, metaPath) {
   }
 }
 
-function readAlbums() {
+async function measure(absPath) {
+  const m = await sharp(absPath).metadata()
+  const swap = (m.orientation || 1) >= 5
+  return { w: swap ? m.height : m.width, h: swap ? m.width : m.height }
+}
+
+// Optional bilingual text: returns null when empty so the UI can hide the row.
+function optText(val) {
+  const b = bilingual(val)
+  return (b.es || b.en) ? b : null
+}
+
+function optStory(val) {
+  if (!val) return null
+  const norm = (v) => (Array.isArray(v) ? v : typeof v === 'string' && v ? [v] : [])
+  const es = norm(typeof val === 'string' || Array.isArray(val) ? val : val.es)
+  const en = norm(typeof val === 'string' || Array.isArray(val) ? val : val.en)
+  if (!es.length && !en.length) return null
+  return { es: es.length ? es : en, en: en.length ? en : es }
+}
+
+async function readAlbums() {
   const slugs = fs.readdirSync(ALBUMS_DIR, { withFileTypes: true })
     .filter(d => d.isDirectory())
     .map(d => d.name)
 
-  return slugs.map(slug => {
+  const albums = []
+  for (const slug of slugs) {
     const dir = path.join(ALBUMS_DIR, slug)
     const meta = readMeta(slug, path.join(dir, '_meta.json'))
 
     const files = fs.readdirSync(dir).filter(f => IMG_EXT.test(f))
-    const images = orderImages(files, meta.imageOrder).map(file => ({
-      file,
-      caption: bilingual(meta.captions?.[file]),
-    }))
-
-    if (images.length === 0) {
+    if (files.length === 0) {
       console.warn(`⚠  ${slug}: no images yet — skipping (drop photos in to publish)`)
-      return null
+      continue
     }
+
+    const images = []
+    for (const file of orderImages(files, meta.imageOrder)) {
+      const { w, h } = await measure(path.join(dir, file))
+      const img = { src: `/albums/${slug}/${file}`, w, h, caption: bilingual(meta.captions?.[file]) }
+      const focus = meta.focus?.[file]
+      if (typeof focus === 'string' && focus) img.focus = focus
+      images.push({ file, img })
+    }
+    const indexOf = (f) => images.findIndex(i => i.file === f)
+    const pick = (list) => (Array.isArray(list) ? list.map(indexOf).filter(i => i !== -1) : [])
 
     const title = typeof meta.title === 'string'
       ? meta.title
       : (meta.title && (meta.title.es || meta.title.en)) || titleFromSlug(slug)
 
-    const hero = meta.hero && images.some(i => i.file === meta.hero)
-      ? meta.hero
-      : images[0].file
+    const heroIdx = Math.max(0, indexOf(meta.hero))
+    const press = meta.press && meta.press.outlet ? meta.press : null
 
-    return {
+    albums.push({
       slug,
       order: orderFromSlug(slug, meta.order),
       featured: meta.featured ?? false,
       title,
-      type: bilingual(meta.type, { es: 'Proyecto', en: 'Project' }),
+      type: bilingual(meta.type),
       location: bilingual(meta.location),
-      hero,
-      images,
-    }
-  })
-  .filter(Boolean)
-  .sort((a, b) => a.order - b.order || a.slug.localeCompare(b.slug))
+      hero: heroIdx,
+      year: meta.year ?? null,
+      client: optText(meta.client),
+      architect: optText(meta.architect),
+      dimensions: optText(meta.dimensions),
+      materials: optText(meta.materials),
+      duration: optText(meta.duration),
+      scope: optText(meta.scope),
+      fact: optText(meta.fact),
+      story: optStory(meta.story),
+      press,
+      sequence: pick(meta.sequence),
+      process: pick(meta.process),
+      images: images.map(i => i.img),
+    })
+  }
+  return albums.sort((a, b) => a.order - b.order || a.slug.localeCompare(b.slug))
 }
 
-function generate(albums) {
-  const header = `/**
+// public/albums/_site.json → landing hero, service photos, share image.
+async function readSite() {
+  const p = path.join(ALBUMS_DIR, '_site.json')
+  let cfg = {}
+  if (fs.existsSync(p)) {
+    try { cfg = JSON.parse(fs.readFileSync(p, 'utf8')) }
+    catch (e) { console.warn(`⚠  _site.json has a syntax error — ignoring (${e.message})`) }
+  }
+  const resolve = async (entry) => {
+    if (!entry) return null
+    const rel = typeof entry === 'string' ? entry : entry.src
+    if (!rel) return null
+    const abs = path.join(ROOT, 'public', rel)
+    if (!fs.existsSync(abs)) { console.warn(`⚠  _site.json: ${rel} not found`); return null }
+    const img = { src: '/' + rel, ...(await measure(abs)) }
+    if (typeof entry === 'object') {
+      if (entry.focus) img.focus = entry.focus
+      if (entry.focusMobile) img.focusMobile = entry.focusMobile
+    }
+    return img
+  }
+  const services = {}
+  for (const [k, v] of Object.entries(cfg.services || {})) services[k] = await resolve(v)
+  // "En obra" band: muted process clips ({ video, poster }) and/or stills ({ src }).
+  const film = []
+  for (const it of Array.isArray(cfg.film) ? cfg.film : []) {
+    const alt = bilingual(it.alt)
+    if (it.video) {
+      if (!fs.existsSync(path.join(ROOT, 'public', it.video))) { console.warn(`⚠  _site.json: ${it.video} not found`); continue }
+      film.push({ video: true, src: '/' + it.video, poster: it.poster ? '/' + it.poster : undefined, w: it.w || 720, h: it.h || 1280, alt })
+    } else {
+      const img = await resolve(it)
+      if (img) film.push({ ...img, alt })
+    }
+  }
+  return { hero: await resolve(cfg.hero), og: await resolve(cfg.og || cfg.hero), services, film }
+}
+
+function generate(albums, site) {
+  const map = Object.fromEntries(albums.map(a => [a.slug, a]))
+  return `/**
  * AUTO-GENERATED — do not edit by hand.
  * Run \`npm run sync\` to regenerate from public/albums/.
  */
-const B = import.meta.env.BASE_URL
-const a = (p) => \`\${B}albums/\${p}\`
-`
+export const ALBUMS = ${JSON.stringify(map, null, 1)}
 
-  const albumEntries = albums.map(al => {
-    const imgs = al.images.map(img => {
-      const cap = JSON.stringify(img.caption)
-      return `      { src: a('${al.slug}/${img.file}'), caption: ${cap} },`
-    }).join('\n')
+export const ALBUM_ORDER = ${JSON.stringify(albums.map(a => a.slug))}
 
-    return `  '${al.slug}': {
-    order: ${al.order},
-    title: ${JSON.stringify(al.title)},
-    type: ${JSON.stringify(al.type)},
-    location: ${JSON.stringify(al.location)},
-    hero: a('${al.slug}/${al.hero}'),
-    images: [
-${imgs}
-    ],
-  },`
-  }).join('\n')
-
-  const galleryEntries = albums.map((al, i) => {
-    const n = String(i + 1).padStart(2, '0')
-    return `  {
-    n: '${n}',
-    slug: '${al.slug}',
-    featured: ${al.featured},
-    title: ${JSON.stringify(al.title)},
-    type: ${JSON.stringify(al.type)},
-    location: ${JSON.stringify(al.location)},
-    img: a('${al.slug}/${al.hero}'),
-  },`
-  }).join('\n')
-
-  return `${header}
-export const ALBUMS = {
-${albumEntries}
-}
-
-export const GALLERY = [
-${galleryEntries}
-]
+export const SITE = ${JSON.stringify(site, null, 1)}
 `
 }
 
@@ -191,14 +247,14 @@ ${galleryEntries}
  * Regenerate src/albums.generated.js from public/albums/.
  * Returns a summary; throws on hard errors (caller decides how to report).
  */
-export function syncAlbums() {
+export async function syncAlbums() {
   if (!fs.existsSync(ALBUMS_DIR)) {
     throw new Error(`${ALBUMS_DIR} not found`)
   }
 
-  const albums = readAlbums()
-  const output = generate(albums)
-  fs.writeFileSync(OUT_FILE, output, 'utf8')
+  const albums = await readAlbums()
+  const site = await readSite()
+  fs.writeFileSync(OUT_FILE, generate(albums, site), 'utf8')
 
   return {
     outFile: OUT_FILE,
@@ -208,10 +264,10 @@ export function syncAlbums() {
   }
 }
 
-function main() {
+async function main() {
   let result
   try {
-    result = syncAlbums()
+    result = await syncAlbums()
   } catch (err) {
     console.error(`✗ ${err.message}`)
     process.exit(1)

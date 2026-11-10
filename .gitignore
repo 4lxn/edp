@@ -7,3 +7,7 @@ dist
 # Local junk — not part of the build
 scripts/venv/
 scripts/C:Usersalanglol-analyzer
+
+# Generated responsive image variants (npm run images)
+public/r/
+dist-ssr/

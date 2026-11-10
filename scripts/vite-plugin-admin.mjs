@@ -106,8 +106,9 @@ async function handle(req, res) {
   // POST /album/:slug — create/update _meta.json
   if (req.method === 'POST' && resource === 'album' && slug) {
     const meta = await readJson(req)
-    writeMeta(slug, meta)
-    const summary = syncAlbums()
+    // merge: the panel only knows some fields; keep ficha/sequence/etc. intact
+    writeMeta(slug, { ...readMeta(slug), ...meta })
+    const summary = await syncAlbums()
     return send(res, 200, { ok: true, meta: readMeta(slug), files: listImageFiles(slug), summary })
   }
 
@@ -115,7 +116,7 @@ async function handle(req, res) {
   if (req.method === 'DELETE' && resource === 'album' && slug) {
     const dir = albumDir(slug)
     if (fs.existsSync(dir)) fs.rmSync(dir, { recursive: true, force: true })
-    const summary = syncAlbums()
+    const summary = await syncAlbums()
     return send(res, 200, { ok: true, summary })
   }
 
@@ -144,7 +145,7 @@ async function handle(req, res) {
     if (!meta.imageOrder.includes(name)) meta.imageOrder.push(name)
     if (!meta.hero) meta.hero = name
     writeMeta(slug, meta)
-    syncAlbums()
+    await syncAlbums()
 
     return send(res, 200, {
       ok: true, file: name, bytes: out.length,
@@ -164,7 +165,7 @@ async function handle(req, res) {
     if (Array.isArray(meta.imageOrder)) meta.imageOrder = meta.imageOrder.filter((f) => f !== safe)
     if (meta.hero === safe) meta.hero = listImageFiles(slug)[0] || ''
     writeMeta(slug, meta)
-    syncAlbums()
+    await syncAlbums()
 
     return send(res, 200, { ok: true, meta: readMeta(slug), files: listImageFiles(slug) })
   }
