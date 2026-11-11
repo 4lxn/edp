@@ -174,7 +174,7 @@ function buildThatch() {
   const lift = 0.3
   const A = V(0, APEX + lift, 0)
   const corner = (sx, sz) => V(sx * HX * E, APEX - RISE * E + lift, sz * HZ * E)
-  // [C1, C2, near?] — the two faces toward the final camera are cut away above the eave courses.
+  // [C1, C2, near?] — near flag kept for reference; all faces fully thatched (owner: no cutaway).
   const faces = [
     [corner(1, -1), corner(1, 1), true], [corner(1, 1), corner(-1, 1), true],
     [corner(-1, 1), corner(-1, -1), false], [corner(-1, -1), corner(1, -1), false],
@@ -183,7 +183,6 @@ function buildThatch() {
   for (let k = N - 1; k >= 0; k--) { // eave course first, as it is laid
     faces.forEach(([C1, C2, near]) => {
       const t1 = T0 + (k + 1) * band
-      if (near && t1 < 0.87) return
       const t0 = Math.max(0.02, t1 - band * 1.7)
       const stack = (N - k) * 0.025
       const { geo, n } = courseGeometry(A, C1, C2, t0, t1, stack, stack + 0.16)
@@ -198,11 +197,11 @@ function buildThatch() {
   return out
 }
 
-/** Hip caps: a palm ridge over each hip except the cut-away near one. */
+/** Hip caps: a palm ridge over each hip. */
 function buildHipCaps() {
   const E = 1 + (OV + 0.25) / HZ
   const top = (f, sx, sz) => V(sx * HX * E * f, APEX + 0.42 - RISE * E * f, sz * HZ * E * f)
-  return [[1, -1], [-1, -1], [-1, 1]].map(([sx, sz]) => member(top(0.02, sx, sz), top(1, sx, sz), [0.42, 0.12]))
+  return [[1, -1], [-1, -1], [-1, 1], [1, 1]].map(([sx, sz]) => member(top(0.02, sx, sz), top(1, sx, sz), [0.42, 0.12]))
 }
 
 // ---------- Dimensions (blueprint) ----------
@@ -218,7 +217,7 @@ const DIMS = [
   { text: '7.80 m', from: V(-HX, 0.02, HZ + 1.7), to: V(HX, 0.02, HZ + 1.7), step: 0, keep: true },
   { text: '7.50 m', from: V(HX + 1.7, 0.02, -HZ), to: V(HX + 1.7, 0.02, HZ), step: 0, keep: true },
   { text: '4.20 m', from: V(HX + 0.7, 0, HZ + 0.7), to: V(HX + 0.7, H, HZ + 0.7), step: 1, keep: true },
-  { text: '6.98 m', from: V(0, 0, 0), to: V(0, APEX, 0), step: 3, keep: true },
+  { text: '6.98 m', from: V(-HX - OV - 0.9, 0, HZ + 0.9), to: V(-HX - OV - 0.9, APEX, HZ + 0.9), step: 3, keep: true },
   { text: '1.00 m', from: V(HX, H - 1.05, 0.3), to: V(HX + OV, H - 1.05, 0.3), step: 4 },
   { text: '0.735 m', from: V(HX + OV + 0.15, H - RISE * (OV / HX) - 0.25, 0), to: V(HX + OV + 0.15, H - RISE * (OV / HX) - 0.25, SP), step: 4 },
   { text: '4.02 m', from: V(-2.01, TIE_Y - 0.4, 0), to: V(2.01, TIE_Y - 0.4, 0), step: 5 },
