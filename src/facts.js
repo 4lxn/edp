@@ -40,7 +40,8 @@ export const FACTS = {
         is hidden until the owner confirms it is offered ── */
   offersMaintenance: true,    // owner confirmed 2026-11-11: maintenance, repair and restructuring of palapas
   maintenanceInterval: null,  // { es, en } — e.g. "2 años"
-  servicesThirdParty: null,   // true → "Atendemos también palapas que no construimos."
+  servicesThirdParty: true,  // owner confirmed 2026-11-11
+    // true → "Atendemos también palapas que no construimos."
 
   /* ── Claims to confirm (each `true` reveals the sentence/section) ── */
   hospitalityScheduling: null, // "ajustamos el calendario a la operación del hotel…"

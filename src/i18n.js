@@ -80,7 +80,7 @@ export const T = {
           body: [
             'Mantenimiento, reparación y reestructuración de palapas: refuerzo o reemplazo de piezas dañadas para devolverle firmeza a la estructura.',
             `Revisión estructural, cambio de palma y tratamiento de madera${f.maintenanceInterval ? ` cada ${say(f.maintenanceInterval, 'es')}` : ''}.`,
-            f.servicesThirdParty ? 'Atendemos también palapas que no construimos.' : null,
+            f.servicesThirdParty ? 'Cuidamos cualquier palapa, sin importar quién la haya construido.' : null,
           ],
           alt: 'Interior de una cubierta de palma y madera',
         },
@@ -343,7 +343,7 @@ export const T = {
           body: [
             'Maintenance, repair and restructuring of palapas: reinforcing or replacing damaged members to make the structure sound again.',
             `Structural inspection, rethatching and timber treatment${f.maintenanceInterval ? ` every ${say(f.maintenanceInterval, 'en')}` : ''}.`,
-            f.servicesThirdParty ? 'We also service palapas we did not build.' : null,
+            f.servicesThirdParty ? 'We care for any palapa, whoever built it.' : null,
           ],
           alt: 'Underside of a palm and timber roof',
         },
