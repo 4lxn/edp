@@ -72,6 +72,13 @@ scripts/              sync-albums, responsive-images, prerender, new-album,
   solo en el hero del landing. NO reintroducir JS de scroll
   (`useScroll`/listeners): janquea en móvil. **No hay ningún scroll listener**:
   header y barra fija usan IntersectionObserver (`useAnyInView`).
+  **Única excepción:** la sección 3D "Anatomía de una cubierta"
+  (`components/Anatomy.jsx` → chunk lazy `components/AnatomyScene.jsx`, three +
+  R3F + drei). Su listener es pasivo, coalescido con rAF, solo existe mientras
+  la sección cruza el viewport y solo invalida el canvas (`frameloop="demand"`).
+  El chunk se pide por IntersectionObserver; SSR/no-JS/sin WebGL ven
+  `public/assets/anatomy-poster.{avif,jpg}` (captura de la propia escena; si
+  cambia el modelo, regenerarla). Geometría = números del plano en metros.
 - **Rutas reales** (BrowserRouter) prerenderizadas a `dist/<ruta>/index.html`.
   `404.html` arranca la SPA para rutas desconocidas; un script en `index.html`
   redirige los enlaces viejos `/#/album/x` → `/proyectos/x/`.

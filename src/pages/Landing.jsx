@@ -9,6 +9,7 @@ import { heroSources } from '../seo'
 import { variantUrl } from '../imgsizes'
 import { ProjectCard, PressLine, Process, Arrow } from '../components/Blocks'
 import { QuoteSection } from '../components/QuoteForm'
+import Anatomy from '../components/Anatomy'
 
 function Hero() {
   const { t, to } = useLang()
@@ -248,6 +249,7 @@ export default function Landing() {
       <Services />
       <Film />
       <Process />
+      <Anatomy />
       <Studio />
       <Audience />
       <QuoteSection id="cotizar" />
