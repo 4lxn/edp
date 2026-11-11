@@ -32,7 +32,11 @@ export default function Footer() {
           <LangSwitch />
         </nav>
         <p className="ftr-legal">{t.brand} · {t.footer.address} · {t.footer.rights(__BUILD_YEAR__)}
-          <span> · {t.footer.credit} <a href="https://xlxn.dev" target="_blank" rel="noopener" style={{ color: 'var(--bronze)' }}>xlxn.dev</a></span>
+          <span> · {t.footer.credit} <a href="https://xlxn.dev" target="_blank" rel="noopener" style={{ color: 'var(--paper)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, verticalAlign: 'middle' }}>
+            {/* ponytail: xlxn mark, same drawing as xlxn.dev/favicon.svg minus its black tile */}
+            <svg width="17" height="13" viewBox="2 5 25 19" aria-hidden="true" style={{ overflow: 'visible' }}><path d="M4 11l11 11M15 11L4 22" stroke="currentColor" strokeWidth="4.6" /><rect x="20" y="6" width="5.5" height="16" fill="#ff3b2f" /></svg>
+            xlxn.dev
+          </a></span>
         </p>
       </div>
     </footer>
