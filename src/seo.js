@@ -26,8 +26,8 @@ const META = {
       'Pérgolas, terrazas y decks de alberca en madera, con herrajes para ambiente salino.'],
     hospitality: ['Palapas para hoteles y restaurantes · Estructuras del Pacífico',
       'Palapas para lobbies, restaurantes, clubes de playa y albercas, coordinadas con su arquitecto.'],
-    maintenance: ['Mantenimiento y cambio de palma de palapas en Guerrero · Estructuras del Pacífico',
-      'Revisión estructural, cambio de palma y tratamiento de madera.'],
+    maintenance: ['Mantenimiento y reparación de palapas en Guerrero · Estructuras del Pacífico',
+      'Mantenimiento, reparación y reestructuración de palapas: revisión estructural, cambio de palma y tratamiento de madera.'],
     notFound: ['Página no encontrada · Estructuras del Pacífico', ''],
     project: (a, type, place) => [
       `${a.title}${type ? `: ${type}` : ''}${place ? ` en ${place}` : ''} · Estructuras del Pacífico`,
@@ -49,8 +49,8 @@ const META = {
       'Timber pergolas, terraces and pool decks with hardware specified for salt air.'],
     hospitality: ['Palapas for hotels and restaurants · Estructuras del Pacífico',
       'Palapas for lobbies, restaurants, beach clubs and pools, coordinated with your architect.'],
-    maintenance: ['Palapa maintenance and rethatching in Guerrero, Mexico · Estructuras del Pacífico',
-      'Structural inspection, rethatching and timber treatment.'],
+    maintenance: ['Palapa maintenance and repair in Guerrero, Mexico · Estructuras del Pacífico',
+      'Maintenance, repair and restructuring of palapas: structural inspection, rethatching and timber treatment.'],
     notFound: ['Page not found · Estructuras del Pacífico', ''],
     project: (a, type, place) => [
       `${a.title}${type ? `: ${type}` : ''}${place ? ` in ${place}` : ''} · Estructuras del Pacífico`,

@@ -38,7 +38,7 @@ export const FACTS = {
 
   /* ── Maintenance: the whole service (row, page, form option, process step)
         is hidden until the owner confirms it is offered ── */
-  offersMaintenance: null,    // true | null
+  offersMaintenance: true,    // owner confirmed 2026-11-11: maintenance, repair and restructuring of palapas
   maintenanceInterval: null,  // { es, en } — e.g. "2 años"
   servicesThirdParty: null,   // true → "Atendemos también palapas que no construimos."
 

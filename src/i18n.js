@@ -75,9 +75,10 @@ export const T = {
           alt: 'Estructura de madera con deck en un establecimiento de playa',
         },
         maintenance: {
-          name: 'Mantenimiento y renovación',
-          short: 'Revisión estructural, cambio de palma y tratamiento de madera.',
+          name: 'Mantenimiento y reparación',
+          short: 'Mantenimiento, reparación y reestructuración de palapas.',
           body: [
+            'Mantenimiento, reparación y reestructuración de palapas: refuerzo o reemplazo de piezas dañadas para devolverle firmeza a la estructura.',
             `Revisión estructural, cambio de palma y tratamiento de madera${f.maintenanceInterval ? ` cada ${say(f.maintenanceInterval, 'es')}` : ''}.`,
             f.servicesThirdParty ? 'Atendemos también palapas que no construimos.' : null,
           ],
@@ -337,9 +338,10 @@ export const T = {
           alt: 'Timber structure and deck at a beachfront venue',
         },
         maintenance: {
-          name: 'Maintenance and renovation',
-          short: 'Structural inspection, rethatching and timber treatment.',
+          name: 'Maintenance and repair',
+          short: 'Maintenance, repair and restructuring of palapas.',
           body: [
+            'Maintenance, repair and restructuring of palapas: reinforcing or replacing damaged members to make the structure sound again.',
             `Structural inspection, rethatching and timber treatment${f.maintenanceInterval ? ` every ${say(f.maintenanceInterval, 'en')}` : ''}.`,
             f.servicesThirdParty ? 'We also service palapas we did not build.' : null,
           ],
