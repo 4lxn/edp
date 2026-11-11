@@ -454,6 +454,73 @@ fieldset.fld > .lbl { margin-bottom: 10px; }
 .lb-next { right: 4px; }
 @media (min-width: 900px) { .lb { padding-inline: 72px; } .lb-prev { left: 12px; } .lb-next { right: 12px; } }
 
+/* ---------- Anatomía de una cubierta (3D, lazy chunk) ----------
+   Static layout by default (prerender, no-JS, reduced motion): text + poster.
+   With JS and motion allowed the section is tall and the stage sticks while
+   the scroll assembles the roof. */
+.anat { position: relative; }
+.anat-stick { padding-block: var(--sect); }
+.anat-in { display: grid; gap: clamp(24px, 4vw, 64px); align-items: start; }
+.anat-text { display: grid; gap: 16px; align-content: start; }
+.anat-body { max-width: 30em; color: var(--paper-soft); }
+.anat-steps { counter-reset: none; margin-top: 8px; border-top: 1px solid var(--paper-hair); }
+.anat-steps li {
+  display: grid; grid-template-columns: 40px 1fr; column-gap: 8px; align-items: baseline;
+  padding-block: 9px; border-bottom: 1px solid var(--paper-hair); color: var(--paper-soft);
+  transition: color var(--t-fast) var(--ease);
+}
+.anat-steps .step-n { font-family: var(--display); font-weight: 300; font-size: 15px; color: var(--bronze); font-variant-numeric: tabular-nums; }
+.anat-name { font-family: var(--display); font-weight: 400; font-size: 16px; letter-spacing: .01em; }
+.anat-spec { grid-column: 2; font-family: var(--display); font-size: 13px; letter-spacing: .03em; }
+.anat-steps li.is-on, .anat-steps li.is-done { color: var(--bg); }
+.anat-steps li.is-on .anat-name { font-weight: 500; }
+.anat-cap { min-height: 1.4em; }
+.anat-stage { position: relative; aspect-ratio: 6 / 5; background: var(--ink); overflow: hidden; }
+.anat-poster, .anat-poster img, .anat-canvas { position: absolute !important; inset: 0; width: 100% !important; height: 100% !important; }
+.anat-poster img { object-fit: contain; }
+.anat-poster { transition: opacity var(--t-mid) var(--ease); }
+.anat-stage.is-live .anat-poster { opacity: 0; }
+.anat-canvas { cursor: grab; }
+.anat-canvas:active { cursor: grabbing; }
+.anat-tag, .anat-dim { display: block; white-space: nowrap; font-family: var(--display); color: var(--bg); pointer-events: none; user-select: none; }
+.anat-tag {
+  font-size: 12px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+  padding: 6px 10px 6px 12px; border-left: 1px solid var(--bronze); background: rgba(44, 44, 44, .78);
+  translate: 10px -50%;
+}
+.anat-tag b { font-weight: 300; color: var(--bronze); margin-right: 6px; letter-spacing: 0; }
+.anat-tag i { display: block; font-style: normal; font-weight: 400; letter-spacing: .04em; text-transform: none; font-size: 12px; color: var(--paper-soft); margin-top: 2px; }
+.anat-dim { font-size: 12px; font-weight: 400; letter-spacing: .04em; padding: 1px 6px; background: var(--ink); font-variant-numeric: tabular-nums; }
+@media (min-width: 900px) {
+  .anat-in { grid-template-columns: minmax(320px, 4fr) 7fr; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js .anat { height: 340svh; }
+  .js .anat-stick { position: sticky; top: 0; height: 100svh; padding-block: calc(var(--hdr) + 16px) 16px; }
+  .js .anat-in { height: 100%; grid-template-rows: minmax(0, 1fr); align-items: center; }
+  .js .anat-stage { aspect-ratio: auto; height: 100%; min-height: 0; }
+  .js .anat .h2 { font-size: clamp(28px, 2.7vw, 42px); }
+  .js .anat-text { gap: 12px; }
+  .js .anat-body { font-size: 16px; }
+  .js .anat-steps li { padding-block: 6px; }
+  .anat-tag { animation: anat-in var(--t-mid) var(--ease) both; }
+  @keyframes anat-in { from { opacity: 0; } to { opacity: 1; } }
+  @media (max-width: 899px) {
+    .js .anat-stick { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+    .js .anat-in { display: flex; flex-direction: column; align-items: stretch; gap: 14px; }
+    .js .anat-stage { flex: 1; min-height: 45svh; margin-inline: calc(var(--pad) * -1); }
+    .js .anat-text { gap: 8px; }
+    .js .anat .h2 { font-size: 26px; }
+    /* Phone with WebGL: only the active step is shown; the rest stay readable to AT. */
+    .js .anat.is-3d .anat-body { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    .js .anat.is-3d .anat-steps li:not(.is-on) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); padding: 0; border: 0; }
+    .js .anat.is-3d .anat-steps:not(:has(.is-on)) { border-top: 0; }
+  }
+}
+@media (max-width: 899px) and (prefers-reduced-motion: no-preference) and (max-height: 700px) {
+  .js .anat .anat-text > .label { display: none; }
+}
+
 /* ==========================================================================
    Motion — one curve, three durations. Everything below is skipped under
    prefers-reduced-motion. No JS scroll listeners anywhere.

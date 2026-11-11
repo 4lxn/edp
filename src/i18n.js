@@ -120,6 +120,22 @@ export const T = {
       ],
       closing: '¿Tiene planos o solo una idea? Las dos sirven para empezar.',
     },
+    anatomy: {
+      label: 'Anatomía de una cubierta',
+      title: 'Una cubierta de cuatro aguas, pieza por pieza.',
+      body: 'De las zapatas a la palma: el orden en que se arma una cubierta de madera a cuatro aguas, con sus medidas. Planta de 7.80 × 7.50 m, postes de 4.20 m y cumbrera a 6.98 m del suelo.',
+      caption: 'Estructura genérica modelada a partir de uno de nuestros planos. Medidas en metros.',
+      hint: 'Arrastre para girar la estructura.',
+      steps: [
+        { name: 'Zapatas', spec: 'Concreto, bajo cada poste', tag: 'Concreto' },
+        { name: 'Postes', spec: 'Altura 4.20 m, planta de 7.80 × 7.50 m', tag: '4.20 m' },
+        { name: 'Vigas perimetrales 8×6', spec: '20 × 15 cm, cierran el perímetro', tag: '8″ × 6″ · 20 × 15 cm' },
+        { name: 'Limatesas', spec: 'De cada esquina a la cumbrera', tag: 'Cumbrera a 6.98 m' },
+        { name: 'Polines', spec: 'A cada 0.735 m, alero de 1.00 m', tag: '@ 0.735 m' },
+        { name: 'Estructura de cumbrera 6×6', spec: '15 × 15 cm, tirante de 4.02 m', tag: '6″ × 6″ · 15 × 15 cm' },
+        { name: 'Cubierta de palma', spec: 'Capas traslapadas desde el alero', tag: 'Capas traslapadas' },
+      ],
+    },
 
     studio: {
       label: 'El estudio',
@@ -365,6 +381,22 @@ export const T = {
           : null,
       ],
       closing: 'Drawings ready, or only an idea? Either is enough to start.',
+    },
+    anatomy: {
+      label: 'Anatomy of a roof',
+      title: 'A hip roof, piece by piece.',
+      body: 'From footings to palm: the order in which a timber hip roof goes up, with its dimensions. A 7.80 × 7.50 m plan, 4.20 m posts and an apex 6.98 m above the ground.',
+      caption: 'A generic structure modelled from one of our plans. Dimensions in metres.',
+      hint: 'Drag to turn the structure.',
+      steps: [
+        { name: 'Footings', spec: 'Concrete, under each post', tag: 'Concrete' },
+        { name: 'Posts', spec: '4.20 m high, 7.80 × 7.50 m plan', tag: '4.20 m' },
+        { name: 'Perimeter beams 8×6', spec: '20 × 15 cm, closing the perimeter', tag: '8″ × 6″ · 20 × 15 cm' },
+        { name: 'Hip rafters', spec: 'From each corner to the apex', tag: 'Apex at 6.98 m' },
+        { name: 'Rafters', spec: 'At 0.735 m centres, 1.00 m eave', tag: '@ 0.735 m' },
+        { name: 'Apex structure 6×6', spec: '15 × 15 cm, 4.02 m tie', tag: '6″ × 6″ · 15 × 15 cm' },
+        { name: 'Palm thatch', spec: 'Overlapping layers from the eave up', tag: 'Overlapping layers' },
+      ],
     },
 
     studio: {
