@@ -1,0 +1,26 @@
+{
+  "order": 7,
+  "featured": false,
+  "title": "Pérgola sobre columnas de piedra",
+  "title_en": "Pergola on stone columns",
+  "type": {
+    "es": "",
+    "en": ""
+  },
+  "location": {
+    "es": "",
+    "en": ""
+  },
+  "hero": "01.jpeg",
+  "imageOrder": [
+    "01.jpeg",
+    "02.jpeg"
+  ],
+  "sequence": [
+    "02.jpeg"
+  ],
+  "focus": {
+    "01.jpeg": "50% 35%"
+  },
+  "captions": {}
+}

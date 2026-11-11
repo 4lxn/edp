@@ -285,6 +285,7 @@ export const ALBUMS = {
    1,
    3,
    7,
+   8,
    2,
    5,
    4,
@@ -359,6 +360,15 @@ export const ALBUMS = {
     "src": "/albums/delfiniti/09.jpeg",
     "w": 1800,
     "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/delfiniti/10.jpeg",
+    "w": 1180,
+    "h": 1960,
     "caption": {
      "es": "",
      "en": ""
@@ -843,14 +853,24 @@ export const ALBUMS = {
   "press": null,
   "sequence": [
    1,
-   4,
-   3,
+   8,
+   9,
+   21,
    2,
+   4,
+   10,
    5,
-   7,
-   6
+   12,
+   23,
+   3,
+   22
   ],
-  "process": [],
+  "process": [
+   35,
+   26,
+   37,
+   40
+  ],
   "images": [
    {
     "src": "/albums/acapulco-ladera/01.jpeg",
@@ -861,6 +881,186 @@ export const ALBUMS = {
      "en": ""
     },
     "focus": "50% 30%"
+   },
+   {
+    "src": "/albums/acapulco-ladera/09.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/08.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/10.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/11.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/12.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/14.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/13.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/05.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/15.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/16.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/04.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/07.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/17.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/18.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/06.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/19.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/20.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/21.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/22.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/23.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
    },
    {
     "src": "/albums/acapulco-ladera/02.jpeg",
@@ -881,7 +1081,7 @@ export const ALBUMS = {
     }
    },
    {
-    "src": "/albums/acapulco-ladera/04.jpeg",
+    "src": "/albums/acapulco-ladera/24.jpeg",
     "w": 2400,
     "h": 1800,
     "caption": {
@@ -890,8 +1090,80 @@ export const ALBUMS = {
     }
    },
    {
-    "src": "/albums/acapulco-ladera/05.jpeg",
-    "w": 1800,
+    "src": "/albums/acapulco-ladera/25.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/26.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/27.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/28.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/29.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/30.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/31.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/32.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/33.jpeg",
+    "w": 1350,
     "h": 2400,
     "caption": {
      "es": "",
@@ -899,7 +1171,7 @@ export const ALBUMS = {
     }
    },
    {
-    "src": "/albums/acapulco-ladera/06.jpeg",
+    "src": "/albums/acapulco-ladera/34.jpeg",
     "w": 2400,
     "h": 1800,
     "caption": {
@@ -908,7 +1180,7 @@ export const ALBUMS = {
     }
    },
    {
-    "src": "/albums/acapulco-ladera/07.jpeg",
+    "src": "/albums/acapulco-ladera/35.jpeg",
     "w": 2400,
     "h": 1800,
     "caption": {
@@ -917,7 +1189,103 @@ export const ALBUMS = {
     }
    },
    {
-    "src": "/albums/acapulco-ladera/08.jpeg",
+    "src": "/albums/acapulco-ladera/36.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/37.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/38.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/39.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/40.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acapulco-ladera/41.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   }
+  ]
+ },
+ "pergola-muro-columnas": {
+  "slug": "pergola-muro-columnas",
+  "order": 7,
+  "featured": false,
+  "title": "Pérgola sobre columnas de piedra",
+  "titleEn": "Pergola on stone columns",
+  "type": {
+   "es": "",
+   "en": ""
+  },
+  "location": {
+   "es": "",
+   "en": ""
+  },
+  "hero": 0,
+  "year": null,
+  "client": null,
+  "architect": null,
+  "dimensions": null,
+  "materials": null,
+  "duration": null,
+  "scope": null,
+  "fact": null,
+  "story": null,
+  "press": null,
+  "sequence": [
+   1
+  ],
+  "process": [],
+  "images": [
+   {
+    "src": "/albums/pergola-muro-columnas/01.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    },
+    "focus": "50% 35%"
+   },
+   {
+    "src": "/albums/pergola-muro-columnas/02.jpeg",
     "w": 2400,
     "h": 1800,
     "caption": {
@@ -929,7 +1297,7 @@ export const ALBUMS = {
  }
 }
 
-export const ALBUM_ORDER = ["punta-garrobo","delfiniti","casa-frijol","tanta-vida","acapulco","acapulco-ladera"]
+export const ALBUM_ORDER = ["punta-garrobo","delfiniti","casa-frijol","tanta-vida","acapulco","acapulco-ladera","pergola-muro-columnas"]
 
 export const SITE = {
  "hero": {
