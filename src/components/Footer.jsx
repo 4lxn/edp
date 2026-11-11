@@ -31,7 +31,9 @@ export default function Footer() {
           <Link to={to('privacy')}>{t.nav.privacy}</Link>
           <LangSwitch />
         </nav>
-        <p className="ftr-legal">{t.brand} · {t.footer.address} · {t.footer.rights(__BUILD_YEAR__)}</p>
+        <p className="ftr-legal">{t.brand} · {t.footer.address} · {t.footer.rights(__BUILD_YEAR__)}
+          <span style={{ opacity: 0.55 }}> · {t.footer.credit} <a href="https://xlxn.dev" target="_blank" rel="noopener" style={{ color: 'inherit', textDecoration: 'none' }}>xlxn.dev</a></span>
+        </p>
       </div>
     </footer>
   )

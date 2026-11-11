@@ -243,6 +243,7 @@ export const T = {
       closing: '¿Tiene un proyecto en la costa?',
       rights: (year) => `© ${year}`,
       address: 'Zihuatanejo, Guerrero, México',
+      credit: 'Sitio por',
     },
 
     notFound: { title: 'No encontramos esta página.', body: 'Puede que el enlace haya cambiado.', home: 'Ir al inicio' },
@@ -506,6 +507,7 @@ export const T = {
       closing: 'Have a project on the coast?',
       rights: (year) => `© ${year}`,
       address: 'Zihuatanejo, Guerrero, Mexico',
+      credit: 'Site by',
     },
 
     notFound: { title: 'We could not find this page.', body: 'The link may have changed.', home: 'Go to the home page' },
