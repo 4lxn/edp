@@ -286,6 +286,7 @@ export const ALBUMS = {
   "story": null,
   "press": null,
   "sequence": [
+   6,
    1,
    2
   ],
@@ -343,6 +344,15 @@ export const ALBUMS = {
    },
    {
     "src": "/albums/acceso-punta-garrobo/06.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acceso-punta-garrobo/07.jpeg",
     "w": 1800,
     "h": 2400,
     "caption": {
@@ -823,6 +833,7 @@ export const ALBUMS = {
    11
   ],
   "process": [
+   16,
    12,
    15,
    13,
@@ -967,6 +978,15 @@ export const ALBUMS = {
    },
    {
     "src": "/albums/la-cima-acapulco/16.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/la-cima-acapulco/17.jpeg",
     "w": 2400,
     "h": 1800,
     "caption": {

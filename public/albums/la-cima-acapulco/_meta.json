@@ -28,7 +28,8 @@
     "13.jpeg",
     "14.jpeg",
     "15.jpeg",
-    "16.jpeg"
+    "16.jpeg",
+    "17.jpeg"
   ],
   "sequence": [
     "02.jpeg",
@@ -44,6 +45,7 @@
     "12.jpeg"
   ],
   "process": [
+    "17.jpeg",
     "13.jpeg",
     "16.jpeg",
     "14.jpeg",
