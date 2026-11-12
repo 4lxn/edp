@@ -40,10 +40,12 @@ function useRouteEffects() {
 }
 
 function Site() {
-  const { pathname } = useLocation()
+  const { pathname, search } = useLocation()
   const r = resolve(pathname)
   useRouteEffects()
-  useReveal(pathname)
+  // Search too: the project filter (?tipo=) reorders cards, and Safari's
+  // IntersectionObserver can miss a moved node, leaving it at opacity 0.
+  useReveal(pathname + search)
   const bare = r && r.key === 'home' // the landing hero runs under the header
   return (
     <>
