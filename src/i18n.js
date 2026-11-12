@@ -79,7 +79,7 @@ export const T = {
           short: 'Mantenimiento, reparación y reestructuración de palapas.',
           body: [
             'Mantenimiento, reparación y reestructuración de palapas: refuerzo o reemplazo de piezas dañadas para devolverle firmeza a la estructura.',
-            `Revisión estructural, cambio de palma y tratamiento de madera${f.maintenanceInterval ? ` cada ${say(f.maintenanceInterval, 'es')}` : ''}.`,
+            f.maintenanceInterval ? `Fumigación y sellado de la madera cada ${say(f.maintenanceInterval, 'es')}${f.rethatchInterval ? `; cambio de palma cada ${say(f.rethatchInterval, 'es')}, según la inclinación de la cubierta` : ''}.` : 'Revisión estructural, cambio de palma y tratamiento de madera.',
             f.servicesThirdParty ? 'Cuidamos cualquier palapa, sin importar quién la haya construido.' : null,
           ],
           alt: 'Interior de una cubierta de palma y madera',
@@ -343,7 +343,7 @@ export const T = {
           short: 'Maintenance, repair and restructuring of palapas.',
           body: [
             'Maintenance, repair and restructuring of palapas: reinforcing or replacing damaged members to make the structure sound again.',
-            `Structural inspection, rethatching and timber treatment${f.maintenanceInterval ? ` every ${say(f.maintenanceInterval, 'en')}` : ''}.`,
+            f.maintenanceInterval ? `Fumigation and timber sealing every ${say(f.maintenanceInterval, 'en')}${f.rethatchInterval ? `; rethatching every ${say(f.rethatchInterval, 'en')}, depending on roof pitch` : ''}.` : 'Structural inspection, rethatching and timber treatment.',
             f.servicesThirdParty ? 'We care for any palapa, whoever built it.' : null,
           ],
           alt: 'Underside of a palm and timber roof',

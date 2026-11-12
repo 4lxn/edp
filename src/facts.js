@@ -39,7 +39,8 @@ export const FACTS = {
   /* ── Maintenance: the whole service (row, page, form option, process step)
         is hidden until the owner confirms it is offered ── */
   offersMaintenance: true,    // owner confirmed 2026-11-11: maintenance, repair and restructuring of palapas
-  maintenanceInterval: null,  // { es, en } — e.g. "2 años"
+  maintenanceInterval: { es: '6 meses', en: '6 months' },  // fumigation + wood sealer (CWF); father, 2026-11-11
+  rethatchInterval: { es: '5 a 7 años', en: '5 to 7 years' },  // depends on roof pitch; father, 2026-11-11
   servicesThirdParty: true,  // owner confirmed 2026-11-11
     // true → "Atendemos también palapas que no construimos."
 
