@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { lazy, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ALBUMS, ALBUM_ORDER } from '../albums.generated'
 import { placeName } from '../seo'
@@ -7,6 +7,9 @@ import { titleOf } from '../routes'
 import Picture from '../components/Picture'
 import Lightbox from '../Lightbox'
 import { CtaBand, PressLine, Arrow } from '../components/Blocks'
+import Anatomy from '../components/Anatomy'
+
+const SCENES = { pergola: lazy(() => import('../components/PergolaScene')) }
 
 const CURATED_MAX = 12
 
@@ -112,6 +115,18 @@ export default function Project({ slug }) {
           {a.story[lang].map((par) => <p key={par}>{par}</p>)}
         </div>
       )}
+
+      {a.experience && SCENES[a.experience] && (() => {
+        // Each step's photo fades in over the last part of that step; the hero closes the sequence.
+        const copy = t[a.experience]
+        const img = (f) => a.images.find((im) => im.src.endsWith('/' + f))
+        const photos = copy.steps.map((s, i) => s.photo && img(s.photo) && { img: img(s.photo), a: i + 0.55, b: i + 1.3 }).filter(Boolean)
+        photos.push({ img: hero, a: copy.steps.length + 0.35, b: 99 })
+        return (
+          <Anatomy id="exp" copy={copy} Scene={SCENES[a.experience]} photos={photos}
+            poster={<Picture img={hero} cap={false} className="anat-poster" sizes="(min-width: 900px) 60vw, 100vw" />} />
+        )
+      })()}
 
       {rows.length > 0 && (
         <div className="wrap seq">

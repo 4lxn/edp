@@ -1,0 +1,40 @@
+{
+  "order": 2.5,
+  "featured": true,
+  "title": "Pérgola con hueso de palma",
+  "title_en": "Palm-rib pergola",
+  "type": {
+    "es": "Pérgola",
+    "en": "Pergola"
+  },
+  "location": {
+    "es": "Punta Garrobo, Zihuatanejo, Gro. · MX",
+    "en": "Punta Garrobo, Zihuatanejo, Gro. · MX"
+  },
+  "dimensions": {
+    "es": "6.45 × 6.00 m",
+    "en": "6.45 × 6.00 m"
+  },
+  "materials": {
+    "es": "Acero 8″×4″, madera de 8 × 20 cm con CWF, hueso de palma",
+    "en": "8″×4″ steel, 8 × 20 cm timber sealed with CWF, palm rib"
+  },
+  "hero": "01.jpeg",
+  "imageOrder": [
+    "01.jpeg",
+    "02.jpeg",
+    "03.jpeg",
+    "04.jpeg",
+    "05.jpeg"
+  ],
+  "sequence": [
+    "02.jpeg",
+    "03.jpeg",
+    "04.jpeg"
+  ],
+  "process": [
+    "05.jpeg"
+  ],
+  "experience": "pergola",
+  "captions": {}
+}

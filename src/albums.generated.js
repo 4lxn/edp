@@ -46,6 +46,7 @@ export const ALBUMS = {
    13,
    14
   ],
+  "experience": null,
   "images": [
    {
     "src": "/albums/punta-garrobo/07.jpeg",
@@ -256,6 +257,101 @@ export const ALBUMS = {
    }
   ]
  },
+ "acceso-punta-garrobo": {
+  "slug": "acceso-punta-garrobo",
+  "order": 1.5,
+  "featured": false,
+  "title": "Pórtico de acceso",
+  "titleEn": "Entrance portico",
+  "type": {
+   "es": "Vigas de madera",
+   "en": "Timber beams"
+  },
+  "location": {
+   "es": "Punta Garrobo, Zihuatanejo, Gro. · MX",
+   "en": "Punta Garrobo, Zihuatanejo, Gro. · MX"
+  },
+  "hero": 0,
+  "year": null,
+  "client": null,
+  "architect": null,
+  "dimensions": null,
+  "materials": null,
+  "duration": null,
+  "scope": {
+   "es": "Suministro y colocación de vigas",
+   "en": "Supply and installation of beams"
+  },
+  "fact": null,
+  "story": null,
+  "press": null,
+  "sequence": [
+   1,
+   2
+  ],
+  "process": [
+   3,
+   4,
+   5
+  ],
+  "experience": null,
+  "images": [
+   {
+    "src": "/albums/acceso-punta-garrobo/01.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acceso-punta-garrobo/02.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acceso-punta-garrobo/03.jpeg",
+    "w": 1621,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acceso-punta-garrobo/04.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acceso-punta-garrobo/05.jpeg",
+    "w": 2400,
+    "h": 1350,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/acceso-punta-garrobo/06.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   }
+  ]
+ },
  "delfiniti": {
   "slug": "delfiniti",
   "order": 2,
@@ -292,6 +388,7 @@ export const ALBUMS = {
    6
   ],
   "process": [],
+  "experience": null,
   "images": [
    {
     "src": "/albums/delfiniti/06.jpeg",
@@ -385,6 +482,94 @@ export const ALBUMS = {
    }
   ]
  },
+ "pergola-hueso-de-palma": {
+  "slug": "pergola-hueso-de-palma",
+  "order": 2.5,
+  "featured": true,
+  "title": "Pérgola con hueso de palma",
+  "titleEn": "Palm-rib pergola",
+  "type": {
+   "es": "Pérgola",
+   "en": "Pergola"
+  },
+  "location": {
+   "es": "Punta Garrobo, Zihuatanejo, Gro. · MX",
+   "en": "Punta Garrobo, Zihuatanejo, Gro. · MX"
+  },
+  "hero": 0,
+  "year": null,
+  "client": null,
+  "architect": null,
+  "dimensions": {
+   "es": "6.45 × 6.00 m",
+   "en": "6.45 × 6.00 m"
+  },
+  "materials": {
+   "es": "Acero 8″×4″, madera de 8 × 20 cm con CWF, hueso de palma",
+   "en": "8″×4″ steel, 8 × 20 cm timber sealed with CWF, palm rib"
+  },
+  "duration": null,
+  "scope": null,
+  "fact": null,
+  "story": null,
+  "press": null,
+  "sequence": [
+   1,
+   2,
+   3
+  ],
+  "process": [
+   4
+  ],
+  "experience": "pergola",
+  "images": [
+   {
+    "src": "/albums/pergola-hueso-de-palma/01.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/pergola-hueso-de-palma/02.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/pergola-hueso-de-palma/03.jpeg",
+    "w": 2400,
+    "h": 1560,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/pergola-hueso-de-palma/04.jpeg",
+    "w": 2400,
+    "h": 1801,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/pergola-hueso-de-palma/05.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   }
+  ]
+ },
  "casa-frijol": {
   "slug": "casa-frijol",
   "order": 3,
@@ -424,6 +609,7 @@ export const ALBUMS = {
   "process": [
    16
   ],
+  "experience": null,
   "images": [
    {
     "src": "/albums/casa-frijol/01.jpeg",
@@ -598,6 +784,198 @@ export const ALBUMS = {
    }
   ]
  },
+ "la-cima-acapulco": {
+  "slug": "la-cima-acapulco",
+  "order": 3.5,
+  "featured": true,
+  "title": "Palapas en La Cima",
+  "titleEn": "Palapas at La Cima",
+  "type": {
+   "es": "Palapas",
+   "en": "Palapas"
+  },
+  "location": {
+   "es": "La Cima, Acapulco, Gro. · MX",
+   "en": "La Cima, Acapulco, Gro. · MX"
+  },
+  "hero": 0,
+  "year": null,
+  "client": null,
+  "architect": null,
+  "dimensions": null,
+  "materials": null,
+  "duration": null,
+  "scope": null,
+  "fact": null,
+  "story": null,
+  "press": null,
+  "sequence": [
+   1,
+   3,
+   4,
+   2,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ],
+  "process": [
+   12,
+   15,
+   13,
+   14
+  ],
+  "experience": null,
+  "images": [
+   {
+    "src": "/albums/la-cima-acapulco/01.jpeg",
+    "w": 2400,
+    "h": 1320,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/la-cima-acapulco/02.jpeg",
+    "w": 2400,
+    "h": 1350,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/la-cima-acapulco/03.jpeg",
+    "w": 2400,
+    "h": 863,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/la-cima-acapulco/04.jpeg",
+    "w": 2259,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/la-cima-acapulco/05.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/la-cima-acapulco/06.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/la-cima-acapulco/07.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/la-cima-acapulco/08.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/la-cima-acapulco/09.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/la-cima-acapulco/10.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/la-cima-acapulco/11.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/la-cima-acapulco/12.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/la-cima-acapulco/13.jpeg",
+    "w": 2400,
+    "h": 1350,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/la-cima-acapulco/14.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/la-cima-acapulco/15.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/la-cima-acapulco/16.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   }
+  ]
+ },
  "tanta-vida": {
   "slug": "tanta-vida",
   "order": 4,
@@ -627,6 +1005,7 @@ export const ALBUMS = {
    0
   ],
   "process": [],
+  "experience": null,
   "images": [
    {
     "src": "/albums/tanta-vida/01-palapa-costa.jpeg",
@@ -688,6 +1067,7 @@ export const ALBUMS = {
   "process": [
    8
   ],
+  "experience": null,
   "images": [
    {
     "src": "/albums/acapulco/01.jpeg",
@@ -871,6 +1251,7 @@ export const ALBUMS = {
    37,
    40
   ],
+  "experience": null,
   "images": [
    {
     "src": "/albums/acapulco-ladera/01.jpeg",
@@ -1273,6 +1654,7 @@ export const ALBUMS = {
    1
   ],
   "process": [],
+  "experience": null,
   "images": [
    {
     "src": "/albums/pergola-muro-columnas/01.jpeg",
@@ -1297,7 +1679,7 @@ export const ALBUMS = {
  }
 }
 
-export const ALBUM_ORDER = ["punta-garrobo","delfiniti","casa-frijol","tanta-vida","acapulco","acapulco-ladera","pergola-muro-columnas"]
+export const ALBUM_ORDER = ["punta-garrobo","acceso-punta-garrobo","delfiniti","pergola-hueso-de-palma","casa-frijol","la-cima-acapulco","tanta-vida","acapulco","acapulco-ladera","pergola-muro-columnas"]
 
 export const SITE = {
  "hero": {

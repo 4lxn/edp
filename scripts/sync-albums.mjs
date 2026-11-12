@@ -24,6 +24,7 @@
  *   sequence: [filenames]  curated photos shown on the project page, in order
  *   process:  [filenames]  construction photos shown under "Proceso"
  *   focus:    { "<file>": "50% 40%" }  object-position per photo
+ *   experience: "pergola"  interactive 3D block on the project page (see Project.jsx)
  *   press:    { outlet, title, url, date }  shown only when the site-wide
  *             press flag in src/facts.js is enabled
  *
@@ -187,6 +188,7 @@ async function readAlbums() {
       press,
       sequence: pick(meta.sequence),
       process: pick(meta.process),
+      experience: typeof meta.experience === 'string' ? meta.experience : null,
       images: images.map(i => i.img),
     })
   }

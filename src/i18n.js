@@ -137,6 +137,20 @@ export const T = {
         { name: 'Cubierta de palma', spec: 'Capas traslapadas desde el alero', tag: 'Capas traslapadas' },
       ],
     },
+    pergola: {
+      label: 'Del plano a la obra',
+      title: 'La pérgola, pieza por pieza.',
+      body: 'Así se armó esta pérgola de 6.45 × 6.00 m: acero abajo, madera arriba y hueso de palma para filtrar el sol. Cada pieza sale del plano de obra; al final, la foto de la pérgola terminada.',
+      caption: 'Modelo hecho con las medidas del plano de esta obra. Medidas en metros.',
+      hint: 'La pérgola terminada.',
+      steps: [
+        { name: 'Desplante', spec: 'Dados de concreto de 40 × 40 cm', tag: 'Concreto' },
+        { name: 'Postes de acero', spec: '8″ × 4″, 2.40 m libres', tag: '8″ × 4″' },
+        { name: 'Vigas de acero', spec: 'Cromato de zinc y esmalte mate', tag: '6.45 m', photo: '05.jpeg' },
+        { name: 'Vigas de madera', spec: '13 piezas de 8 × 20 cm, a cada 53 cm, selladas con CWF', tag: '@ 0.53 m' },
+        { name: 'Hueso de palma', spec: 'Sobre la madera, filtra el sol', tag: 'Hueso de palma', photo: '04.jpeg' },
+      ],
+    },
 
     studio: {
       label: 'El estudio',
@@ -399,6 +413,20 @@ export const T = {
         { name: 'Rafters', spec: 'At 0.735 m centres, 1.00 m eave', tag: '@ 0.735 m' },
         { name: 'Apex structure 6×6', spec: '15 × 15 cm, 4.02 m tie', tag: '6″ × 6″ · 15 × 15 cm' },
         { name: 'Palm thatch', spec: 'Overlapping layers from the eave up', tag: 'Overlapping layers' },
+      ],
+    },
+    pergola: {
+      label: 'From plan to build',
+      title: 'The pergola, piece by piece.',
+      body: 'How this 6.45 × 6.00 m pergola went up: steel below, timber above and palm rib on top to filter the sun. Every piece comes from the construction drawings; at the end, the finished pergola.',
+      caption: 'Modelled from this project\'s drawings. Dimensions in metres.',
+      hint: 'The finished pergola.',
+      steps: [
+        { name: 'Footings', spec: '40 × 40 cm concrete piers', tag: 'Concrete' },
+        { name: 'Steel posts', spec: '8″ × 4″, 2.40 m clear', tag: '8″ × 4″' },
+        { name: 'Steel beams', spec: 'Zinc chromate and matte enamel', tag: '6.45 m', photo: '05.jpeg' },
+        { name: 'Timber joists', spec: '13 pieces, 8 × 20 cm at 53 cm centres, sealed with CWF', tag: '@ 0.53 m' },
+        { name: 'Palm rib', spec: 'Laid over the timber to filter the sun', tag: 'Palm rib', photo: '04.jpeg' },
       ],
     },
 

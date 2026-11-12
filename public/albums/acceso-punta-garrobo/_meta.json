@@ -1,0 +1,37 @@
+{
+  "order": 1.5,
+  "featured": false,
+  "title": "Pórtico de acceso",
+  "title_en": "Entrance portico",
+  "type": {
+    "es": "Vigas de madera",
+    "en": "Timber beams"
+  },
+  "location": {
+    "es": "Punta Garrobo, Zihuatanejo, Gro. · MX",
+    "en": "Punta Garrobo, Zihuatanejo, Gro. · MX"
+  },
+  "scope": {
+    "es": "Suministro y colocación de vigas",
+    "en": "Supply and installation of beams"
+  },
+  "hero": "01.jpeg",
+  "imageOrder": [
+    "01.jpeg",
+    "02.jpeg",
+    "03.jpeg",
+    "04.jpeg",
+    "05.jpeg",
+    "06.jpeg"
+  ],
+  "sequence": [
+    "02.jpeg",
+    "03.jpeg"
+  ],
+  "process": [
+    "04.jpeg",
+    "05.jpeg",
+    "06.jpeg"
+  ],
+  "captions": {}
+}

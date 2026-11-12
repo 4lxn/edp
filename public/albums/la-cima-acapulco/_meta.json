@@ -1,0 +1,53 @@
+{
+  "order": 3.5,
+  "featured": true,
+  "title": "Palapas en La Cima",
+  "title_en": "Palapas at La Cima",
+  "type": {
+    "es": "Palapas",
+    "en": "Palapas"
+  },
+  "location": {
+    "es": "La Cima, Acapulco, Gro. · MX",
+    "en": "La Cima, Acapulco, Gro. · MX"
+  },
+  "hero": "01.jpeg",
+  "imageOrder": [
+    "01.jpeg",
+    "02.jpeg",
+    "03.jpeg",
+    "04.jpeg",
+    "05.jpeg",
+    "06.jpeg",
+    "07.jpeg",
+    "08.jpeg",
+    "09.jpeg",
+    "10.jpeg",
+    "11.jpeg",
+    "12.jpeg",
+    "13.jpeg",
+    "14.jpeg",
+    "15.jpeg",
+    "16.jpeg"
+  ],
+  "sequence": [
+    "02.jpeg",
+    "04.jpeg",
+    "05.jpeg",
+    "03.jpeg",
+    "06.jpeg",
+    "07.jpeg",
+    "08.jpeg",
+    "09.jpeg",
+    "10.jpeg",
+    "11.jpeg",
+    "12.jpeg"
+  ],
+  "process": [
+    "13.jpeg",
+    "16.jpeg",
+    "14.jpeg",
+    "15.jpeg"
+  ],
+  "captions": {}
+}

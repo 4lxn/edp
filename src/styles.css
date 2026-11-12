@@ -480,6 +480,10 @@ fieldset.fld > .lbl { margin-bottom: 10px; }
 .anat-poster img { object-fit: contain; }
 .anat-poster { transition: opacity var(--t-mid) var(--ease); }
 .anat-stage.is-live .anat-poster { opacity: 0; }
+.anat-poster.pic img { object-fit: cover; }
+/* Real photos over the model: --p is the scene's step position (step i spans i..i+1). */
+.anat-photo { position: absolute; inset: 0; z-index: 5; pointer-events: none; opacity: calc(clamp(0, (var(--p, 0) - var(--a)) * 5, 1) * clamp(0, (var(--b) - var(--p, 0)) * 5, 1)); }
+.anat-photo .pic, .anat-photo img { width: 100%; height: 100%; object-fit: cover; }
 .anat-canvas { cursor: grab; }
 .anat-canvas:active { cursor: grabbing; }
 .anat-tag, .anat-dim { display: block; white-space: nowrap; font-family: var(--display); color: var(--bg); pointer-events: none; user-select: none; }
