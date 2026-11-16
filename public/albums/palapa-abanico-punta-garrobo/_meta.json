@@ -1,0 +1,50 @@
+{
+  "order": 2.2,
+  "featured": true,
+  "title": "Palapa en abanico",
+  "title_en": "Fan palapa",
+  "type": {
+    "es": "Palapas",
+    "en": "Palapas"
+  },
+  "location": {
+    "es": "Punta Garrobo, Zihuatanejo, Gro. · MX",
+    "en": "Punta Garrobo, Zihuatanejo, Gro. · MX"
+  },
+  "dimensions": {
+    "es": "Media circunferencia de unos 14 m de diámetro",
+    "en": "Half circle, about 14 m across"
+  },
+  "materials": {
+    "es": "Tubo de acero, petate, triplay, membrana, listones y palma",
+    "en": "Steel tube, palm mat, plywood, membrane, battens and palm"
+  },
+  "hero": "01.jpeg",
+  "imageOrder": [
+    "01.jpeg",
+    "02.jpeg",
+    "03.jpeg",
+    "04.jpeg",
+    "05.jpeg",
+    "06.jpeg",
+    "07.jpeg",
+    "08.jpeg",
+    "09.jpeg",
+    "10.jpeg"
+  ],
+  "sequence": [
+    "02.jpeg",
+    "03.jpeg",
+    "04.jpeg",
+    "05.jpeg",
+    "06.jpeg",
+    "07.jpeg",
+    "08.jpeg",
+    "09.jpeg"
+  ],
+  "process": [
+    "10.jpeg"
+  ],
+  "experience": "abanico",
+  "captions": {}
+}

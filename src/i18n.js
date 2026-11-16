@@ -137,6 +137,23 @@ export const T = {
         { name: 'Cubierta de palma', spec: 'Capas traslapadas desde el alero', tag: 'Capas traslapadas' },
       ],
     },
+    abanico: {
+      label: 'Del plano a la obra',
+      title: 'La palapa en abanico, capa por capa.',
+      body: 'Medio cono de unos 14 m de diámetro sobre el comedor y la estancia de una casa frente al mar. Así se cubrió: concreto, tubos de acero que salen de un solo punto, petate y triplay, membrana, listones y, al final, la palma.',
+      caption: 'Modelo ilustrativo: el radio sale del plano; la pendiente y las alturas son aproximadas.',
+      hint: 'La palma, colocándose sobre los listones.',
+      final: '08.jpeg',
+      steps: [
+        { name: 'Concreto', spec: 'Muro posterior, columnas y trabe curva', tag: 'Radio ≈ 6.9 m' },
+        { name: 'Estructura de acero', spec: 'Tubos radiales desde la cúspide y anillo en el alero', tag: 'Tubo de acero', photo: '01.jpeg' },
+        { name: 'Petate y triplay', spec: 'El petate queda a la vista por dentro; el triplay lo cubre', tag: 'Petate · triplay', photo: '04.jpeg' },
+        { name: 'Membrana', spec: 'Capa impermeable bajo la palma', tag: 'Impermeable', photo: '05.jpeg' },
+        { name: 'Listones', spec: 'Anillos para amarrar la palma', tag: 'En anillos', photo: '06.jpeg' },
+        { name: 'Palma', spec: 'Hiladas amarradas desde el alero hacia la cúspide', tag: 'Por hiladas', photo: '08.jpeg' },
+      ],
+    },
+
     pergola: {
       label: 'Del plano a la obra',
       title: 'La pérgola, pieza por pieza.',
@@ -415,6 +432,23 @@ export const T = {
         { name: 'Palm thatch', spec: 'Overlapping layers from the eave up', tag: 'Overlapping layers' },
       ],
     },
+    abanico: {
+      label: 'From drawing to site',
+      title: 'The fan palapa, layer by layer.',
+      body: 'Half a cone, about 14 m across, over the dining room and living area of a house facing the sea. How it was roofed: concrete, steel tubes fanning out from a single point, palm mat and plywood, membrane, battens and, last, the palm.',
+      caption: 'Illustrative model: the radius comes from the plan; slope and heights are approximate.',
+      hint: 'The palm going on over the battens.',
+      final: '08.jpeg',
+      steps: [
+        { name: 'Concrete', spec: 'Back wall, columns and curved beam', tag: 'Radius ≈ 6.9 m' },
+        { name: 'Steel frame', spec: 'Radial tubes from the apex and a ring at the eave', tag: 'Steel tube', photo: '01.jpeg' },
+        { name: 'Palm mat and plywood', spec: 'The mat stays visible inside; plywood covers it', tag: 'Mat · plywood', photo: '04.jpeg' },
+        { name: 'Membrane', spec: 'Waterproof layer under the palm', tag: 'Waterproof', photo: '05.jpeg' },
+        { name: 'Battens', spec: 'Rings to tie the palm to', tag: 'In rings', photo: '06.jpeg' },
+        { name: 'Palm', spec: 'Courses tied from the eave up to the apex', tag: 'In courses', photo: '08.jpeg' },
+      ],
+    },
+
     pergola: {
       label: 'From plan to build',
       title: 'The pergola, piece by piece.',

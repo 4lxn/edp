@@ -492,6 +492,144 @@ export const ALBUMS = {
    }
   ]
  },
+ "palapa-abanico-punta-garrobo": {
+  "slug": "palapa-abanico-punta-garrobo",
+  "order": 2.2,
+  "featured": true,
+  "title": "Palapa en abanico",
+  "titleEn": "Fan palapa",
+  "type": {
+   "es": "Palapas",
+   "en": "Palapas"
+  },
+  "location": {
+   "es": "Punta Garrobo, Zihuatanejo, Gro. · MX",
+   "en": "Punta Garrobo, Zihuatanejo, Gro. · MX"
+  },
+  "hero": 0,
+  "year": null,
+  "client": null,
+  "architect": null,
+  "dimensions": {
+   "es": "Media circunferencia de unos 14 m de diámetro",
+   "en": "Half circle, about 14 m across"
+  },
+  "materials": {
+   "es": "Tubo de acero, petate, triplay, membrana, listones y palma",
+   "en": "Steel tube, palm mat, plywood, membrane, battens and palm"
+  },
+  "duration": null,
+  "scope": null,
+  "fact": null,
+  "story": null,
+  "press": null,
+  "sequence": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8
+  ],
+  "process": [
+   9
+  ],
+  "experience": "abanico",
+  "images": [
+   {
+    "src": "/albums/palapa-abanico-punta-garrobo/01.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/palapa-abanico-punta-garrobo/02.jpeg",
+    "w": 2400,
+    "h": 1350,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/palapa-abanico-punta-garrobo/03.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/palapa-abanico-punta-garrobo/04.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/palapa-abanico-punta-garrobo/05.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/palapa-abanico-punta-garrobo/06.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/palapa-abanico-punta-garrobo/07.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/palapa-abanico-punta-garrobo/08.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/palapa-abanico-punta-garrobo/09.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/palapa-abanico-punta-garrobo/10.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   }
+  ]
+ },
  "pergola-hueso-de-palma": {
   "slug": "pergola-hueso-de-palma",
   "order": 2.5,
@@ -1699,7 +1837,7 @@ export const ALBUMS = {
  }
 }
 
-export const ALBUM_ORDER = ["punta-garrobo","acceso-punta-garrobo","delfiniti","pergola-hueso-de-palma","casa-frijol","la-cima-acapulco","tanta-vida","acapulco","acapulco-ladera","pergola-muro-columnas"]
+export const ALBUM_ORDER = ["punta-garrobo","acceso-punta-garrobo","delfiniti","palapa-abanico-punta-garrobo","pergola-hueso-de-palma","casa-frijol","la-cima-acapulco","tanta-vida","acapulco","acapulco-ladera","pergola-muro-columnas"]
 
 export const SITE = {
  "hero": {

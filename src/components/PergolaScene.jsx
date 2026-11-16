@@ -7,14 +7,12 @@
  * the camera ends on the front elevation and the page cross-fades to the real
  * photo (Anatomy.jsx reads --p from onProgress).
  *
- * Scroll handling mirrors AnatomyScene: passive, rAF-coalesced listener that
- * only lives while the section intersects, frameloop="demand".
- * ponytail: Rig is a trimmed copy of AnatomyScene's; extract a shared hook if a third scene appears.
+ * Scroll rig, dimension lines and tags come from sceneKit.jsx.
  */
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { Html } from '@react-three/drei'
+import { useMemo, useRef, useState } from 'react'
+import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
+import { Rig, Dims, Tag, clamp, V, stepPos } from './sceneKit'
 
 // ---------- Plan numbers (m) ----------
 const W = 6.45               // along the steel beams (x)
@@ -37,8 +35,6 @@ const C = {
   concrete: '#8f8b83', brick: '#a0644a', steel: '#5a3424', wood: '#8a5636', palm: '#c9b083',
 }
 
-const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v))
-const V = (x, y, z) => new THREE.Vector3(x, y, z)
 const box = (cx, cy, cz, sx, sy, sz, color) => ({ pos: V(cx, cy, cz), scale: V(sx, sy, sz), color })
 
 function buildStructure() {
@@ -90,84 +86,8 @@ const DIMS = [
 
 const TAG_AT = [V(PX, 0.7, ZB[0]), V(PX, 1.6, ZB[0]), V(0, BEAM_TOP + 0.1, ZB[0]), V(-1.5, TOP + 0.1, 2.4), V(1.2, TOP + 0.3, -1)]
 
-function dimLine(a, b, tick = 0.15) {
-  const d = b.clone().sub(a).normalize()
-  const t = (Math.abs(d.y) > 0.9 ? V(1, 0, 0) : V(0, 1, 0)).multiplyScalar(tick)
-  return [a, b, a.clone().sub(t), a.clone().add(t), b.clone().sub(t), b.clone().add(t)]
-}
-
 // ---------- Scene ----------
-function Rig({ section, still, onStep, onReady, onProgress, setStepUI }) {
-  const { camera, invalidate, size } = useThree()
-  const target = useRef(still ? 1 : 0)
-  const cur = useRef(still ? 1 : 0)
-  const lastStep = useRef(-2)
-  const readyFired = useRef(false)
-
-  useEffect(() => {
-    if (still) { invalidate(); return }
-    const el = section.current
-    let raf = 0, on = false
-    const read = () => {
-      raf = 0
-      const r = el.getBoundingClientRect()
-      const total = r.height - window.innerHeight
-      target.current = total > 1 ? clamp(-r.top / total) : 1
-      invalidate()
-    }
-    const onScroll = () => { if (!raf) raf = requestAnimationFrame(read) }
-    const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && !on) {
-        on = true
-        window.addEventListener('scroll', onScroll, { passive: true })
-        window.addEventListener('resize', onScroll)
-      } else if (!e.isIntersecting && on) {
-        on = false
-        window.removeEventListener('scroll', onScroll)
-        window.removeEventListener('resize', onScroll)
-      }
-      read()
-    })
-    io.observe(el)
-    read()
-    return () => {
-      io.disconnect()
-      cancelAnimationFrame(raf)
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
-    }
-  }, [section, still, invalidate])
-
-  useFrame((state, dt) => {
-    const k = 1 - Math.exp(-Math.min(dt, 0.1) * 7)
-    cur.current += (target.current - cur.current) * k
-    if (Math.abs(target.current - cur.current) < 1e-4) cur.current = target.current
-    else invalidate()
-    const p = cur.current
-    state.scene.userData.progress = p
-    // Continuous step position: step i spans [i, i+1); past assembly it keeps growing to STEPS + 1.
-    const sp = p < ASSEMBLE ? (p / ASSEMBLE) * STEPS : STEPS + (p - ASSEMBLE) / (1 - ASSEMBLE)
-    onProgress?.(sp)
-
-    const step = p >= ASSEMBLE - 1e-3 ? STEPS : Math.floor(sp)
-    if (step !== lastStep.current) { lastStep.current = step; onStep(step); setStepUI(step) }
-
-    // Three-quarter orbit while building, then swing to the front elevation of the photo.
-    const q = clamp(p / ASSEMBLE)
-    const f = clamp((p - ASSEMBLE * 0.9) / (1 - ASSEMBLE * 0.9))
-    const e = f * f * (3 - 2 * f)
-    const az = THREE.MathUtils.degToRad(THREE.MathUtils.lerp(38 - 18 * q, 0, e))
-    const el = THREE.MathUtils.degToRad(THREE.MathUtils.lerp(32 - 14 * q, 4, e))
-    const ty = THREE.MathUtils.lerp(0.9 + 0.7 * q, 1.5, e)
-    const vf = THREE.MathUtils.degToRad(camera.fov / 2)
-    const hf = Math.atan(Math.tan(vf) * (size.width / size.height))
-    const dist = ((size.width < size.height ? 6.2 : 5.4) / Math.sin(Math.min(vf, hf))) * (1 - 0.08 * e)
-    camera.position.set(Math.sin(az) * Math.cos(el) * dist, ty + Math.sin(el) * dist, Math.cos(az) * Math.cos(el) * dist)
-    camera.lookAt(0, ty, 0)
-    if (!readyFired.current) { readyFired.current = true; requestAnimationFrame(() => onReady()) }
-  })
-  return null
-}
+const VIEW = { az: [38, -18], el: [32, -14], ty: [0.9, 0.7], end: { az: 0, el: 4, ty: 1.5 }, reach: [6.2, 5.4] }
 
 const unitBox = new THREE.BoxGeometry(1, 1, 1)
 const unitEdges = new THREE.EdgesGeometry(unitBox)
@@ -196,7 +116,7 @@ function Structure() {
   const ghostMat = useMemo(() => new THREE.LineBasicMaterial({ color: C.bronze, transparent: true, opacity: 0.42 }), [])
 
   useFrame((state) => {
-    const sp = (clamp(state.scene.userData.progress ?? 0) / ASSEMBLE) * STEPS
+    const sp = stepPos(state, STEPS, ASSEMBLE)
     steps.forEach((list, s) => {
       let all = true
       list.forEach((p, j) => {
@@ -232,7 +152,7 @@ function PalmRib() {
   const ref = useRef()
   const mat = useMemo(() => new THREE.MeshStandardMaterial({ map: ribTexture(), side: THREE.DoubleSide, roughness: 0.95 }), [])
   useFrame((state) => {
-    const sp = (clamp(state.scene.userData.progress ?? 0) / ASSEMBLE) * STEPS
+    const sp = stepPos(state, STEPS, ASSEMBLE)
     const r = clamp((sp - 4) / 0.9)
     const m = ref.current
     if (!m) return
@@ -245,33 +165,6 @@ function PalmRib() {
     <mesh ref={ref} rotation-x={-Math.PI / 2} material={mat}>
       <planeGeometry args={[1, 1]} />
     </mesh>
-  )
-}
-
-function Dims({ step }) {
-  const geo = useMemo(() => DIMS.map((d) => new THREE.BufferGeometry().setFromPoints(dimLine(d.from, d.to))), [])
-  const mat = useMemo(() => new THREE.LineBasicMaterial({ color: C.paper, transparent: true, opacity: 0.6 }), [])
-  if (step >= STEPS) return null
-  return DIMS.map((d, i) => {
-    if (!(step >= d.step && (d.keep || step === d.step))) return null
-    return (
-      <group key={d.text}>
-        <lineSegments geometry={geo[i]} material={mat} />
-        <Html position={d.from.clone().add(d.to).multiplyScalar(0.5)} center zIndexRange={[2, 0]} style={{ pointerEvents: 'none' }}>
-          <span className="anat-dim">{d.text}</span>
-        </Html>
-      </group>
-    )
-  })
-}
-
-function Tag({ step, steps }) {
-  if (step < 0 || step >= STEPS) return null
-  const s = steps[step]
-  return (
-    <Html key={step} position={TAG_AT[step]} zIndexRange={[3, 0]} style={{ pointerEvents: 'none' }}>
-      <span className="anat-tag"><b>{String(step + 1).padStart(2, '0')}</b> {s.name}{s.tag && <i>{s.tag}</i>}</span>
-    </Html>
   )
 }
 
@@ -296,9 +189,9 @@ export default function PergolaScene({ section, steps, onStep, onReady, onProgre
       <gridHelper args={[14, 28, C.bronze, C.bronze]} position={[0, 0.001, 0]} material-transparent material-opacity={0.16} />
       <Structure />
       <PalmRib />
-      <Dims step={step} />
-      <Tag step={step} steps={steps} />
-      <Rig section={section} still={still} onStep={onStep} onReady={onReady} onProgress={onProgress} setStepUI={setStep} />
+      <Dims step={step} steps={STEPS} dims={DIMS} color={C.paper} />
+      <Tag step={step} steps={steps} at={TAG_AT} />
+      <Rig section={section} still={still} steps={STEPS} assemble={ASSEMBLE} view={VIEW} onStep={onStep} onReady={onReady} onProgress={onProgress} setStepUI={setStep} />
     </Canvas>
   )
 }

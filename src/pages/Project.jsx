@@ -9,7 +9,10 @@ import Lightbox from '../Lightbox'
 import { CtaBand, PressLine, Arrow } from '../components/Blocks'
 import Anatomy from '../components/Anatomy'
 
-const SCENES = { pergola: lazy(() => import('../components/PergolaScene')) }
+const SCENES = {
+  pergola: lazy(() => import('../components/PergolaScene')),
+  abanico: lazy(() => import('../components/AbanicoScene')),
+}
 
 const CURATED_MAX = 12
 
@@ -117,11 +120,14 @@ export default function Project({ slug }) {
       )}
 
       {a.experience && SCENES[a.experience] && (() => {
-        // Each step's photo fades in over the last part of that step; the hero closes the sequence.
+        // Each step's photo fades in over the last part of that step; the hero (or copy.final) closes the sequence.
         const copy = t[a.experience]
         const img = (f) => a.images.find((im) => im.src.endsWith('/' + f))
         const photos = copy.steps.map((s, i) => s.photo && img(s.photo) && { img: img(s.photo), a: i + 0.55, b: i + 1.3 }).filter(Boolean)
-        photos.push({ img: hero, a: copy.steps.length + 0.35, b: 99 })
+        const end = (copy.final && img(copy.final)) || hero
+        const held = photos.find((ph) => ph.img === end)
+        if (held) held.b = 99
+        else photos.push({ img: end, a: copy.steps.length + 0.35, b: 99 })
         return (
           <Anatomy id="exp" copy={copy} Scene={SCENES[a.experience]} photos={photos}
             poster={<Picture img={hero} cap={false} className="anat-poster" sizes="(min-width: 900px) 60vw, 100vw" />} />
