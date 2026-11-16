@@ -101,14 +101,27 @@ function canvasTex(w, h, draw, repeat) {
 let seed = 7
 const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647)
 
-/** Palm: fibres run down the slope (along v), so stripes vary across u. */
-const palmTex = () => canvasTex(512, 8, (g) => {
-  g.fillStyle = '#a88d5f'; g.fillRect(0, 0, 512, 8)
-  for (let x = 0; x < 512; x += 1.5 + rnd() * 2) {
-    g.fillStyle = ['#d6bf8e', '#c4a874', '#e0cda2', '#b39563', '#9c8152'][(rnd() * 5) | 0]
-    g.fillRect(x, 0, 1 + rnd() * 1.6, 8)
-  }
-}, [8, 1])
+/**
+ * One course of palm: fibres run down the slope (canvas x = around, y = down),
+ * shaded where the course above overlaps it, ragged fringe at the bottom (alpha).
+ */
+const courseTex = () => {
+  const t = canvasTex(1024, 128, (g) => {
+    const grad = g.createLinearGradient(0, 0, 0, 128)
+    grad.addColorStop(0, '#4c4232'); grad.addColorStop(0.35, '#8a7a5c'); grad.addColorStop(1, '#a69476')
+    g.fillStyle = grad; g.fillRect(0, 0, 1024, 100)
+    for (let x = 0; x < 1024; x += 0.8 + rnd() * 1.6) {
+      const len = 88 + rnd() * 40 // fringe: each fibre ends at its own length
+      g.globalAlpha = 0.55 + rnd() * 0.45
+      g.strokeStyle = ['#cfc09c', '#bba985', '#ddd0b0', '#a3916f', '#857556', '#c4b48f'][(rnd() * 6) | 0]
+      g.lineWidth = 0.6 + rnd() * 1.4
+      g.beginPath(); g.moveTo(x, 0); g.lineTo(x + (rnd() - 0.5) * 6, len); g.stroke()
+    }
+    g.globalAlpha = 1
+  }, [6, 1])
+  t.anisotropy = 4
+  return t
+}
 
 /** Petate: woven palm mat, a simple basket weave. */
 const petateTex = () => canvasTex(32, 32, (g) => {
@@ -131,7 +144,6 @@ const SHELLS = [
   { step: 2, rb: RE, off: -0.09, start: 0, mat: () => ({ map: petateTex() }) },
   { step: 2, rb: RE + 0.05, off: 0.09, start: 0.45, mat: () => ({ color: C.ply }) },
   { step: 3, rb: RE + 0.1, off: 0.12, start: 0, mat: () => ({ color: C.membrane }) },
-  { step: 5, rb: RP, off: 0.3, start: 0, mat: () => ({ map: palmTex() }) },
 ]
 
 function Shells() {
@@ -154,6 +166,36 @@ function Shells() {
   return items.map((it, i) => (
     <mesh key={i} ref={(el) => (refs.current[i] = el)} geometry={it.geo} material={it.mat} position-y={it.off} />
   ))
+}
+
+/** Palm: overlapping courses tied from the eave up to the apex, each one sweeping around the fan. */
+const COURSES = 9
+function Palm() {
+  const items = useMemo(() => {
+    const mat = new THREE.MeshStandardMaterial({ map: courseTex(), side: THREE.DoubleSide, roughness: 1, alphaTest: 0.45 })
+    return Array.from({ length: COURSES }, (_, i) => {
+      const r0 = Math.max(0, (RP * i) / COURSES - 0.45)  // overlaps the course above
+      const r1 = (RP * (i + 1)) / COURSES
+      // Each course tucks its top under the course above and lifts its fringe,
+      // so the upper course always lies over the lower one where they overlap.
+      const y0 = yAt(r0) + 0.18, y1 = yAt(r1) + 0.34
+      const geo = new THREE.CylinderGeometry(r0, r1 + 0.1, y0 - y1, SEG, 1, true, -Math.PI / 2, Math.PI)
+      geo.translate(0, (y0 + y1) / 2, 0)
+      return { geo, mat, per: geo.index.count / SEG, order: COURSES - 1 - i }
+    })
+  }, [])
+  const refs = useRef([])
+  useFrame((state) => {
+    const sp = stepPos(state, STEPS, ASSEMBLE)
+    items.forEach((it, i) => {
+      const m = refs.current[i]
+      if (!m) return
+      const r = clamp((sp - 5 - (it.order / COURSES) * 0.6) / 0.3)
+      m.visible = r > 0
+      it.geo.setDrawRange(0, Math.ceil(r * SEG) * it.per)
+    })
+  })
+  return items.map((it, i) => <mesh key={i} ref={(el) => (refs.current[i] = el)} geometry={it.geo} material={it.mat} />)
 }
 
 /** Battens: concentric arcs on the membrane, laid from the eave up. */
@@ -247,6 +289,7 @@ export default function AbanicoScene({ section, steps, onStep, onReady, onProgre
       <Structure />
       <Shells />
       <Battens />
+      <Palm />
       <Dims step={step} steps={STEPS} dims={DIMS} color={C.paper} />
       <Tag step={step} steps={steps} at={TAG_AT} />
       <Rig section={section} still={still} steps={STEPS} assemble={ASSEMBLE} view={VIEW}
