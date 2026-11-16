@@ -12,6 +12,7 @@ import Anatomy from '../components/Anatomy'
 const SCENES = {
   pergola: lazy(() => import('../components/PergolaScene')),
   abanico: lazy(() => import('../components/AbanicoScene')),
+  casaArco: lazy(() => import('../components/CasaArcoScene')),
 }
 
 const CURATED_MAX = 12

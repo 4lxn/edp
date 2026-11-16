@@ -137,6 +137,22 @@ export const T = {
         { name: 'Cubierta de palma', spec: 'Capas traslapadas desde el alero', tag: 'Capas traslapadas' },
       ],
     },
+    casaArco: {
+      label: 'Del plano a la obra',
+      title: 'Casa Arco, capa por capa.',
+      body: 'Una palapa de 11.90 × 7.90 m con copete, sobre columnas de concreto frente al mar. Así se armó: trabe de acero, tubos subidos con dos plumas, petate y triplay, impermeabilizante, listones y, al final, la palma.',
+      caption: 'Modelo hecho con las medidas del plano arquitectónico. Medidas en metros.',
+      hint: 'La palapa terminada.',
+      steps: [
+        { name: 'Columnas y trabe', spec: 'Columnas de concreto y trabe de acero perimetral', tag: '9.70 × 5.60 m', photo: '04.jpeg' },
+        { name: 'Estructura de tubo', spec: 'Limatesas, cumbrera y tubos a cada 60 cm, subidos con dos plumas', tag: 'Tubo de acero', photo: '03.jpeg' },
+        { name: 'Petate y triplay', spec: 'El petate queda a la vista por dentro; el triplay cierra la cubierta y el copete', tag: 'Petate · triplay', photo: '06.jpeg' },
+        { name: 'Impermeabilizante', spec: 'Capa roja que sella la cubierta bajo la palma', tag: 'Impermeable' },
+        { name: 'Listones', spec: 'Rejilla para amarrar la palma', tag: 'En hiladas', photo: '07.jpeg' },
+        { name: 'Palma', spec: 'Hiladas desde el alero hasta el copete', tag: 'Cumbrera a 7.20 m', photo: '08.jpeg' },
+      ],
+    },
+
     abanico: {
       label: 'Del plano a la obra',
       title: 'La palapa en abanico, capa por capa.',
@@ -432,6 +448,22 @@ export const T = {
         { name: 'Palm thatch', spec: 'Overlapping layers from the eave up', tag: 'Overlapping layers' },
       ],
     },
+    casaArco: {
+      label: 'From drawing to site',
+      title: 'Casa Arco, layer by layer.',
+      body: 'An 11.90 × 7.90 m palapa with a gablet, on concrete columns facing the sea. How it went up: steel beam, tubes lifted with two gin poles, palm mat and plywood, waterproofing, battens and, last, the palm.',
+      caption: 'Model built from the architectural drawings. Dimensions in metres.',
+      hint: 'The finished palapa.',
+      steps: [
+        { name: 'Columns and beam', spec: 'Concrete columns and a perimeter steel beam', tag: '9.70 × 5.60 m', photo: '04.jpeg' },
+        { name: 'Tube frame', spec: 'Hips, ridge and tubes every 60 cm, lifted with two gin poles', tag: 'Steel tube', photo: '03.jpeg' },
+        { name: 'Palm mat and plywood', spec: 'The mat stays visible inside; plywood closes the roof and the gablet', tag: 'Mat · plywood', photo: '06.jpeg' },
+        { name: 'Waterproofing', spec: 'Red layer that seals the deck under the palm', tag: 'Waterproof' },
+        { name: 'Battens', spec: 'A grid to tie the palm to', tag: 'In rows', photo: '07.jpeg' },
+        { name: 'Palm', spec: 'Courses from the eave up to the gablet', tag: 'Ridge at 7.20 m', photo: '08.jpeg' },
+      ],
+    },
+
     abanico: {
       label: 'From drawing to site',
       title: 'The fan palapa, layer by layer.',

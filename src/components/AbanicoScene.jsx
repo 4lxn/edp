@@ -10,7 +10,7 @@
 import { useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
-import { Rig, Dims, Tag, clamp, V, stepPos } from './sceneKit'
+import { Rig, Dims, Tag, clamp, V, stepPos, courseTex, petateTex } from './sceneKit'
 
 // ---------- Geometry (m) ----------
 const R = 6.9                // ring beam radius (plan)
@@ -86,50 +86,6 @@ function ghostGeometry() {
   ring(RP, yAt(RP) + 0.28)
   return new THREE.BufferGeometry().setFromPoints(pts)
 }
-
-function canvasTex(w, h, draw, repeat) {
-  const c = document.createElement('canvas')
-  c.width = w; c.height = h
-  draw(c.getContext('2d'))
-  const t = new THREE.CanvasTexture(c)
-  t.colorSpace = THREE.SRGBColorSpace
-  t.wrapS = t.wrapT = THREE.RepeatWrapping
-  t.repeat.set(...repeat)
-  return t
-}
-
-let seed = 7
-const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647)
-
-/**
- * One course of palm: fibres run down the slope (canvas x = around, y = down),
- * shaded where the course above overlaps it, ragged fringe at the bottom (alpha).
- */
-const courseTex = () => {
-  const t = canvasTex(1024, 128, (g) => {
-    const grad = g.createLinearGradient(0, 0, 0, 128)
-    grad.addColorStop(0, '#4c4232'); grad.addColorStop(0.35, '#8a7a5c'); grad.addColorStop(1, '#a69476')
-    g.fillStyle = grad; g.fillRect(0, 0, 1024, 100)
-    for (let x = 0; x < 1024; x += 0.8 + rnd() * 1.6) {
-      const len = 88 + rnd() * 40 // fringe: each fibre ends at its own length
-      g.globalAlpha = 0.55 + rnd() * 0.45
-      g.strokeStyle = ['#cfc09c', '#bba985', '#ddd0b0', '#a3916f', '#857556', '#c4b48f'][(rnd() * 6) | 0]
-      g.lineWidth = 0.6 + rnd() * 1.4
-      g.beginPath(); g.moveTo(x, 0); g.lineTo(x + (rnd() - 0.5) * 6, len); g.stroke()
-    }
-    g.globalAlpha = 1
-  }, [6, 1])
-  t.anisotropy = 4
-  return t
-}
-
-/** Petate: woven palm mat, a simple basket weave. */
-const petateTex = () => canvasTex(32, 32, (g) => {
-  for (let y = 0; y < 4; y++) for (let x = 0; x < 4; x++) {
-    g.fillStyle = (x + y) % 2 ? '#c9a46a' : '#b48d55'
-    g.fillRect(x * 8, y * 8, 8, 8)
-  }
-}, [40, 6])
 
 /** Half-cone shell from the apex down to radius rb, lifted by `off`. */
 function shellGeo(rb) {
