@@ -137,6 +137,21 @@ export const T = {
         { name: 'Cubierta de palma', spec: 'Capas traslapadas desde el alero', tag: 'Capas traslapadas' },
       ],
     },
+    plataforma: {
+      label: 'Del plano a la obra',
+      title: 'La plataforma, de nuevo.',
+      body: 'La plataforma vieja alrededor de la torre rosa ya no daba más: postes podridos y duela gastada. Se desmanteló y se construyó otra, con postes de madera en dados de concreto, durmientes y duela nueva.',
+      caption: 'Modelo ilustrativo: contorno y postes tomados del plano; las medidas son aproximadas.',
+      hint: 'La plataforma terminada.',
+      final: '01.jpeg',
+      steps: [
+        { name: 'Desmantelamiento', spec: 'Se retira la plataforma vieja y sus postes', tag: 'Antes', photo: '09.jpeg' },
+        { name: 'Postes en dados', spec: 'Postes dobles de madera en dados de concreto', tag: 'Dados de concreto', photo: '10.jpeg' },
+        { name: 'Durmientes', spec: 'Estructura de madera a cada 1.25 m', tag: '@ 1.25 m' },
+        { name: 'Duela', spec: 'Etapa 2 (23.91 m²) y etapa 3 (146.62 m²)', tag: '≈ 170 m²', photo: '03.jpeg' },
+      ],
+    },
+
     casaArco: {
       label: 'Del plano a la obra',
       title: 'Casa Arco, capa por capa.',
@@ -276,6 +291,8 @@ export const T = {
       },
       allPhotos: (n) => `Ver las ${n} fotografías`,
       process: 'Proceso',
+      before: 'Antes',
+      after: 'Después',
       open: 'Ampliar fotografía',
       photoAlt: (title, place, i) => `${title}${place ? `, ${place}` : ''}: fotografía ${i}`,
       ctaTitle: '¿Un proyecto como este?',
@@ -448,6 +465,21 @@ export const T = {
         { name: 'Palm thatch', spec: 'Overlapping layers from the eave up', tag: 'Overlapping layers' },
       ],
     },
+    plataforma: {
+      label: 'From drawing to site',
+      title: 'The platform, rebuilt.',
+      body: 'The old platform around the pink tower was spent: rotten posts and worn boards. It was taken down and a new one built, with timber posts in concrete sockets, sleepers and new decking.',
+      caption: 'Illustrative model: outline and posts taken from the plan; dimensions are approximate.',
+      hint: 'The finished platform.',
+      final: '01.jpeg',
+      steps: [
+        { name: 'Dismantling', spec: 'The old platform and its posts come out', tag: 'Before', photo: '09.jpeg' },
+        { name: 'Posts in sockets', spec: 'Twin timber posts set in concrete sockets', tag: 'Concrete sockets', photo: '10.jpeg' },
+        { name: 'Sleepers', spec: 'Timber frame every 1.25 m', tag: '@ 1.25 m' },
+        { name: 'Decking', spec: 'Stage 2 (23.91 m²) and stage 3 (146.62 m²)', tag: '≈ 170 m²', photo: '03.jpeg' },
+      ],
+    },
+
     casaArco: {
       label: 'From drawing to site',
       title: 'Casa Arco, layer by layer.',
@@ -587,6 +619,8 @@ export const T = {
       },
       allPhotos: (n) => `View all ${n} photographs`,
       process: 'Process',
+      before: 'Before',
+      after: 'After',
       open: 'Enlarge photograph',
       photoAlt: (title, place, i) => `${title}${place ? `, ${place}` : ''}: photograph ${i}`,
       ctaTitle: 'A project like this one?',

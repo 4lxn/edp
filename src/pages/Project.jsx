@@ -13,6 +13,7 @@ const SCENES = {
   pergola: lazy(() => import('../components/PergolaScene')),
   abanico: lazy(() => import('../components/AbanicoScene')),
   casaArco: lazy(() => import('../components/CasaArcoScene')),
+  plataforma: lazy(() => import('../components/PlataformaScene')),
 }
 
 const CURATED_MAX = 12
@@ -117,6 +118,17 @@ export default function Project({ slug }) {
       {a.story && (
         <div className="wrap p-story" data-reveal>
           {a.story[lang].map((par) => <p key={par}>{par}</p>)}
+        </div>
+      )}
+
+      {a.compare && (
+        <div className="wrap p-compare" data-reveal>
+          {a.compare.map((i, k) => (
+            <figure key={i}>
+              <Picture img={a.images[i]} alt={alt(i)} ratio={4 / 3} cap={false} sizes="(min-width: 900px) 44vw, 100vw" />
+              <figcaption className="label">{k ? p.after : p.before}</figcaption>
+            </figure>
+          ))}
         </div>
       )}
 

@@ -421,6 +421,11 @@ fieldset.fld > .lbl { margin-bottom: 10px; }
   .seq-S figure { grid-column: 4 / 10; }
 }
 .seq-more { margin-top: 32px; }
+.p-compare { margin-top: var(--sect); display: grid; gap: var(--gap); }
+.p-compare figure { margin: 0; display: grid; gap: 10px; }
+.p-compare .pic { aspect-ratio: 4 / 3; }
+.p-compare .pic img { object-fit: cover; width: 100%; height: 100%; }
+@media (min-width: 700px) { .p-compare { grid-template-columns: 1fr 1fr; } }
 .p-process { margin-top: var(--sect); display: grid; gap: 24px; }
 .p-process-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gap); }
 @media (min-width: 900px) { .p-process-row { grid-template-columns: repeat(var(--n, 4), 1fr); } }

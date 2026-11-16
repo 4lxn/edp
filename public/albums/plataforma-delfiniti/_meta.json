@@ -1,0 +1,74 @@
+{
+  "order": 2.1,
+  "featured": true,
+  "title": "Plataforma Delfiniti",
+  "title_en": "Delfiniti platform",
+  "type": {
+    "es": "Deck y plataforma",
+    "en": "Deck and platform"
+  },
+  "location": {
+    "es": "Ixtapa, Zihuatanejo, Gro. · MX",
+    "en": "Ixtapa, Zihuatanejo, Gro. · MX"
+  },
+  "dimensions": {
+    "es": "≈ 170 m² en dos etapas",
+    "en": "≈ 170 m² in two stages"
+  },
+  "materials": {
+    "es": "Postes de madera en dados de concreto, durmientes y duela de madera",
+    "en": "Timber posts in concrete sockets, sleepers and timber decking"
+  },
+  "scope": {
+    "es": "Desmantelamiento y construcción de nueva plataforma",
+    "en": "Dismantling and construction of a new platform"
+  },
+  "hero": "03.jpeg",
+  "imageOrder": [
+    "01.jpeg",
+    "02.jpeg",
+    "03.jpeg",
+    "04.jpeg",
+    "05.jpeg",
+    "06.jpeg",
+    "07.jpeg",
+    "08.jpeg",
+    "09.jpeg",
+    "10.jpeg"
+  ],
+  "sequence": [
+    "01.jpeg",
+    "02.jpeg",
+    "04.jpeg",
+    "05.jpeg",
+    "06.jpeg",
+    "08.jpeg"
+  ],
+  "process": [
+    "09.jpeg",
+    "10.jpeg"
+  ],
+  "compare": [
+    "07.jpeg",
+    "02.jpeg"
+  ],
+  "experience": "plataforma",
+  "captions": {
+    "05.jpeg": {
+      "es": "Antes: la rampa y la plataforma original",
+      "en": "Before: the original ramp and platform"
+    },
+    "06.jpeg": {
+      "es": "Antes: postes dañados",
+      "en": "Before: damaged posts"
+    },
+    "07.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "08.jpeg": {
+      "es": "Antes: estructura original",
+      "en": "Before: the original frame"
+    }
+  }
+}

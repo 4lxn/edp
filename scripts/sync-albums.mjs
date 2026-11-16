@@ -25,6 +25,7 @@
  *   process:  [filenames]  construction photos shown under "Proceso"
  *   focus:    { "<file>": "50% 40%" }  object-position per photo
  *   experience: "pergola"  interactive 3D block on the project page (see Project.jsx)
+ *   compare:  [before, after]  an "Antes / Después" pair shown on the project page
  *   press:    { outlet, title, url, date }  shown only when the site-wide
  *             press flag in src/facts.js is enabled
  *
@@ -189,6 +190,7 @@ async function readAlbums() {
       sequence: pick(meta.sequence),
       process: pick(meta.process),
       experience: typeof meta.experience === 'string' ? meta.experience : null,
+      compare: Array.isArray(meta.compare) && meta.compare.length === 2 ? pick(meta.compare) : null,
       images: images.map(i => i.img),
     })
   }

@@ -49,6 +49,7 @@ export const ALBUMS = {
   ],
   "process": [],
   "experience": "casaArco",
+  "compare": null,
   "images": [
    {
     "src": "/albums/casa-arco-punta-garrobo/01.jpeg",
@@ -204,6 +205,7 @@ export const ALBUMS = {
    14
   ],
   "experience": null,
+  "compare": null,
   "images": [
    {
     "src": "/albums/punta-garrobo/07.jpeg",
@@ -453,6 +455,7 @@ export const ALBUMS = {
    5
   ],
   "experience": null,
+  "compare": null,
   "images": [
    {
     "src": "/albums/acceso-punta-garrobo/01.jpeg",
@@ -556,6 +559,7 @@ export const ALBUMS = {
   ],
   "process": [],
   "experience": null,
+  "compare": null,
   "images": [
    {
     "src": "/albums/delfiniti/06.jpeg",
@@ -649,6 +653,150 @@ export const ALBUMS = {
    }
   ]
  },
+ "plataforma-delfiniti": {
+  "slug": "plataforma-delfiniti",
+  "order": 2.1,
+  "featured": true,
+  "title": "Plataforma Delfiniti",
+  "titleEn": "Delfiniti platform",
+  "type": {
+   "es": "Deck y plataforma",
+   "en": "Deck and platform"
+  },
+  "location": {
+   "es": "Ixtapa, Zihuatanejo, Gro. · MX",
+   "en": "Ixtapa, Zihuatanejo, Gro. · MX"
+  },
+  "hero": 2,
+  "year": null,
+  "client": null,
+  "architect": null,
+  "dimensions": {
+   "es": "≈ 170 m² en dos etapas",
+   "en": "≈ 170 m² in two stages"
+  },
+  "materials": {
+   "es": "Postes de madera en dados de concreto, durmientes y duela de madera",
+   "en": "Timber posts in concrete sockets, sleepers and timber decking"
+  },
+  "duration": null,
+  "scope": {
+   "es": "Desmantelamiento y construcción de nueva plataforma",
+   "en": "Dismantling and construction of a new platform"
+  },
+  "fact": null,
+  "story": null,
+  "press": null,
+  "sequence": [
+   0,
+   1,
+   3,
+   4,
+   5,
+   7
+  ],
+  "process": [
+   8,
+   9
+  ],
+  "experience": "plataforma",
+  "compare": [
+   6,
+   1
+  ],
+  "images": [
+   {
+    "src": "/albums/plataforma-delfiniti/01.jpeg",
+    "w": 1350,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/plataforma-delfiniti/02.jpeg",
+    "w": 1350,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/plataforma-delfiniti/03.jpeg",
+    "w": 2400,
+    "h": 2178,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/plataforma-delfiniti/04.jpeg",
+    "w": 1628,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/plataforma-delfiniti/05.jpeg",
+    "w": 2400,
+    "h": 2074,
+    "caption": {
+     "es": "Antes: la rampa y la plataforma original",
+     "en": "Before: the original ramp and platform"
+    }
+   },
+   {
+    "src": "/albums/plataforma-delfiniti/06.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "Antes: postes dañados",
+     "en": "Before: damaged posts"
+    }
+   },
+   {
+    "src": "/albums/plataforma-delfiniti/07.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/plataforma-delfiniti/08.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "Antes: estructura original",
+     "en": "Before: the original frame"
+    }
+   },
+   {
+    "src": "/albums/plataforma-delfiniti/09.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/plataforma-delfiniti/10.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   }
+  ]
+ },
  "palapa-abanico-punta-garrobo": {
   "slug": "palapa-abanico-punta-garrobo",
   "order": 2.2,
@@ -694,6 +842,7 @@ export const ALBUMS = {
    9
   ],
   "experience": "abanico",
+  "compare": null,
   "images": [
    {
     "src": "/albums/palapa-abanico-punta-garrobo/01.jpeg",
@@ -827,6 +976,7 @@ export const ALBUMS = {
    4
   ],
   "experience": "pergola",
+  "compare": null,
   "images": [
    {
     "src": "/albums/pergola-hueso-de-palma/01.jpeg",
@@ -918,6 +1068,7 @@ export const ALBUMS = {
    16
   ],
   "experience": null,
+  "compare": null,
   "images": [
    {
     "src": "/albums/casa-frijol/01.jpeg",
@@ -1219,6 +1370,7 @@ export const ALBUMS = {
    14
   ],
   "experience": null,
+  "compare": null,
   "images": [
    {
     "src": "/albums/la-cima-acapulco/01.jpeg",
@@ -1405,6 +1557,7 @@ export const ALBUMS = {
   ],
   "process": [],
   "experience": null,
+  "compare": null,
   "images": [
    {
     "src": "/albums/tanta-vida/01-palapa-costa.jpeg",
@@ -1467,6 +1620,7 @@ export const ALBUMS = {
    8
   ],
   "experience": null,
+  "compare": null,
   "images": [
    {
     "src": "/albums/acapulco/01.jpeg",
@@ -1651,6 +1805,7 @@ export const ALBUMS = {
    40
   ],
   "experience": null,
+  "compare": null,
   "images": [
    {
     "src": "/albums/acapulco-ladera/01.jpeg",
@@ -2054,6 +2209,7 @@ export const ALBUMS = {
   ],
   "process": [],
   "experience": null,
+  "compare": null,
   "images": [
    {
     "src": "/albums/pergola-muro-columnas/01.jpeg",
@@ -2078,7 +2234,7 @@ export const ALBUMS = {
  }
 }
 
-export const ALBUM_ORDER = ["casa-arco-punta-garrobo","punta-garrobo","acceso-punta-garrobo","delfiniti","palapa-abanico-punta-garrobo","pergola-hueso-de-palma","casa-frijol","la-cima-acapulco","tanta-vida","acapulco","acapulco-ladera","pergola-muro-columnas"]
+export const ALBUM_ORDER = ["casa-arco-punta-garrobo","punta-garrobo","acceso-punta-garrobo","delfiniti","plataforma-delfiniti","palapa-abanico-punta-garrobo","pergola-hueso-de-palma","casa-frijol","la-cima-acapulco","tanta-vida","acapulco","acapulco-ladera","pergola-muro-columnas"]
 
 export const SITE = {
  "hero": {
