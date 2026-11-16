@@ -515,8 +515,8 @@ export const ALBUMS = {
    "en": "Half circle, about 14 m across"
   },
   "materials": {
-   "es": "Tubo de acero, petate, triplay, membrana, listones y palma",
-   "en": "Steel tube, palm mat, plywood, membrane, battens and palm"
+   "es": "Tubo de acero, petate, triplay, impermeabilizante, listones y palma",
+   "en": "Steel tube, palm mat, plywood, waterproofing, battens and palm"
   },
   "duration": null,
   "scope": null,
