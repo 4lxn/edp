@@ -3,6 +3,163 @@
  * Run `npm run sync` to regenerate from public/albums/.
  */
 export const ALBUMS = {
+ "casa-arco-punta-garrobo": {
+  "slug": "casa-arco-punta-garrobo",
+  "order": 0.8,
+  "featured": true,
+  "title": "Casa Arco",
+  "titleEn": "Casa Arco",
+  "type": {
+   "es": "Palapas",
+   "en": "Palapas"
+  },
+  "location": {
+   "es": "Punta Garrobo, Zihuatanejo, Gro. · MX",
+   "en": "Punta Garrobo, Zihuatanejo, Gro. · MX"
+  },
+  "hero": 0,
+  "year": null,
+  "client": null,
+  "architect": null,
+  "dimensions": {
+   "es": "11.90 × 7.90 m · 7.20 m a la cumbrera",
+   "en": "11.90 × 7.90 m · 7.20 m to the ridge"
+  },
+  "materials": {
+   "es": "Columnas de concreto, trabe de acero, tubo de acero, petate, triplay, impermeabilizante y palma",
+   "en": "Concrete columns, steel beam, steel tube, palm mat, plywood, waterproofing and palm"
+  },
+  "duration": null,
+  "scope": null,
+  "fact": null,
+  "story": null,
+  "press": null,
+  "sequence": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ],
+  "process": [],
+  "experience": "casaArco",
+  "images": [
+   {
+    "src": "/albums/casa-arco-punta-garrobo/01.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/casa-arco-punta-garrobo/02.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/casa-arco-punta-garrobo/03.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/casa-arco-punta-garrobo/04.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/casa-arco-punta-garrobo/05.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/casa-arco-punta-garrobo/06.jpeg",
+    "w": 2400,
+    "h": 1350,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/casa-arco-punta-garrobo/07.jpeg",
+    "w": 2400,
+    "h": 1331,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/casa-arco-punta-garrobo/08.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/casa-arco-punta-garrobo/09.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/casa-arco-punta-garrobo/10.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/casa-arco-punta-garrobo/11.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/casa-arco-punta-garrobo/12.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   }
+  ]
+ },
  "punta-garrobo": {
   "slug": "punta-garrobo",
   "order": 1,
@@ -1837,7 +1994,7 @@ export const ALBUMS = {
  }
 }
 
-export const ALBUM_ORDER = ["punta-garrobo","acceso-punta-garrobo","delfiniti","palapa-abanico-punta-garrobo","pergola-hueso-de-palma","casa-frijol","la-cima-acapulco","tanta-vida","acapulco","acapulco-ladera","pergola-muro-columnas"]
+export const ALBUM_ORDER = ["casa-arco-punta-garrobo","punta-garrobo","acceso-punta-garrobo","delfiniti","palapa-abanico-punta-garrobo","pergola-hueso-de-palma","casa-frijol","la-cima-acapulco","tanta-vida","acapulco","acapulco-ladera","pergola-muro-columnas"]
 
 export const SITE = {
  "hero": {

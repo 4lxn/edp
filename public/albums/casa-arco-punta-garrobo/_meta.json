@@ -1,0 +1,53 @@
+{
+  "order": 0.8,
+  "featured": true,
+  "title": "Casa Arco",
+  "title_en": "Casa Arco",
+  "type": {
+    "es": "Palapas",
+    "en": "Palapas"
+  },
+  "location": {
+    "es": "Punta Garrobo, Zihuatanejo, Gro. · MX",
+    "en": "Punta Garrobo, Zihuatanejo, Gro. · MX"
+  },
+  "dimensions": {
+    "es": "11.90 × 7.90 m · 7.20 m a la cumbrera",
+    "en": "11.90 × 7.90 m · 7.20 m to the ridge"
+  },
+  "materials": {
+    "es": "Columnas de concreto, trabe de acero, tubo de acero, petate, triplay, impermeabilizante y palma",
+    "en": "Concrete columns, steel beam, steel tube, palm mat, plywood, waterproofing and palm"
+  },
+  "hero": "01.jpeg",
+  "imageOrder": [
+    "01.jpeg",
+    "02.jpeg",
+    "03.jpeg",
+    "04.jpeg",
+    "05.jpeg",
+    "06.jpeg",
+    "07.jpeg",
+    "08.jpeg",
+    "09.jpeg",
+    "10.jpeg",
+    "11.jpeg",
+    "12.jpeg"
+  ],
+  "sequence": [
+    "02.jpeg",
+    "03.jpeg",
+    "04.jpeg",
+    "05.jpeg",
+    "06.jpeg",
+    "07.jpeg",
+    "08.jpeg",
+    "09.jpeg",
+    "10.jpeg",
+    "11.jpeg",
+    "12.jpeg"
+  ],
+  "process": [],
+  "experience": "casaArco",
+  "captions": {}
+}
