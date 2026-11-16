@@ -3,8 +3,8 @@
   "featured": true,
   "title": "Casa Frijol",
   "type": {
-    "es": "",
-    "en": ""
+    "es": "Vigas y pérgolas",
+    "en": "Beams and pergolas"
   },
   "location": {
     "es": "Zihuatanejo, Gro. · MX",
@@ -30,7 +30,16 @@
     "16.jpeg",
     "17.jpeg",
     "18.jpeg",
-    "20.jpeg"
+    "20.jpeg",
+    "21.jpeg",
+    "22.jpeg",
+    "23.jpeg",
+    "24.jpeg",
+    "25.jpeg",
+    "26.jpeg",
+    "27.jpeg",
+    "28.jpeg",
+    "29.jpeg"
   ],
   "captions": {
     "01.jpeg": {
@@ -108,6 +117,42 @@
     "20.jpeg": {
       "es": "",
       "en": ""
+    },
+    "21.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "22.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "23.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "24.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "25.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "26.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "27.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "28.jpeg": {
+      "es": "",
+      "en": ""
+    },
+    "29.jpeg": {
+      "es": "",
+      "en": ""
     }
   },
   "sequence": [
@@ -123,5 +168,9 @@
   ],
   "process": [
     "17.jpeg"
-  ]
+  ],
+  "materials": {
+    "es": "Vigas de madera de 4×6″ a cada 70 cm, plafón de petate, deck de madera",
+    "en": "4×6″ timber beams at 70 cm centres, palm-mat ceiling, timber deck"
+  }
 }

@@ -882,8 +882,8 @@ export const ALBUMS = {
   "title": "Casa Frijol",
   "titleEn": null,
   "type": {
-   "es": "",
-   "en": ""
+   "es": "Vigas y pérgolas",
+   "en": "Beams and pergolas"
   },
   "location": {
    "es": "Zihuatanejo, Gro. · MX",
@@ -894,7 +894,10 @@ export const ALBUMS = {
   "client": null,
   "architect": null,
   "dimensions": null,
-  "materials": null,
+  "materials": {
+   "es": "Vigas de madera de 4×6″ a cada 70 cm, plafón de petate, deck de madera",
+   "en": "4×6″ timber beams at 70 cm centres, palm-mat ceiling, timber deck"
+  },
   "duration": null,
   "scope": null,
   "fact": null,
@@ -1082,6 +1085,87 @@ export const ALBUMS = {
     "src": "/albums/casa-frijol/20.jpeg",
     "w": 1200,
     "h": 1600,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/casa-frijol/21.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/casa-frijol/22.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/casa-frijol/23.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/casa-frijol/24.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/casa-frijol/25.jpeg",
+    "w": 1800,
+    "h": 2400,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/casa-frijol/26.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/casa-frijol/27.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/casa-frijol/28.jpeg",
+    "w": 2400,
+    "h": 1800,
+    "caption": {
+     "es": "",
+     "en": ""
+    }
+   },
+   {
+    "src": "/albums/casa-frijol/29.jpeg",
+    "w": 1800,
+    "h": 2400,
     "caption": {
      "es": "",
      "en": ""
